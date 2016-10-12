@@ -15,6 +15,11 @@
 
 package pt.ua.tm.neji.core.processor;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import org.apache.commons.lang.Validate;
 import pt.ua.tm.neji.train.model.CRFBase;
 import pt.ua.tm.neji.context.*;
@@ -37,6 +42,8 @@ import pt.ua.tm.neji.train.context.TrainContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import pt.ua.tm.neji.postprocessing.FalsePositivesFilter;
+import pt.ua.tm.neji.postprocessing.SemanticGroupsNormalizer;
 import pt.ua.tm.neji.train.nlp.TrainNLP;
 import pt.ua.tm.neji.train.reader.BC2Reader;
 
@@ -66,17 +73,20 @@ public abstract class BaseProcessor implements Processor {
     protected final void instantiateModules(List<Dictionary> dictionaries,
                                             List<MLModel> models,
                                             ContextProcessors cp,
+                                            Context c,
                                             Pipeline p,
                                             String[] xmlTags,
                                             boolean addAnnotationsWithoutIDs) throws NejiException {
         instantiateModules(
-                dictionaries, models, cp.getParser().getLevel(), cp, p, xmlTags, addAnnotationsWithoutIDs);
+                dictionaries, models, cp.getParser().getLevel(), cp, c, p, 
+                xmlTags, addAnnotationsWithoutIDs);
     }
 
     protected final void instantiateModules(List<Dictionary> dictionaries,
                                             List<MLModel> models,
                                             ParserLevel customLevel,
                                             ContextProcessors cp,
+                                            Context c,
                                             Pipeline p,
                                             String[] xmlTags,
                                             boolean addAnnotationsWithoutIDs) throws NejiException {
@@ -107,12 +117,27 @@ public abstract class BaseProcessor implements Processor {
             }
             moduleList.add(index++, ml);
         }
+        
+        // Post-processing: False positives filter module        
+        if (c.getConfiguration().getFalsePositivesStream() != null) {
+            FalsePositivesFilter fpf = 
+                    new FalsePositivesFilter(c.getConfiguration().getFalsePositivesStream());
+            moduleList.add(index++, fpf);
+        }
+        
+        // Post-processing: Semantic groups normalization       
+        if (c.getConfiguration().getSemanticGroupsNormalizationStream() != null) {
+            SemanticGroupsNormalizer sgn = 
+                    new SemanticGroupsNormalizer(c.getConfiguration()
+                            .getSemanticGroupsNormalizationStream());
+            moduleList.add(index++, sgn);
+        }
 
         // Add all of the modules to the pipeline
         for (Module m : moduleList) {
             p.add(m);
         }
-
+        
 //        p.add(new Abbreviation());
 //
 //        // Remove nested same group
@@ -126,18 +151,21 @@ public abstract class BaseProcessor implements Processor {
     protected final void instantiateModulesFromGroups(List<Dictionary> dictionaries,
                                                       List<MLModel> models,
                                                       ContextProcessors cp,
+                                                      Context c,
                                                       Pipeline p,
                                                       Map<String, Boolean> groups,
                                                       String[] xmlTags,
                                                       boolean addAnnotationsWithoutIDs) throws NejiException {
         instantiateModulesFromGroups(
-                dictionaries, models, cp.getParser().getLevel(), cp, p, groups, xmlTags, addAnnotationsWithoutIDs);
+                dictionaries, models, cp.getParser().getLevel(), cp, c, p, 
+                groups, xmlTags, addAnnotationsWithoutIDs);
     }
 
     protected final void instantiateModulesFromGroups(List<Dictionary> dictionaries,
                                                       List<MLModel> models,
                                                       ParserLevel customLevel,
                                                       ContextProcessors cp,
+                                                      Context c,
                                                       Pipeline p,
                                                       Map<String, Boolean> groups,
                                                       String[] xmlTags,
@@ -171,6 +199,21 @@ public abstract class BaseProcessor implements Processor {
                 moduleList.add(index++, new MLHybrid(crf, model.getSemanticGroup(),
                         model.getNormalizationDictionaries(), addAnnotationsWithoutIDs));
             }
+        }
+        
+        // Post-processing: False positives filter module        
+        if (c.getConfiguration().getFalsePositivesStream() != null) {
+            FalsePositivesFilter fpf = 
+                    new FalsePositivesFilter(c.getConfiguration().getFalsePositivesStream());
+            moduleList.add(index++, fpf);
+        }
+        
+        // Post-processing: Semantic groups normalization       
+        if (c.getConfiguration().getSemanticGroupsNormalizationStream() != null) {
+            SemanticGroupsNormalizer sgn = 
+                    new SemanticGroupsNormalizer(c.getConfiguration()
+                            .getSemanticGroupsNormalizationStream());
+            moduleList.add(index++, sgn);
         }
 
         // Add all of the modules to the pipeline

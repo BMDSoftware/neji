@@ -23,6 +23,8 @@ import com.google.common.primitives.Primitives;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -75,6 +77,9 @@ public class ContextConfiguration {
     private final ParserTool parserTools;
     private final ParserLanguage parserLanguage;
     private final ParserLevel parserLevel;
+    
+    private byte[] falsePositives;
+    private byte[] semanticGroupsNormalization;
 
     private ContextConfiguration(final InputFormat inputFormat,
                                  final List<OutputFormat> outputFormats,
@@ -84,6 +89,20 @@ public class ContextConfiguration {
                                  final ParserLanguage parserLanguage,
                                  final ParserLevel parserLevel) {
 
+        this(inputFormat, outputFormats, moduleNames, moduleParams, parserTools,
+                parserLanguage, parserLevel, null, null);
+    }
+    
+    private ContextConfiguration(final InputFormat inputFormat,
+                                 final List<OutputFormat> outputFormats,
+                                 final List<String> moduleNames,
+                                 final Map<String, Collection<Pair<String>>> moduleParams,
+                                 final ParserTool parserTools,
+                                 final ParserLanguage parserLanguage,
+                                 final ParserLevel parserLevel,
+                                 final byte[] falsePositives,
+                                 final byte[] semanticGroupsNormalization) {
+
         this.inputFormat = inputFormat;
         this.outputFormats = outputFormats;
         this.moduleNames = moduleNames;
@@ -91,6 +110,9 @@ public class ContextConfiguration {
         this.parserTools = parserTools;
         this.parserLanguage = parserLanguage;
         this.parserLevel = parserLevel;
+        
+        this.falsePositives = falsePositives;
+        this.semanticGroupsNormalization = semanticGroupsNormalization;
     }
 
     @Override
@@ -130,6 +152,61 @@ public class ContextConfiguration {
 
     public ParserLevel getParserLevel() {
         return parserLevel;
+    }
+    
+    /**
+     * Get false positives byte array.
+     * @return The false positives byte array
+     */
+    public byte[] getFalsePositives() {
+        return falsePositives;
+    }
+    
+    /**
+     * Get false positives stream.
+     * @return The false positives stream
+     */
+    public InputStream getFalsePositivesStream() {
+        if (falsePositives == null) {
+            return null;
+        }
+        
+        return new ByteArrayInputStream(falsePositives);
+    }
+    
+    /**
+     * Set false positives.
+     * @param falsePositives The false positives byte array
+     */
+    public void setFalsePositives(byte[] falsePositives) {
+        this.falsePositives = falsePositives;
+    }
+    
+    /** Get semantic groups normalization byte array.
+     * @return The semantic groups normalization byte array
+     */
+    public byte[] getSemanticGroupsNormalization() {
+        return semanticGroupsNormalization;
+    }
+    
+    /**
+     * Get semantic groups normalization stream.
+     * @return The false positives stream
+     */
+    public InputStream getSemanticGroupsNormalizationStream() {
+        if (semanticGroupsNormalization == null) {
+            return null;
+        }
+        
+        return new ByteArrayInputStream(semanticGroupsNormalization);
+    }
+    
+    /**
+     * Set semantic groups normalization.
+     * @param semanticGroupsNormalization The semantic groups normalization byte array
+     */
+    public void setSemanticGroupsNormalization(byte[] semanticGroupsNormalization) {
+        this.semanticGroupsNormalization = semanticGroupsNormalization;
     }
 
     public int fetchCustomModules(final List<Module> moduleList, Parser parser) {

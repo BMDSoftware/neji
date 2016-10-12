@@ -91,7 +91,8 @@ public class FileProcessor extends BaseProcessor {
 
             // Create Pipeline
             Pipeline p = new DefaultPipeline(corpus);
-            instantiateModules(context.getDictionaries(), context.getModels(), cp, p, xmlTags, addAnnotationsWithoutIDs);
+            instantiateModules(context.getDictionaries(), context.getModels(), 
+                    cp, context, p, xmlTags, addAnnotationsWithoutIDs);
 
             if (!context.getConfiguration().getOutputFormats().isEmpty()) {
 //                p.add(new TextReplacer("&lt;§", "&lt;s"));

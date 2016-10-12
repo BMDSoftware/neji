@@ -46,6 +46,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 /**
  * Main application for the CLI tool.
@@ -144,7 +146,11 @@ public class Main {
         options.addOption("noids", "include-no-ids", false, "If annotations without IDs should be included.");
         options.addOption("t", "threads", true,
                 "Number of threads. By default, if more than one core is available, it is the number of cores minus 1.");
-
+        
+        options.addOption("fp", "false-positives-filter", true, "File that contains the false positive terms.");
+        options.addOption("gn", "semantic-groups-normalization", true, 
+                "File that contains the semantic groups normalization terms.");
+        
         CommandLine commandLine = null;
         try {
             // Parse the program arguments
@@ -398,6 +404,53 @@ public class Main {
         if (commandLine.hasOption("noids")) {
             includeAnnotationsWithoutIDs = true;
         }
+        
+        // Get false positives filter
+        byte[] fpByteArray = null;
+        if (commandLine.hasOption("fp")) {
+            String fpPath = commandLine.getOptionValue("fp");
+
+            File test = new File(fpPath);
+            if (!test.isFile() || !test.canRead()) {
+                logger.error("The specified false positives path is not a file or is not readable.");
+                return;
+            }
+            
+            fpPath = test.getAbsolutePath();
+            fpPath += File.separator;
+            try {
+                fpByteArray = IOUtils.toByteArray(
+                        new FileInputStream(new File(fpPath)));
+            } catch (IOException ex) {
+                logger.error("There was a problem loading the false positives "
+                        + "file.", ex);
+                return;
+            }
+        }
+        
+        // Get semantic groups normalization
+        byte[] groupsNormByteArray = null;
+        if (commandLine.hasOption("gn")) {
+            String gnPath = commandLine.getOptionValue("gn");
+
+            File test = new File(gnPath);
+            if (!test.isFile() || !test.canRead()) {
+                logger.error("The specified semantic groups normalization path "
+                        + "is not a file or is not readable.");
+                return;
+            }
+            
+            gnPath = test.getAbsolutePath();
+            gnPath += File.separator;
+            try {
+                groupsNormByteArray = IOUtils.toByteArray(
+                        new FileInputStream(new File(gnPath)));
+            } catch (IOException ex) {
+                logger.error("There was a problem loading the semantic groups "
+                        + "normalization file.", ex);
+                return;
+            }
+        }
 
         // Context is built through a descriptor first, so that the pipeline can be validated before any processing
         ContextConfiguration descriptor = null;
@@ -410,7 +463,9 @@ public class Main {
                     .withParserLevel(parsingLevel)
                     .parseCLI(modulesCommandLine)
                     .build();
-
+            
+            descriptor.setFalsePositives(fpByteArray);
+            descriptor.setSemanticGroupsNormalization(groupsNormByteArray);
         } catch (NejiException ex) {
             ex.printStackTrace();
             System.exit(1);
@@ -427,7 +482,8 @@ public class Main {
 
         try {
             BatchExecutor batchExecutor = new FileBatchExecutor(folderCorpusIn, folderCorpusOut,
-                    compressed, NUM_THREADS, inputFolderWildcard, storeDocuments, includeAnnotationsWithoutIDs);
+                    compressed, NUM_THREADS, inputFolderWildcard, storeDocuments, 
+                    includeAnnotationsWithoutIDs);
 
             if (xmlTags == null) {
                 batchExecutor.run(processor, context);
