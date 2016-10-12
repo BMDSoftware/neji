@@ -1,0 +1,382 @@
+<!--
+  ~ Copyright (c) 2016 BMD Software and University of Aveiro.
+  ~
+  ~ Neji is a flexible and powerful platform for biomedical information extraction from text.
+  ~
+  ~ This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+  ~ To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/.
+  ~
+  ~ This project is a free software, you are free to copy, distribute, change and transmit it.
+  ~ However, you may not use it for commercial purposes.
+  ~
+  ~ It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+  ~ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>pt.ua.tm</groupId>
+    <artifactId>neji</artifactId>
+    <version>2.0</version>
+    <packaging>jar</packaging>
+
+    <name>neji</name>
+    <url>http://maven.apache.org</url>
+
+    <!--
+      Repositories used to fetch project dependencies
+    -->
+    <repositories>
+        <!-- UA.PT Bioinformatics Maven Repository -->
+        <repository>
+            <id>bioinformatics-all</id>
+            <name>Bioinformatics Nexus (All)</name>
+            <url>http://bioinformatics.ua.pt/maven/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <!--
+    Artifact deployment configuration (project redistribution)
+    -->
+    <distributionManagement>
+        <!-- Versioned releases are published to the releases repository -->
+        <repository>
+            <id>bioinformatics-releases</id>
+            <name>Bioinformatics Nexus (Internal Releases)</name>
+            <url>http://bioinformatics.ua.pt/maven/content/repositories/releases</url>
+        </repository>
+        <!-- Snapshot releases are published to the snapshots repository -->
+        <snapshotRepository>
+            <id>bioinformatics-snapshots</id>
+            <name>Bioinformatics Nexus (Internal Snapshots)</name>
+            <url>http://bioinformatics.ua.pt/maven/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <!--
+    Repositories used to fetch maven plugins used by the project
+    -->
+    <pluginRepositories>
+        <!-- UA.PT Bioinformatics Maven Repository -->
+        <pluginRepository>
+            <id>bioinformatics-all</id>
+            <name>Bioinformatics Nexus (Plugins)</name>
+            <url>http://bioinformatics.ua.pt/maven/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>onejar-maven-plugin.googlecode.com</id>
+            <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <!--
+    Project properties (can be reused anywhere in the pom like this: ${prop.name})
+    -->
+    <properties>
+        <!-- Java version we use and depend on -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <!-- Compiler options -->
+        <maven.compiler.optimize>true</maven.compiler.optimize>
+        <maven.compiler.showDeprecations>true</maven.compiler.showDeprecations>
+
+        <!-- Explicitly set the source and output encoding to prevent Maven warnings -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <targetJdk>1.8</targetJdk>
+
+        <mainClass>pt.ua.tm.neji.cli.Main</mainClass>
+    </properties>
+
+    <!--
+    Project build configuration
+    -->
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <optimize>${maven.compiler.optimize}</optimize>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>cli</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <archive>
+                                <manifest>
+                                    <mainClass>${mainClass}</mainClass>
+                                </manifest>
+                                <manifestEntries>
+                                    <Class-Path>.</Class-Path>
+                                </manifestEntries>
+                            </archive>
+                            <finalName>${project.build.finalName}</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <excludePackageNames>*.internal,*.example</excludePackageNames>
+                    <doclet>org.jboss.apiviz.APIviz</doclet>
+                    <docfilessubdirs>true</docfilessubdirs>
+                    <docletArtifact>
+                        <groupId>org.jboss.apiviz</groupId>
+                        <artifactId>apiviz</artifactId>
+                        <version>1.3.2.GA</version>
+                    </docletArtifact>
+                    <useStandardDocletOptions>true</useStandardDocletOptions>
+                    <overview>${basedir}/src/javadoc/overview.html</overview>
+                    <doctitle>Neji API Reference (${project.version})</doctitle>
+                    <windowtitle>Neji API Reference (${project.version})</windowtitle>
+                    <detectJavaApiLink>true</detectJavaApiLink>
+                    <additionalparam>
+                        -link http://docs.oracle.com/javase/7/docs/api/
+                        -link http://docs.oracle.com/javaee/6/api/
+                        -link http://www.slf4j.org/apidocs/
+                        -link http://commons.apache.org/logging/commons-logging-1.1.1/apidocs/
+                        -link http://logging.apache.org/log4j/1.2/apidocs/
+
+                        -group "Core" pt.ua.tm.neji.core*
+                        -group "Modules"
+                        pt.ua.tm.neji.reader*:pt.ua.tm.neji.writer*:pt.ua.tm.neji.nlp*:pt.ua.tm.neji.dictionary*:pt.ua.tm.neji.ml*:pt.ua.tm.neji.misc*:pt.ua.tm.neji.entity*:pt.ua.tm.neji.sentence*:pt.ua.tm.neji.statistics*
+                        -group "Tools and Helpers"
+                        pt.ua.tm.neji.annotator*:pt.ua.tm.neji.sentencesplitter*:pt.ua.tm.neji.normalization*:pt.ua.tm.neji.disambiguator*
+                        -group "Context" pt.ua.tm.neji.context*
+                        -group "CLI" pt.ua.tm.neji.cli*
+                        -group "Batch" pt.ua.tm.neji.batch*
+                        -group "Support" pt.ua.tm.neji.exception*:pt.ua.tm.neji.util*
+
+                        -sourceclasspath ${project.build.outputDirectory}
+                        <!---nopackagediagram-->
+                    </additionalparam>
+                    <encoding>UTF-8</encoding>
+                    <locale>en_US</locale>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                    <argLine>-Xmx4G</argLine>
+                    <forkMode>always</forkMode>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--
+    Dependencies
+    -->
+    <dependencies>
+
+        <dependency>
+            <groupId>bioc</groupId>
+            <artifactId>bioc</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aliasi</groupId>
+            <artifactId>lingpipe</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+
+        <!-- Text parsing -->
+        <dependency>
+            <groupId>monq</groupId>
+            <artifactId>monq</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <!-- Machine Learning -->
+        <dependency>
+            <groupId>cc.mallet</groupId>
+            <artifactId>mallet</artifactId>
+            <version>2.0.7.1</version>
+        </dependency>
+
+        <!-- Linguistic features -->
+        <dependency>
+            <groupId>org.apache.opennlp</groupId>
+            <artifactId>opennlp-tools</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+
+        <!-- Useful already implemented features -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+            <type>jar</type>
+        </dependency>
+
+        <!-- Dictionary Matching -->
+        <dependency>
+            <groupId>uk.ac.man</groupId>
+            <artifactId>linnaeus</artifactId>
+            <version>2.0</version>
+        </dependency>
+
+        <!-- Graph support-->
+        <dependency>
+            <groupId>org.jgrapht</groupId>
+            <artifactId>jgrapht</artifactId>
+            <version>0.8.3</version>
+        </dependency>
+
+        <!-- JSON generation -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.16</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+        <!-- JUnit-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>1.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.9-RC1</version>
+        </dependency>
+
+        <!--LVG-->
+        <dependency>
+            <groupId>gov.nih.nlm.nls.lvg</groupId>
+            <artifactId>lvgdist</artifactId>
+            <version>2015</version>
+        </dependency>
+        
+    </dependencies>   
+
+</project>

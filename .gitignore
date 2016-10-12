@@ -1,0 +1,40 @@
+#intellij
+.idea
+neji.iml
+
+#eclipse
+.classpath
+.project
+
+#netbeans
+nbactions.xml
+
+/data/
+/resources
+target
+logs
+/evaluation
+/train
+/example/corpus/out
+/.arcconfig
+
+# osx noise
+.DS_Store
+profile
+
+# xcode noise
+build/*
+*.mode1
+*.mode1v3
+*.mode2v3
+*.perspective
+*.perspectivev3
+*.pbxuser
+*.xcworkspace
+xcuserdata
+
+# svn & cvs
+.svn
+CVS
+/neji.db
+/nb-configuration.xml

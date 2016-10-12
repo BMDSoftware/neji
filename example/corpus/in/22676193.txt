@@ -1,0 +1,5 @@
+UGT2B7 genetic polymorphisms are associated with the withdrawal symptoms in methadone maintenance patients.
+To test whether the genetic polymorphisms within the gene encoding the UGT2B7 gene may have an impact on methadone treatment.
+Twelve SNPs in UGT2B7 were selected. 366 methadone maintenance treatment patients in Taiwan were recruited and genotyped.
+In a genotype recessive model, rs6600879, rs6600880, rs4554144, rs11940316, rs7438135, rs7662029, rs7668258, rs7439366, rs4292394 and rs6600893 showed significant associations with severity of withdrawal symptoms (permutation p < 0.002), pupil size (permutation p < 0.048) and tremor (permutation p < 0.008). Haplotypes of GATCAGCCGC and CTCTGATTCT were significantly associated with pupil size score and tremor score (p < 0.034).
+These results suggest that SNPs of the UGT2B7 gene may play important roles in opiate withdrawal symptoms.
