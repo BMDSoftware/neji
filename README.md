@@ -30,7 +30,9 @@ Neji can be used for various text mining tasks:
 	- **Output formats:** JSON, A1, BC2, Base64, BioC, CoNLL, IeXML, Pipe and PipeExtended
 
 ## Quick start
-Available soon.
+1. Download and extract the [latest version of Neji](https://github.com/BMDSoftware/neji/releases/download/v2.0.0/neji-2.0.0.zip)
+2. Use `neji.sh` to annotate
+3. Use `nejiTrain.sh` to train new NER models
 
 
 ## Documentation
