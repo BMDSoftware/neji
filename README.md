@@ -2,12 +2,9 @@
 
 Neji is a flexible and powerful platform for biomedical information extraction from scientific texts, such as patents, publications and electronic health records.
 
-### Gimli is now part of Neji
-Gimli is now easier to use with faster training and processing times. Its functionalities are now integrated into Neji, providing the same high accuracy previously achieved.
-Now you can use Neji to train machine learning models to perform NER, and integrate them in complex processing pipelines to annotate millions of documents with dozens of heterogenous entity types.
-
 
 ## Table of contents
+- [What is new in Neji 2?](#what-is-new-in-neji-2?)
 - [Quick start](#quick-start)
 - [Tasks](#tasks)
 - [Documentation](#documentation)
@@ -15,6 +12,21 @@ Now you can use Neji to train machine learning models to perform NER, and integr
 - [Bugs and features requests](#bugs-and-features-requests)
 - [Creators and contributors](#creators-and-contributors)
 - [Copyright and license](#copyright-and-license)
+
+## What is new in Neji 2?
+- Gimli for machine learning NER training
+- Multiple linguistic parsers support, for general text and multi-language
+- Support to additional input and output formats, including BioC
+- SDK usability improvements
+- Performance improvements
+- Stability improvements
+
+
+## Quick start
+1. Download and extract the [latest version of Neji](https://github.com/BMDSoftware/neji/releases/download/v2.0.0/neji-2.0.0.zip)
+2. Use `neji.sh` to annotate
+3. Use `nejiTrain.sh` to train new NER models
+
 
 ## Tasks
 Neji can be used for various text mining tasks:
@@ -28,11 +40,6 @@ Neji can be used for various text mining tasks:
 - **Convert between corpora formats:**
 	- **Input formats:** BioC, XML, HTML and Text 
 	- **Output formats:** JSON, A1, BC2, Base64, BioC, CoNLL, IeXML, Pipe and PipeExtended
-
-## Quick start
-1. Download and extract the [latest version of Neji](https://github.com/BMDSoftware/neji/releases/download/v2.0.0/neji-2.0.0.zip)
-2. Use `neji.sh` to annotate
-3. Use `nejiTrain.sh` to train new NER models
 
 
 ## Documentation
