@@ -1,4 +1,4 @@
-![Neji](https://github.com/BMDSoftware/neji/raw/master/wiki/logo.png)
+![Neji](https://raw.githubusercontent.com/wiki/BMDSoftware/neji/images/logo.png)
 
 Neji is a flexible and powerful platform for biomedical information extraction from scientific texts, such as patents, publications and electronic health records.
 
@@ -13,6 +13,7 @@ Neji is a flexible and powerful platform for biomedical information extraction f
 - [Bugs and features requests](#bugs-and-features-requests)
 - [Creators and contributors](#creators-and-contributors)
 - [Copyright and license](#copyright-and-license)
+
 
 ## What is new in Neji 2?
 - **Neji Web Server** 
@@ -48,11 +49,14 @@ With Neji you can build text mining processing pipelines for:
 2. Use `neji.sh` to annotate
 3. Use `nejiTrain.sh` to train new NER models
 
+
 ## Documentation
 Neji's documentation is available at [https://github.com/BMDSoftware/neji/wiki](https://github.com/BMDSoftware/neji/wiki).
 
+
 ## Usage notification
-If you are using Neji in your projects, please let us know by sending an e-mail to [david.campos@bmd-software.com](mailto:david.campos@bmd-software.com).
+If you are using Neji in your projects, please let us know by sending an e-mail to [david.campos@bmd-software.com](mailto:david.campos@bmd-software.com) or [aleixomatos@ua.pt](mailto:aleixomatos@ua.pt).
+
 
 ## Bugs and features requests
 Have a bug or a feature request?
@@ -61,7 +65,7 @@ If your problem or idea is not addressed yet, please [open a new issue](https://
 
 
 ## Support and consulting
-[<img src="https://github.com/BMDSoftware/neji/raw/master/wiki/bmd.png" height="64">](https://www.bmd-software.com)
+[<img src="https://raw.githubusercontent.com/wiki/BMDSoftware/neji/images/bmd.png" height="64" alt="BMD Software">](https://www.bmd-software.com)
 
 Please contact [BMD Software](https://www.bmd-software.com) for professional support and consulting services.
 
