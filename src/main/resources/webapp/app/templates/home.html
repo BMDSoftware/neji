@@ -1,0 +1,14 @@
+<form id="annotator-widget" class="well clearfix" action="#/annotate" method="post">
+  <textarea id="textarea" name="text" rows="13"></textarea>
+  <div class="pull-left">
+    <button class="btn upload-file"><i class="icon-upload"></i> Upload file</button>
+    <button class="btn annotate-pmid"><i class="icon-book"></i> Annotate PubMed article</button>
+    <button class="btn try-sample"><i class="icon-play"></i> Try sample</button>
+  </div>
+  <div class="pull-right">
+    <img src="assets/img/loader.gif" alt="annotating..." class="loading-spinner" style="display:none"></img>
+    <button type="reset" class="btn clear-text"><i class="icon-remove"></i> Clear</button>
+    <button type="submit" class="btn btn-success annotate-text"><i class="icon-edit icon-white"></i> Annotate text &raquo;</button>
+  </div>
+  <input type="file" style="visibility:hidden"></input>
+</form>

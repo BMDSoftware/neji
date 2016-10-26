@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'lobster';
+    src: url('./font/lobster/lobster-webfont.eot');
+    src: url('./font/lobster/lobster-webfont.eot?#iefix') format('embedded-opentype'),
+         url('./font/lobster/lobster-webfont.woff') format('woff'),
+         url('./font/lobster/lobster-webfont.ttf') format('truetype'),
+         url('./font/lobster/lobster-webfont.svg#lobsterregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
+/*Footer*/
+footer {
+    background-color: #F8F8F8;
+    padding: 10px;
+    font-size: 0.9em;
+    color: #444;
+    border-top: 1px solid #E7E7E7;
+}
+
+.resources-models-normalization-line {
+	padding: 0.1em 0;
+}
+
+td {
+	vertical-align: middle !important;
+}
+
+.thumbnail {
+	margin: 0;
+    display: inline-block;
+}
+
+.row-buttons {
+	padding: 0.5em 0;
+}
+
+.breadcrumb {
+	margin-top: 1em;
+}
+
+.row {
+    margin: 0em;
+}
+
+hr {
+    margin-top: 5px;
+}
+
+/*Brand*/
+.brand-neji {
+    margin: 0px 10px 0px 10px !important;
+}
+
+.brand-neji a {
+  text-decoration: none;
+}
+
+.brand-neji .lettering-small{
+  font-family: 'lobster';
+  color: #FFF !important;
+  font-size: 1.5em !important;
+}
+
+.brand-neji .pencil-small {
+  font-size: 1.5em !important;
+  color: #FFF !important;
+  margin-top: -8px;
+}

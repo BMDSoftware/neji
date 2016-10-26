@@ -1,0 +1,79 @@
+/* --------------------------------------------------
+ *  becas annotation highlighting styles
+-------------------------------------------------- */
+
+.highlight-ambiguous #annotation-toggles label.ambiguous {
+  border: dotted 1px #666;
+}
+
+.color0 {
+  background-color: #D9EDF7;
+  border: 1px solid #BCE8F1;
+  color: #3A87AD;
+}
+
+.color1 {
+  background-color: #BBD3E6;
+  border: 1px solid #AAC5EE;
+  color: #0D4D7C;
+}
+
+.color2 {
+  background-color: #F2DEDE;
+  border: 1px solid #e5d3d3;
+  color: #B94A48;
+}
+
+.color3 {
+  background-color: #FEE4BD;
+  border: 1px solid #FCCD7F;
+  color: #592003;
+}
+
+.color4 {
+  background-color: #FCF8E3;
+  border: 1px solid #FBEED5;
+  color: #907631;
+}
+
+.color5 {
+  background-color: #EEFFEC;
+  border: 1px solid #e1f6d1;
+  color: #529d54;
+}
+
+.color6 {
+  background-color: #DFF0D8;
+  border: 1px solid #D6E9C6;
+  color: #468847;
+}
+
+.color7 {
+  background-color: #BADDBC;
+  border: 1px solid #B9E0BB;
+  color: #506852;
+}
+
+.color8 {
+  background-color: #E3D7FF;
+  border: 1px solid #cfc3ec;
+  color: #3D188E;
+}
+
+.color9 {
+  background-color: #CED4B4;
+  color: #434638;
+  border: 1px solid #AFB499;
+}
+
+.color10 {
+  background-color: #E7E7E7;
+  color: #5E5E5E;
+  border: 1px solid #d9d9d9;
+}
+
+.ambiguous {
+  background-color: #F6F6F6;
+  color: #333;
+  border: dotted 1px #666;
+}

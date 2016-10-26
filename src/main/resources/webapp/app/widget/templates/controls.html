@@ -1,0 +1,38 @@
+<section class="annotation-toggles-container clearfix">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td><i class="icon-tags pull-left" title="Highlight and mute annotations"></i></td>
+                {{#unless disabled_all}}
+                {{#if toolbar_visible}}
+                <td>
+                    <div class="btn-toolbar pull-left">
+                        <div class="btn-group">
+                            <button class="btn btn-mini {{#if toolbar_ALL}}active{{/if}}" id="highlight-all-annotations" title="Highlight all annotations">All</button>
+                            <button class="btn btn-mini {{#if toolbar_NONE}}active{{/if}}" id="hide-all-annotations" title="Mute all annotations">None</button>
+                        </div>
+                    </div>
+                </td>
+                {{/if}}
+                {{/unless}}
+                <td>
+                    <ul class="unstyled clearfix pull-left" id="annotation-toggles">
+                        {{#each groups}}
+                            <li {{#if this.disabled}}style="display:none"{{/if}}>
+                                <button class="btn {{#if this.active}}active alert-success{{/if}}" id="{{this.class_}}-checkbox" data-group="{{this.id}}"{{#if this.disabled}} disabled="disabled"{{/if}} style="display:none">
+                                    {{#if this.active}}&#x2714;{{else}}&#x2717;{{/if}}
+                                </button> 
+                                <label class="{{this.class_}} {{#if this.disabled}}disabled{{/if}}" for="{{this.class_}}-checkbox" title="{{#if this.active}}Mute{{else}}Highlight{{/if}} {{this.name}}">{{this.name}}</label>
+                            </li>
+                        {{/each}}
+                        {{#if disabled_all}}
+                        <li>
+                            <label>No concepts found.</label>
+                        </li>
+                        {{/if}}
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>

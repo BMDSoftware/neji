@@ -1,0 +1,29 @@
+/* Application tour
+-------------------------------------------------- */
+
+@font-face {
+  font-family: 'Oxygen';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./font/oxygen/Oxygen-Regular.eot#ie-fix');
+  src: local('Oxygen'), local('Oxygen-Regular'),
+    url('./font/oxygen/Oxygen-Regular.eot') format('embedded-opentype'),
+    url('./font/oxygen/Oxygen-Regular.woff') format('woff'),
+    url('./font/oxygen/Oxygen-Regular.ttf') format('truetype');
+}
+
+.start-tour {
+  margin: 10px 0;
+  font-size: 13px;
+  color: #666;
+  text-align: center;
+}
+
+.popover {
+  font-family: 'Oxygen' sans-serif;
+  z-index: 1050;
+}
+
+.popover nav {
+  margin-top: 10px;
+}

@@ -1,0 +1,13 @@
+/*!
+ * becas - biomedical concept annotator
+ *
+ * Copyright 2014 UA.PT Bioinformatics
+ * All rights reserved.
+ * http://bioinformatics.ua.pt/becas/
+ */
+
+@import "bootstrap.css";
+@import "brand.css";
+@import "annotations.css";
+@import "annotated-text.css";
+@import "widget.css";

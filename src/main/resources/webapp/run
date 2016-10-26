@@ -1,0 +1,24 @@
+# !/bin/sh
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+pushd . > /dev/null && cd $DIR
+
+# Start background processes
+./start_mongo &
+./start_redis &
+#./start_sentry &
+./start_becas_api &
+
+# Kill background processes on exit
+function kill_processes {
+	kill `ps -A | grep "mongod" | grep -v "grep" | awk '{print $1}'`
+	kill `ps -A | grep "redis-server" | grep -v "grep" | awk '{print $1}'`
+	kill `ps -A | grep "gunicorn" | grep -v "grep" | awk '{print $1}'`
+}
+trap kill_processes SIGINT SIGTERM
+
+# Wait for SIGINT (CTRL^C)
+wait
+
+popd > /dev/null

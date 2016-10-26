@@ -1,0 +1,17 @@
+{{#if hasConcepts}}
+<section class="export-controls-container">
+    <div class="btn-group dropup">
+          <button class="btn btn-link dropdown-toggle export-btn" data-toggle="dropdown">Export annotations <span class="caret"></span></button>
+          <ul class="dropdown-menu export">
+            {{#unless pmid}}
+            <li><a href="#" data-format="json" data-bypass>as JSON</a></li>
+            {{/unless}}
+            <li><a href="#" data-format="xml" data-bypass>as XML</a></li>
+            {{#unless pmid}}
+            <li><a href="#" data-format="a1" data-bypass>as A1</a></li>
+            <li><a href="#" data-format="conll" data-bypass>as CoNLL</a></li>
+            {{/unless}}
+          </ul>
+    </div>
+</section>
+{{/if}}

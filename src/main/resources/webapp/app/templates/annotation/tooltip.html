@@ -1,0 +1,21 @@
+<div style="overflow:hidden; position: absolute; z-index: 1060; top: {{posTop}}px; left: {{posLeft}}px; ">
+    <div class="concept-tooltip">
+        <div class="term clearfix{{#if mirrored}} mirrored{{/if}}">
+                <span class="annotation {{classes}} {{color}}">{{AnnotatedText}}</span> <small>({{OccurrenceCount}} occurrence{{os}})</small>
+                &nbsp;&nbsp;
+                <button type="button" class="close">×</button>
+        </div>            
+        <div id="concepts">
+            {{#each concepts}}
+                <div class="concept-info {{color}}">
+                    <p><span class="group">{{norm}}</span> ({{group}})</p>
+                    <hr>
+                    {{#each cids}}
+                        <span class="cid">{{.}}</span>
+                        <br>
+                    {{/each}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

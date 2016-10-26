@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="WebApp_ID"
+         version="2.5">
+    
+    <!-- Services -->
+    <servlet>
+        <servlet-name>Neji Server Services</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>pt.ua.tm.neji.web.services</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Neji Server Services</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Manage -->
+    <servlet>
+        <servlet-name>Neji Server Manager</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>pt.ua.tm.neji.web.manage</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Neji Server Manager</servlet-name>
+        <url-pattern>/manage/*</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Annotate -->
+    <servlet>
+        <servlet-name>Neji Server Annotater</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>pt.ua.tm.neji.web.annotate</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Neji Server Annotater</servlet-name>
+        <url-pattern>/annotate/*</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Authentication -->
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>LoginRealm</realm-name>
+        <form-login-config>
+            <form-login-page>/logon.html</form-login-page>
+            <form-error-page>/logonError.html</form-error-page>
+        </form-login-config>
+    </login-config>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Administration resources</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+</web-app>

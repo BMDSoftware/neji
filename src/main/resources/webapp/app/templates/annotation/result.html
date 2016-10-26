@@ -1,0 +1,47 @@
+<section class="annotated-text-wrapper well clearfix" style="margin-bottom:10px">
+	<article class="annotated-text">
+		{{! Text/PubMed publication container }}
+	</article>
+	<div class="pull-left">
+		<button class="btn go-home" style="margin-right:10px"><i class="icon-upload"></i> Load text</button>
+		{{!<button class="btn btn-info toggle-concept-tree"><i class="icon-list icon-white"></i> Concept tree <span class="caret"></span></button>}}
+	</div>
+	<div class="pull-right">
+		<div class="btn-group pull-right">
+          <button class="btn btn-inverse dropdown-toggle export-btn" data-toggle="dropdown"><i class="icon-download-alt icon-white"></i> Export <span class="caret"></span></button>
+          <ul class="dropdown-menu export">
+            <!-- TODO: Supported output formats are not dynamically loaded -->
+            <li><a href="#" data-format="a1" data-bypass>A1</a></li>
+            <li><a href="#" data-format="bc2" data-bypass>BC2</a></li>
+            <li><a href="#" data-format="bioc" data-bypass>BioC</a></li>
+            <li><a href="#" data-format="b64" data-bypass>B64</a></li>
+            <li><a href="#" data-format="conll" data-bypass>CoNLL</a></li>
+            <li><a href="#" data-format="json" data-bypass>JSON</a></li>
+            <li><a href="#" data-format="neji" data-bypass>Neji</a></li>
+            <li><a href="#" data-format="pipe" data-bypass>PIPE</a></li>
+            <li><a href="#" data-format="pipext" data-bypass>PIPExt</a></li>
+            <li><a href="#" data-format="xml" data-bypass>XML</a></li>
+          </ul>
+        </div>
+        <span class="pull-right" style="margin:7px 20px 0 0">Annotated {{conceptCount}} concept occurrences in {{duration}}.</span>
+	</div>
+</section>
+
+{{!<section class="concept-tree-wrapper">
+    <div class="concept-tree-container">
+  		<div class="btn-group tree-control" style="margin: 2px 0 10px 2px">
+  			<button class="btn btn-mini" title="Expand all tree nodes"><i class="icon-plus"></i> Expand All</button>
+  			<button class="btn btn-mini" title="Collapse all tree nodes"><i class="icon-minus"></i> Collapse All</button>
+  			<button class="btn btn-mini" title="Toggle all tree nodes"><i class="icon-indent-left"></i> Toggle All</button>
+      </div>
+    	<div class='concept-tree'>
+    	</div>
+  		<div class="btn-group tree-control" style="margin: 10px 0 2px 2px">
+        <button class="btn btn-mini" title="Expand all tree nodes"><i class="icon-plus"></i> Expand All</button>
+        <button class="btn btn-mini" title="Collapse all tree nodes"><i class="icon-minus"></i> Collapse All</button>
+        <button class="btn btn-mini" title="Toggle all tree nodes"><i class="icon-indent-left"></i> Toggle All</button>
+      </div>
+    </div>
+</section>}}
+
+<iframe src="javascript:''" name="__export_frame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>

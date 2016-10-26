@@ -1,0 +1,291 @@
+<div class="span3 docs-sidebar">
+    <ul class="nav nav-list docs-sidenav affix">
+        <li class="active"><a href="#help__intro"><i class="icon-chevron-right"></i> What's becas?</a></li>
+        <li><a href="#help__usage"><i class="icon-chevron-right"></i> How to use</a></li>
+        <li><a href="#help__tour"><i class="icon-chevron-right"></i> Application tour</a></li>
+        <li><a href="#help__input_ui"><i class="icon-chevron-right"></i> The Input Interface</a></li>
+        <li><a href="#help__input_ui_annotating_text"><i class="icon-chevron-right"></i> &nbsp;&nbsp; Annotating Text</a></li>
+        <li><a href="#help__input_ui_annotating_publications"><i class="icon-chevron-right"></i> &nbsp;&nbsp; Annotating Abstracts</a></li>
+        <li><a href="#help__concepts_ui"><i class="icon-chevron-right"></i> The Concepts Interface</a></li>
+        <li><a href="#help__concepts_ui_concept_popovers"><i class="icon-chevron-right"></i> &nbsp;&nbsp; Concept Popovers</a></li>
+        <li><a href="#help__concepts_ui_concept_tree"><i class="icon-chevron-right"></i> &nbsp;&nbsp; Concept Tree</a></li>
+        <li><a href="#help__concepts_ui_export"><i class="icon-chevron-right"></i> &nbsp;&nbsp; Exporting Results</a></li>
+        <li><a href="#help__further_help"><i class="icon-chevron-right"></i> Further assistance</a></li>
+    </ul>
+</div>
+
+<div class="span9 docs">
+	<section id="help__intro">
+		<div class="page-header">
+			<h1>Help <small>What's <span class="becas" style="color: #999">becas</span>?</small></h1>
+		</div>
+		<p>
+			<span class="becas">becas</span> is a web application, API and widget for <strong>biomedical concept identification</strong>. It finds and annotates over 1,200,000 biomedical concepts in your biomedical text and publications.
+		</p>
+		<p>
+			Each identified concept is <strong>enriched with hyperlinks</strong> to relevant knowledge resources, where you can learn more about each concept.
+		</p>
+		<p>
+			Annotated concepts can be <strong>exported in various popular formats</strong>, facilitating usage in third-party applications.
+		</p>
+		<p>
+			You can read more about <span class="becas">becas</span> in the <a href="#!/about">about page</a>.
+		</p>
+	</section>
+
+	<section id="help__usage">
+		<div class="page-header">
+			<h2>How to use</h2>
+		</div>
+		<p>
+			<span class="becas">becas</span> exposes its functionality through three interfaces.
+		</p>
+		<ul>
+			<li>This <a href="#!/">web application</a>, where you can directly input text or PubMed articles' <a href="http://en.wikipedia.org/wiki/PubMed#PubMed_identifier" target="_blank">PMIDs</a> for annotation;</li>
+			<li>An <a href="#!/api">HTTP REST API</a> that you can integrate in your own custom text processing pipeline;</li>
+			<li>A <a href="#!/widget">Javascript widget</a> that you can embed in your pages to enhance them with text annotation capabilities.</li>
+		</ul>
+		<p>
+			The following sections teach you how to use this web application. For help on using the <a href="#!/api">API</a> or the <a href="#!/widget">widget</a>, please refer to the dedicated documentation on their pages.
+		</p>
+	</section>
+
+	<section id="help__tour">
+		<div class="page-header">
+			<h2>Application Tour</h2>
+		</div>
+		<p>
+			If you never used <span class="becas">becas</span>, the <a href="#!/tour">application tour</a> is a good place to start. It will guide you through the main application workflow and teach you the basics, while introducing the various controls available for you to use.
+		</p>
+		<p>
+			<a href="#!/tour">Take the tour</a> now and when you're finished return to this page and continue reading.
+		</p>
+	</section>
+
+	<section id="help__input_ui">
+		<div class="page-header">
+			<h2>The Input Interface</h2>
+		</div>
+		<p>
+			The <span class="becas">becas</span> <a href="#!/">homepage</a>, depicted bellow, is made up of two major areas:
+		</p>
+		<ul>
+			<li>The <strong>semantic group controls</strong>, on the left;</li>
+			<li>The <strong>text input controls</strong>, on the right.</li>
+		</ul>
+
+		<img src="assets/img/docs/becas_homepage.png"
+			 alt="becas homepage"
+			 style="width: 725px; height: 290px"
+			 class="figure" />
+
+		<p>
+			Using the <strong>semantic group controls</strong> you can select the types of concepts you want <span class="becas">becas</span> to recognize and annotate. You should select at least one semantic group for annotation.
+		</p>
+		<p>
+			Then you can use the <strong>text input controls</strong> to give <span class="becas">becas</span> the text you want to annotate. The <strong>Try Sample</strong> button allows for quick testing and experimentation of the system without having to input any text. Click it multiple times to cycle through various text samples you can try.
+		</p>
+
+		<section id="help__input_ui_annotating_text">
+		<h3>Plain text annotation</h3>
+		<p>
+			To annotate text you can:
+		</p>
+		<ul>
+			<li>Directly <strong>type</strong> or <strong>paste</strong> text in the text-area;</li>
+			<li>Click the <strong>Upload file</strong> button and select a file to annotate;</li>
+			<li><strong>Drag</strong> a text file or a snippet of text from your computer to the text-area.</li>
+		</ul>
+		<p>
+			After typing or pasting text in the text-area, click the <strong>Annotate text</strong> button to trigger the annotation process. When you upload or drag a file, annotation starts immediatelly without further input.
+		</p>
+
+		<p>
+			<span class="label label-info">Notes</span> If the <strong>Upload file</strong> button does not appear in the text input controls, your browser does not support the <a href="http://caniuse.com/filereader" target="_blank">FileReader API</a>.<br />
+			If you can't drop files in the text-area, your browser does not support the <a href="http://caniuse.com/dragndrop" target="_blank">Drag and Drop API</a>.<br />
+			You should <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to take advantage of all available features.
+		</p>
+		</section>
+
+		<section id="help__input_ui_annotating_publications">
+		<h3>PubMed abstract annotation</h3>
+		<p>
+			<span class="becas">becas</span> can automatically fetch <a href="http://www.ncbi.nlm.nih.gov/pubmed/" title="Go to PubMed" target="_blank">PubMed</a> abstracts from NCBI servers and annotate them for you.
+		</p>
+		<p>
+			Click the <strong>Annotate PubMed article</strong> button on the text input controls and a popup dialog will ask you to enter the <a href="http://en.wikipedia.org/wiki/PubMed#PubMed_identifier" target="_blank">PMID</a> of the publication you want to annotate.
+		</p>
+
+		<img src="assets/img/docs/becas_pmid_dialog.png"
+			 alt="becas PubMed article PMID input dialog"
+			 style="width: 460px; height: 206px"
+			 class="figure" />
+
+		<p>
+			<span class="label label-info">Hint</span> You can bookmark and share the URLs of annotated articles.
+		</p>
+		</section>
+	</section>
+
+	<section id="help__concepts_ui">
+		<div class="page-header">
+			<h2>The Concepts Interface</h2>
+		</div>
+		<p>
+			After submitting text, a file or a PMID you are presented the <a href="#!/pmid/23225384">concepts interface</a>, illustrated here, which is composed by four primary elements:
+		</p>
+		<ul>
+			<li>The <strong>semantic group controls</strong>, on the left;</li>
+			<li>The <strong>annotated text widget</strong>, on the top right;</li>
+			<li>The <strong>concept tree</strong>, on the bottom right;</li>
+			<li>The <strong>export button</strong>, bellow the annotated text, on the right.</li>
+		</ul>
+
+		<img src="assets/img/docs/becas_annotated_abstract.png"
+			 alt="becas annotated text interface"
+			 style="width: 725px; height: 453px"
+			 class="figure" />
+
+		<p>
+			Plain text content or PubMed articles' title and abstract are displayed in the <strong>annotated text widget</strong>, where all recognized concepts are highlighted in the colour corresponding to the concept type, or semantic group.
+		</p>
+		<p>
+			Terms tagged with more than one concept from different types are deemed <strong>ambiguous</strong> and highlighted with a dashed border.
+		</p>
+		<p>
+			You can use the <strong>semantic group controls</strong> to highlight or mute specific types of concepts, allowing you to focus only on certain entity types.
+		</p>
+
+		<section id="help__concepts_ui_concept_popovers">
+		<h3>Concept Popovers</h3>
+		<p>
+			You can <strong>hover</strong> your mouse over any <strong>highlighted term</strong> to view details about <strong>identified concepts</strong>. If you're using a touch input device that does not allow hovering, just click annotated entities to open the <strong>concept popover</strong>.
+		</p>
+		<p>
+			For each concept, you can access <strong>external references</strong> on multiple knowledge resources. Simply <strong>click a reference link</strong> to open the corresponding resource page.
+		</p>
+
+		<img src="assets/img/docs/becas_concept_popover.png"
+			 alt="becas concept popover"
+			 style="width: 459px; height: 279px"
+			 class="figure" />
+		</section>
+
+		<section id="help__concepts_ui_concept_tree">
+		<h3>Concept Tree</h3>
+		<p>
+			All annotated terms and correspoding concepts are displayed in an interactive <strong>concept tree</strong>.
+		</p>
+		<p>
+			The tree structure, pictured bellow, is a simple labeled hierarchy of:
+		</p>
+		<ul>
+			<li><strong>Semantic group</strong> (number of annotated terms)
+				<ul>
+					<li><strong>Annotated entity</strong> (number of associated concepts)
+						<ul>
+							<li><strong>Concept</strong> (number of external references)
+								<ul>
+									<li><strong>External reference</strong></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<p>
+			<span class="label label-info">Hint</span> Expand and collapse whole semantic groups at a time by clicking the <i class="icon-plus-sign"></i> and <i class="icon-minus-sign"></i> icons, on the right side of the tree.
+		</p>
+
+		<img src="assets/img/docs/becas_concept_tree.png"
+			 alt="becas concept tree"
+			 style="width: 725px; height: 479px"
+			 class="figure" />
+
+		<p>
+			To easily locate annotated terms in the text, you can <strong>focus</strong> all occurrences of a given annotated entity in the <strong>annotated text widget</strong> by clicking the <i class="icon-screenshot"></i> icon next to each annotated entity node on the <strong>concept tree</strong>. All entities will temporarily be muted while occurences of the focused entity are highlighted.
+		</p>
+		<p>
+			Just like in <strong>concept popovers</strong>, you can click any external reference to follow the link.
+		</p>
+		</section>
+
+		<section id="help__concepts_ui_export">		
+		<h3>Exporting Results</h3>
+		<p>
+			<span class="becas">becas</span> exports annotated text with recognized concepts in multiple popular formats. Simply click the <strong>Export button</strong> and select your preferred format.
+		</p>
+
+		<img src="assets/img/docs/becas_export_button.png"
+			 alt="becas export button"
+			 style="width: 460px; height: 234px"
+			 class="figure" />
+
+		<p>
+			Each format supports different features, so you can choose the format you want depending on your needs.
+		</p>
+
+		<h4>JSON</h4>
+		<p>
+			<span class="becas">becas</span> exports annotated text in <em>JSON</em> format. Results exported in <em>JSON</em> feature <strong>sentence splitting</strong> and <strong>concept identification</strong> data.
+		</p>
+		<p>
+			<em>JSON</em> exports include concepts nested to any depth level.
+		</p>
+
+		<hr class="soften" />
+
+		<h4>XML</h4>
+		<p>
+			<span class="becas">becas</span> exports results in <a href="http://www.ebi.ac.uk/Rebholz-srv/IeXML/index.html" target="_blank">IeXML</a>. Results exported in <em>XML</em> include the same information as <em>JSON</em> exports (<strong>sentence splitting</strong> and <strong>concept identification</strong>), but nested annotations are limited to a depth of one, with deeper annotations being resolved to the largest span.
+		</p>
+		<p>
+			<span class="label label-info">Note</span> PubMed articles are fetched from <a href="http://www.ncbi.nlm.nih.gov/pubmed/" title="Go to PubMed" target="_blank">NCBI</a> servers in <em>MEDLINE XML</em> format (<code>&lt;PubmedArticleSet&gt;</code>) and made available for export only in the same format, with the <code>&lt;ArticleTitle&gt;</code> and <code>&lt;Abstract&gt;</code> fields enriched with <em>IeXML</em> annotations.
+		</p>
+
+		<hr class="soften" />
+
+		<h4>A1</h4>
+		<p>
+			<em>A1</em> is a standoff format used in many text-mining research tasks and in popular applications like <a href="http://brat.nlplab.org/" target="_blank">brat</a>.
+		</p>
+		<p>
+			<span class="becas">becas</span> exports annotations in <em>A1</em> format, including <strong>concept identification</strong> data. <em>A1</em> exports include concepts nested to any depth level.
+		</p>
+
+		<hr class="soften" />
+
+		<h4>CoNLL</h4>
+		<p>
+			Of all exported formats, <em>CoNLL</em> is the most verbose and comprehensive.
+		</p>
+		<p>
+			Results exported by <span class="becas">becas</span> in <em>CoNLL</em> format include, in addition to <strong>concept identification</strong>, natural language processing information, like <strong>sentence splitting</strong>, <strong>tokenization</strong>, <strong>lemmatization</strong>, <strong>part-of-speech (POS) tagging</strong> and <strong>chunking</strong>.
+		</p>
+		<p>
+			<em>CoNLL</em> exports include concepts nested to any depth level.
+		</p>
+
+		<hr class="soften" />
+
+		<p>
+			Detailed information about each exported format, as well as a <a href="#api__api_calls_comparison">comparison</a> between them is available in the <a href="#!/api">API documentation</a>.
+		</p>
+
+		<p>
+			<span class="label label-info">Hint</span> If you find yourself using the export functionality a lot, maybe you should consider using the <a href="#!/api">HTTP API</a> to automate your workflow.
+		</p>
+		</section>
+	</section>
+
+	<section id="help__further_help">
+		<div class="page-header">
+			<h2>Further assistance</h2>
+		</div>
+		<p>
+			If you need help using the application or are having issues with a topic not covered here, please <a href="#!/contact">contact us</a> and we'll gladly assist you.
+		</p>
+	</section>
+</div>

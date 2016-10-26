@@ -1,0 +1,161 @@
+<!-- Top bar -->
+<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+    <div class="navbar-inner">
+        <div class="full-container">
+            
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+
+            <!-- Be sure to leave the brand out there if you want it shown -->
+            <div class="brand brand-neji">
+                <a href="#" id="navbar-title">
+                    <div class="lettering-small pull-left">neji</div>
+                    <i class="fa fa-pencil pencil-small pull-left"></i>
+                </a>
+            </div>
+
+            <!-- Everything you want hidden at 940px or less, place within here -->
+            <div class="nav-collapse collapse">
+                <ul class="nav pull-right">                    
+                    <li>
+                        <a href="help.html" id="help-hyperlink"><i class="fa fa-question-circle"></i> Help</a>
+                    </li>
+                    <li>
+                        <a href="#" id="about-hyperlink"><i class="fa fa-info-circle"></i> About</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /Top bar --> 
+
+<!-- Content container -->
+<div class="container-fluid" id="page-container" style="display:none">
+    <div class="row-fluid">
+        <div id="sidebar" class="span2">
+        </div>
+
+        <div class="span10" role="main">
+            <div id="alerts-container" style="display:none"></div>
+            <div id="main-content"></div>
+        </div>
+    </div>
+</div>
+<!-- /Content container -->
+
+<!-- Footer -->
+<footer class="navbar-fixed-bottom">
+    <div class="row text-center">
+        Copyright © 2015 
+        <a href="http://www.bmd-software.com">BMD Software</a>. All rights reserved.
+    </div>
+</footer>
+<!-- /Footer -->
+
+<!--[if lt IE 9]>
+<p class="chromeframe">You are using an <strong>outdated browser</strong>, with serious compatibility issues. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>    
+<![endif]-->
+
+<!-- Javascript code -->
+<script type="text/javascript">   
+    
+$(document).ready(function() {
+    
+    // Set service logo
+    setServiceLogo();
+});
+
+/**
+ * Sets service logo at top bar.
+ */
+function setServiceLogo() {    
+    
+    // Get service name
+    var url = window.location.href;
+    var regex = /https:\/\/[\w\:\.\-\d]+\/annotate\/([^\/#!]+)/g;
+    var service = regex.exec(url)[1];
+    
+     // Get service data
+    url = window.location.origin + '/services/getService/name=' + service;
+    $.ajax({
+        url: url,
+        type: 'GET',
+        contentType: "application/json; charSet=UTF-8",
+        dataType: 'json',
+        success: function (data) {
+            
+            // Set logo at nav bar
+            if (data.logo !== null) {
+                var html = "<img style='height:2em; margin:-10px 10px;' \n\
+                                src='data:image/jpg;base64," + data.logo + "'>"
+                $("#navbar-title").html(html);
+            }
+        },
+        error: function (xhr, status, error) {
+            alert("Error: " + error);
+        }
+});
+
+$("#help-hyperlink").on("click", function() {
+   window.location.href = "help.html"; 
+});
+
+$("#about-hyperlink").on("click", function(e) {
+    e.preventDefault();
+    $("#about-modal").modal("show");
+});
+ 
+}    
+    
+</script>
+
+<!-- About modal -->
+<div class="modal fade pg-show-modal" id="about-modal" tabindex="-1" role="dialog" aria-hidden="true" style="display:none"> 
+    <div class="modal-dialog"> 
+        <div class="modal-content"> 
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>                         
+                <h4 class="modal-title">About</h4> 
+            </div>                     
+            <div class="modal-body">
+                <div class="clearfix">
+                    <p> 
+                        <span style="font-family:'lobster'; font-size:200%">neji</span> is developed by <a href="http://www.bmd-software.com/">BMD Software</a>.<br>
+                        We highly appreciate all feedback and want to know your thoughts and experience using the tool.<br>
+                        Please drop us a line if you need assistance with any feature or have suggestions on ways to improve neji.
+                    </p>
+                </div>
+
+                <hr>
+
+                <h3><b>Contacts</b></h3>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Phone:</td>
+                        <td><i class="fa fa-phone"></i> +351 234247289 / +351 308804004</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td><i class="fa fa-envelope"></i> <a href="mailto:info@bmd-software.com">info@bmd-software.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>Fax:</td>
+                        <td><i class="fa fa-fax"></i>  +351 234401529</td>
+                    </tr>
+                </table>
+
+                <hr>
+
+                <a href="http://www.bmd-software.com/">
+                    <img src='assets/img/bmd.png' alt='' style='height:40px;'>
+                </a>
+            </div>
+        </div>                 
+    </div>
+</div>
+ <!-- /About modal -->

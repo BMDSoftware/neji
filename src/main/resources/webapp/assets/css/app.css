@@ -1,0 +1,151 @@
+/* --------------------------------------------------
+ *  becas main stylesheet
+-------------------------------------------------- */
+
+
+/* Layout
+-------------------------------------------------- */
+/*
+body {
+  background: #fff url('../img/bg-pattern.png') repeat;
+}
+*/
+h1, h2 {
+  text-shadow: 0 2px 3px #DDD;
+}
+
+.chromeframe {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 6px 2px;
+  text-align: center;
+  color: #B94A48;
+  background-color: #FEFEFE;
+  border: 2px solid #B94A48;
+}
+
+
+/* Header
+-------------------------------------------------- */
+/*
+.navbar {
+  font-size: 13px;
+}
+
+.navbar .brand {
+  margin-top: -4px;
+  margin-left: -12px;
+}
+
+.navbar .brand img {
+  width: 64px;
+  height: 21px;
+}
+
+.navbar-inverse .navbar-inner {
+  background-color: #1b1b1b;
+  background-image: -moz-linear-gradient(top, #555555, #222222);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#555555), to(#222222));
+  background-image: -webkit-linear-gradient(top, #555555, #222222);
+  background-image: -o-linear-gradient(top, #555555, #222222);
+  background-image: -ms-linear-gradient(top, #555555, #222222);
+  background-image: linear-gradient(to bottom, #555555, #222222);
+  background-repeat: repeat-x;
+  border-color: #363636;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff555555', endColorstr='#ff222222', GradientType=0);
+}
+
+.navbar-inverse .brand,
+.navbar-inverse .nav > li > a {
+  color: #BBBBBB;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.navbar-inverse .brand:hover {
+  color: #FFFFFF;
+}
+*/
+
+/* Footer
+-------------------------------------------------- */
+/*
+footer {
+  padding-top: 40px;
+  font-size: 13px;
+  color: #333;
+}
+*/
+
+/* Homepage - Input widget
+-------------------------------------------------- */
+
+#textarea {
+  width: 98%;
+  padding: 10px;
+}
+
+#annotator-widget input[type="file"] {
+  width: 0;
+  height: 0;
+}
+
+.dnd-over {
+  background-color: #e8fbe5;
+  border: 1px dashed #468847;
+  color: #529d54;
+}
+
+.loading-spinner {
+  width:22px;
+  height:22px;
+  margin: 0 10px 0 0;
+}
+
+@media (min-width: 768px) {
+  .try-sample {
+    margin-left: 10px;
+  }
+
+  .clear-text {
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 907px) {
+  #annotator-widget .pull-right {
+    float: left;
+  }
+}
+
+.ui-effects-transfer {
+  border: 2px dotted #333;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
+
+/* Homepage - PMID Modal
+-------------------------------------------------- */
+
+@media (min-width: 768px) {
+  .pmid-modal {
+    width: 360px;
+    margin-left: -180px;
+  }
+}
+
+.pmid-modal .close {
+  margin-top: -10px;
+}
+
+.pmid-modal form {
+  margin: 0;
+}
+
+.pmid-modal aside {
+  font-size: 90%;
+  color: #666;
+}

@@ -1,0 +1,16 @@
+/* --------------------------------------------------
+ *  Code Prettify
+-------------------------------------------------- */
+
+.prettyprint, .prettify {
+	padding: 8px;
+	background-color: #F7F7F9;
+	border: 1px solid #E1E1E8;
+}
+
+.string, .s, .s1, .s2 { color: #080; }
+.number, .mi { color: #066; }
+.boolean, .cp, .kc { color: #800; }
+.null, .na { color: #606; }
+.key, .nt, .kd, .k { color: #008; }
+.c1 { color: #788; }

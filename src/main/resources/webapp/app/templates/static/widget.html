@@ -1,0 +1,614 @@
+<div class="span3 docs-sidebar">
+    <ul class="nav nav-list docs-sidenav affix">
+        <li class="active"><a href="#widget__intro"><i class="icon-chevron-right"></i> Overview</a></li>
+        <li><a href="#widget__features"><i class="icon-chevron-right"></i> Features</a></li>
+        <li><a href="#widget__usage"><i class="icon-chevron-right"></i> Usage</a></li>
+        <li><a href="#widget__usage_embed"><i class="icon-chevron-right"></i> &nbsp;&nbsp; Embedding</a></li>
+        <li><a href="#widget__usage_annotate_text"><i class="icon-chevron-right"></i> &nbsp;&nbsp; Annotating Text</a></li>
+        <li><a href="#widget__usage_annotate_publication"><i class="icon-chevron-right"></i> &nbsp;&nbsp; Annotating Abstracts</a></li>
+        <li><a href="#widget__usage_tips"><i class="icon-chevron-right"></i> &nbsp;&nbsp; Tips</a></li>
+        <li><a href="#widget__further_help"><i class="icon-chevron-right"></i> Further assistance</a></li>
+    </ul>
+</div>
+
+<div class="span9 docs">
+	<section id="widget__intro">
+		<div class="page-header">
+			<h1><span class="becas">becas</span> widget</h1>
+		</div>
+		<p>
+			As a webmaster or web developer, you can easily add text and PubMed abstracts annotation, highlighting and export features to your webpages using the <span class="becas">becas</span> embeddable widget.
+		</p>
+		<p>
+			It is a lightweight HTML/Javascript widget (~100kB minified and gzipped) that you can use to programmatically annotate your biomedical texts and abstracts on your own pages.
+		</p>
+	</section>
+
+	<section id="widget__features">
+		<div class="page-header">
+			<h2>Features</h2>
+		</div>
+		<p>
+			The <span class="becas">becas</span> widget enhances webpages with biomedical text and abstracts <strong>concept identification</strong>, <strong>highlighting</strong>, <strong>external references</strong> to knowledge resources and multiple format <strong>annotation export</strong> capabilities.
+		</p>
+
+		<p>
+			A small text sample annotated using the widget is illustrated in the image bellow. You can view <a href="http://tnunes.github.com/becas-widget/" target="_blank" data-bypass>live samples</a> of the widget working on this <a href="http://tnunes.github.com/becas-widget/" target="_blank" data-bypass>host page</a>.
+		</p>
+
+		<img src="assets/img/docs/becas_widget_sample.png"
+			 alt="becas widget annotated text sample"
+			 style="width: 717px; height: 449px"
+			 class="figure" />
+
+		<p>
+			In addition to the visual widget your users can see on your page, you can also programmatically access annotation results via the widget API.
+		</p>
+
+	</section>
+
+	<section id="widget__usage">
+		<div class="page-header">
+			<h2>Usage</h2>
+		</div>
+		<p>
+			To embed the widget in your pages you simply include a <code>&lt;script&gt;</code> element that exposes <span class="becas">becas</span> functionality through a Javascript API. After including the embedding script and initializing the widget, it is loaded inside an <code>&lt;iframe&gt;</code>. Cross-domain communication between the host page and the widget is done through a RPC interface implemented on top of the <a href="http://github.com/oyvindkinsey/easyXDM" target="_blank">easyXDM</a> library.
+		</p>
+
+		<section id="widget__usage_embed">
+		<h3>Embedding the widget</h3>
+		<p>
+			Start by adding the following line to the <em>head</em> or <em>body</em> of the page where you want to embed the <span class="becas">becas</span> widget.
+		</p>
+
+		<code class="addr" style="margin-bottom:10px">&lt;script src="{{protocolRelativebaseUrl}}/embed-widget.js"&gt;&lt;/script&gt;</code>
+
+		<p>
+			<span class="label label-info">Note</span> The embed script is referenced using a <a href="http://tools.ietf.org/html/rfc3986#section-4.2" target="_blank">protocol relative URL</a> (without scheme) to facilitate embedding in both secure (https:) and insecure (http:) pages.
+		</p>
+		<p>
+			The widget constructor is now available in your page under the name <code>becas.Widget</code> and you can initialize a widget instance using some configuration parameters.
+		</p>
+
+		<h4>Parameters</h4>
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Name</th>
+	        		<th>Type</th>
+	        		<th>Default</th>
+	        		<th>Description</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="key">
+	         			container
+	            	</td>
+	            	<td>
+	              		string || DOMElement
+	            	</td>
+	            	<td>
+	              		none (required)
+	            	</td>
+	            	<td>
+	            		The ID of the DOM element where you want to insert the widget or the DOM element itself.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			width
+	            	</td>
+	            	<td>
+	              		string
+	            	</td>
+	            	<td>
+	              		<span class="string">"100%"</span>
+	            	</td>
+	            	<td>
+	            		The width of the widget frame.<br />
+	            		You can provide your own width (e.g. <span class="string">"700px"</span>),
+	            		but it is better to set the width of the widget <span class="key">container</span>
+	            		in your page using CSS and let the widget use all available space.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+
+		<h4>Initialization</h4>
+		<p>
+			To place the widget in a DOM element with ID equal to <code>becas-container</code> (e.g. <code>&lt;div id="becas-container"&gt;&lt;/div&gt;</code>), use the following initialization code.
+		</p>
+		<pre class="prettify">
+<span class="kd">var</span> <span class="nx">becasWidget</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">becas</span><span class="p">.</span><span class="nx">Widget</span><span class="p">({</span>
+    <span class="nx">container</span><span class="o">:</span> <span class="s2">&quot;becas-container&quot;</span>
+<span class="p">});</span></pre>
+		
+		<p>
+			You can now use the widget methods to annotate text and PubMed abstracts.
+		</p>
+
+		<h4>Common Parameters</h4>
+		<p>
+			Both widget annotation methods accept three <strong>optional</strong> parameters - <code>groups</code>, <code>success</code> and <code>error</code>.
+		</p>
+		<p>The <code>groups</code> parameter specifies the <strong>types of entities you want to annotate</strong>. It is an object where keys are case-sensitive semantic group identifiers and values are boolean. By default and if ommited, entities from all groups are annotated, which is equivalent to passing the following groups object:</p>
+		<pre class="prettyprint">
+{
+	groups: {
+		"SPEC": true,
+		"ANAT": true,
+		"DISO": true,
+		"PATH": true,
+		"CHED": true,
+		"ENZY": true,
+		"MRNA": true,
+		"PRGE": true,
+		"COMP": true,
+		"FUNC": true,
+		"PROC": true
+	}
+}</pre>
+		<p>
+			<span class="label label-info">Note</span> If you specify a groups object, <strong>any group ommited will be assumed to be false</strong>. If, for example, you were only interested in tagging disorders and genes/proteins, you could pass the following groups object:
+		</p>
+		<pre class="prettyprint">
+{
+	groups: {
+		"DISO": true,
+		"PRGE": true
+	}
+}</pre>
+		<p>
+			You can learn more about the supported semantic groups, their corresponding identifiers and the types of identified entities in this about page <a href="#about__features_recognized_concepts">section</a>.
+		</p>
+
+		<p>
+			The <code>success</code> and <code>error</code> parameters are callback functions that, if defined, will be invoked asynchronously when annotation finishes. The <code>success</code> function receives an object with annotation results. The <code>error</code> function receives one argument object specifying the cause of the error.
+		</p>
+		</section>
+
+		<section id="widget__usage_annotate_text">
+		<h3>Annotating Text</h3>
+		<p>
+			Widget instances expose text annotation features through the <code>annotateText</code> method, that accepts the following parameters.
+		</p>
+
+		<h4>Parameters</h4>
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Name</th>
+	        		<th>Type</th>
+	        		<th>Default</th>
+	        		<th>Description</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="key">
+	         			text
+	            	</td>
+	            	<td>
+	              		string
+	            	</td>
+	            	<td>
+	              		none (required)
+	            	</td>
+	            	<td>
+	            		The text to annotate.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			groups
+	            	</td>
+	            	<td>
+	              		object: {<span class="key">"GROUP"</span>: <span class="boolean">true</span>|<span class="boolean">false</span>, ...}
+	            	</td>
+	            	<td>
+	            		If ommited: all groups <span class="boolean">true</span><br />
+	            		If some groups present: all others <span class="boolean">false</span>
+	            	</td>
+	            	<td>
+	            		Types of concepts to annotate.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			success
+	            	</td>
+	            	<td>
+	              		function
+	            	</td>
+	            	<td>
+	              		none
+	            	</td>
+	            	<td>
+	            		Callback function that will be invoked when annotation finishes successfully.<br />
+	            		The function receives a <code>results</code> argument with annotation results.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			error
+	            	</td>
+	            	<td>
+	              		function
+	            	</td>
+	            	<td>
+	              		none
+	            	</td>
+	            	<td>
+	            		Callback function that will be invoked if an error prevents annotation.<br />
+	            		The function receives an <code>err</code> argument specifying the error.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+
+		<h4>Usage</h4>
+		<p>
+			To annotate a piece of text with disorders and genes/proteins use the following code.
+		</p>
+		<pre class="prettify">
+<span class="nx">becasWidget</span><span class="p">.</span><span class="nx">annotateText</span><span class="p">({</span>
+    <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;p53 biosignatures contain useful information for cancer evaluation.&quot;</span><span class="p">,</span> 
+    <span class="nx">groups</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;DISO&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="s2">&quot;PRGE&quot;</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="p">},</span>
+    <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// console.log(&quot;Annotation was successful and widget has rendered in the page.&quot;, results);</span>
+    <span class="p">},</span>
+    <span class="nx">error</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    	<span class="c1">// console.error(&quot;An error prevented successful annotation, an error message has rendered.&quot;, err);</span>
+    <span class="p">}</span>
+<span class="p">});</span></pre>
+
+		<h4>Results</h4>
+		<p>
+			The <code>success</code> function receives a <code>results</code> object with the following keys:
+		</p>
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Name</th>
+	        		<th>Type</th>
+	        		<th>Description</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="key">
+	         			text
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Text submitted (clean, without annotations), if <span class="key">echo</span> was true.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			entities
+	            	</td>
+	            	<td>
+	              		array of strings: [<span class="string">"..."</span>, ...]
+	            	</td>
+	            	<td>
+	            		Entities recognized in text, encoded as |-separated, 3-element tuples of<br/>
+	            		<pre style="margin-bottom:0px"><code><span class="string">entity</span>|<span class="key">CID1</span>;<span class="key">CID2</span>;...|<span class="number">pos</span>.</code></pre>
+	            		where <span class="number">pos</span> is the 0-based position of the first character of <span class="string">entity</span> in <span class="key">text</span>.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			ids
+	            	</td>
+	            	<td>
+	              		object of objects: {<span class="key">"CID"</span>: {<span class="key">"name"</span>: <span class="string">"..."</span>, <span class="key">"refs"</span>: [<span class="string">"..."</span>, ...], ...}
+	            	</td>
+	            	<td>
+	            		Concept metadata, with concept IDs, preferred names and external references.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			duration
+	            	</td>
+	            	<td>
+	              		integer: <span class="number">X</span>
+	            	</td>
+	            	<td>
+	            		Number of milliseconds it took to annotate the text.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+		</section>
+
+		<section id="widget__usage_annotate_publication">
+		<h3>Annotating Abstracts</h3>
+		<p>
+			To annotate PubMed abstracts the <span class="becas">becas</span> widget exposes the <code>annotatePublication</code> method, that accepts the following parameters.
+		</p>
+
+		<h4>Parameters</h4>
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Name</th>
+	        		<th>Type</th>
+	        		<th>Default</th>
+	        		<th>Description</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="key">
+	         			pmid
+	            	</td>
+	            	<td>
+	              		integer
+	            	</td>
+	            	<td>
+	              		none (required)
+	            	</td>
+	            	<td>
+	            		The <a href="http://en.wikipedia.org/wiki/PubMed#PubMed_identifier" target="_blank">PMID</a> of a MEDLINE publication.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			groups
+	            	</td>
+	            	<td>
+	              		object: {<span class="key">"GROUP"</span>: <span class="boolean">true</span>|<span class="boolean">false</span>, ...}
+	            	</td>
+	            	<td>
+	            		If ommited: all groups <span class="boolean">true</span><br />
+	            		If some groups present: all others <span class="boolean">false</span>
+	            	</td>
+	            	<td>
+	            		Types of concepts to annotate.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			success
+	            	</td>
+	            	<td>
+	              		function
+	            	</td>
+	            	<td>
+	              		none
+	            	</td>
+	            	<td>
+	            		Callback function that will be invoked when annotation finishes successfully.<br />
+	            		The function receives a <code>results</code> argument with annotation results.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			error
+	            	</td>
+	            	<td>
+	              		function
+	            	</td>
+	            	<td>
+	              		none
+	            	</td>
+	            	<td>
+	            		Callback function that will be invoked if an error prevents annotation.<br />
+	            		The function receives an <code>err</code> argument specifying the error.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+
+		<h4>Usage</h4>
+		<p>
+			You can annotate an abstract with concepts from all semantic groups using the following code.
+		</p>
+		<pre class="prettify">
+<span class="nx">becasWidget</span><span class="p">.</span><span class="nx">annotatePublication</span><span class="p">({</span>
+    <span class="nx">pmid</span><span class="o">:</span> <span class="mi">23225384</span><span class="p">,</span>
+    <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    	<span class="c1">// console.log(&quot;Annotation was successful and widget has rendered in the page.&quot;, results);</span>
+    <span class="p">},</span>
+    <span class="nx">error</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    	<span class="c1">// console.error(&quot;An error prevented successful annotation, an error message has rendered.&quot;, err);</span>
+    <span class="p">}</span>
+<span class="p">});</span></pre>
+
+		<h4>Results</h4>
+		<p>
+			The <code>success</code> function receives a <code>results</code> object with the following keys:
+		</p>
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Name</th>
+	        		<th>Type</th>
+	        		<th>Description</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="key">
+	         			pmid
+	            	</td>
+	            	<td>
+	              		integer: <span class="number">X</span>
+	            	</td>
+	            	<td>
+	            		PubMed publication identifier.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			doi
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Digital object identifier of the publication, if available.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			title
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Publication title (clean, without annotations).
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			abstract
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Publication abstract, if available (clean, without annotations).
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			authors
+	            	</td>
+	            	<td>
+	              		array of strings: [<span class="string">"..."</span>, ...]
+	            	</td>
+	            	<td>
+	            		List of publication authors, if available.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			publ_date
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Publication date, if available.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			publ_type
+	            	</td>
+	            	<td>
+	              		array of strings: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		List of publication types, if available.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			jrn_title
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Title of the journal where the publication was published, if available.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			country
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		2 letter ISO code of the affiliation country, if available.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			entities_title
+	            	</td>
+	            	<td>
+	              		array of strings: [<span class="string">"..."</span>, ...]
+	            	</td>
+	            	<td>
+	            		Entities recognized in the title, encoded as |-separated, 3-element tuples of<br/>
+	            		<pre style="margin-bottom:0px"><code><span class="string">entity</span>|<span class="key">CID1</span>;<span class="key">CID2</span>;...|<span class="number">pos</span>.</code></pre>
+	            		where <span class="number">pos</span> is the 0-based position of the first character of <span class="string">entity</span> in the title.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			entities_abstract
+	            	</td>
+	            	<td>
+	              		array of strings: [<span class="string">"..."</span>, ...]
+	            	</td>
+	            	<td>
+	            		Same as <span class="key">entities_title</span> for the entities found in the abstract.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			ids
+	            	</td>
+	            	<td>
+	              		object of objects: {<span class="key">"CID"</span>: {<span class="key">"name"</span>: <span class="string">"..."</span>, <span class="key">"refs"</span>: [<span class="string">"..."</span>, ...], ...}
+	            	</td>
+	            	<td>
+	            		Concept metadata, with concept IDs, preferred names and external references.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			duration
+	            	</td>
+	            	<td>
+	              		integer: <span class="number">X</span>
+	            	</td>
+	            	<td>
+	            		Number of milliseconds it took to annotate the text.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+		</section>
+
+		<section id="widget__usage_tips">
+		<h3>Tips</h3>
+		<p>
+			You can include <strong>multiple widgets</strong> in the same page by creating various instances of the <code>becas.Widget</code> class.
+		</p>
+		<p>
+			Use the <code>destroy</code> method if you need to programatically remove a widget from the page and cleanup resources.
+		</p>
+		<pre class="prettify">
+<span class="nx">becasWidget</span><span class="p">.</span><span class="nx">destroy</span><span class="p">();</span>  <span class="c1">// Remove the iframe and tear down the communication channel</span>
+<span class="nx">becasWidget</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>     <span class="c1">// Let the widget reference be garbage collected</span></pre>
+
+		<p>
+			To better grasp the widget API, take a look at the code of a fully working <a href="http://github.com/tnunes/becas-widget/blob/master/examples.html" target="_blank">sample host page</a>, deployed <a href="http://tnunes.github.com/becas-widget/" target="_blank">here</a>.
+		</p>
+		</section>
+	</section>
+
+	<section id="widget__further_help">
+		<div class="page-header">
+			<h2>Further assistance</h2>
+		</div>
+		<p>
+			If you need help using the widget or are having issues with a topic not covered here, please <a href="#!/contact">contact us</a> and we'll gladly assist you.
+		</p>
+	</section>
+</div>

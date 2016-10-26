@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Neji</title>
+        
+        <!-- Bootstrap core CSS -->
+        <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+        
+        <!-- PNotify CSS -->
+        <link href="../assets/css/pnotify.custom.min.css" rel="stylesheet">
+        
+        <!-- FormValidation Plugin CSS -->
+        <link rel="stylesheet" href="../formvalidation/css/formValidation.min.css">
+        
+        <!-- Custom styles for this template -->
+        <link href="../assets/css/starter-template.css" rel="stylesheet">
+        
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand brand-neji">
+                        <a href="../index.html">
+                            <div class="lettering-small pull-left">neji</div>
+                            <i class="fa fa-pencil pencil-small pull-left"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-container">
+                    <!-- Here goes navbar buttons -->
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li class="active">Services</li>
+                </ol>
+            </div>
+            <div class="row text-center">
+                <h2 class="title"><i class="fa fa-server"></i> Services</h2>
+            </div>
+            <hr />
+            <div class="row row-buttons">
+                <button type="button" class="btn btn-default btn-success" data-toggle="modal" id="add-service-button">
+                    <i class="fa fa-plus-circle"></i> Add Service
+                </button>
+            </div>
+            <div class="row">
+                
+                <!-- Services table -->
+                <div class="table-responsive">
+                    <table id="services-table" class="table table-striped">
+                        <tbody id="services-table-body"> 
+                            <!-- Here goes services rows -->                             
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.Services table -->
+                
+            </div>
+        </div>
+        <footer class="navbar-fixed-bottom">
+            <div class="row text-center">
+                Copyright © 2015 
+                <a href="http://www.bmd-software.com">BMD Software</a>. All rights reserved.
+            </div>
+        </footer>
+        
+        <!-- Add/Edit service modal -->
+        <div class="modal fade pg-show-modal" id="add-edit-service-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="modal-title">Add/Edit Service</h4>
+                    </div>
+                    <form role="form" id="add-edit-service-form">
+                        <div class="modal-body">                        
+                            <div class="form-group">
+                                <label class="control-label" for="service-name">Name</label>
+                                <input type="text" class="form-control" id="service-name" name="service-name" placeholder="Enter name">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="service-logo">Logo</label>
+                                <input type="file" class="" id="service-logo">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Dictionaries</label>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <span class="help-block">Available</span>
+                                        <div style="max-height: 20em; overflow-y: scroll;" id="available-dictionaries">
+                                            <!-- Here goes available dictionaries --> 
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span class="help-block">Selected</span>
+                                        <div style="max-height: 20em; overflow-y: scroll;" id="selected-dictionaries">
+                                            <!-- Here goes available dictionaries --> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <input name="selected-dictionaries" style="display:none;">
+                                <div class="row"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Machine-learning models</label>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <span class="help-block">Available</span>
+                                        <div style="max-height: 15em; overflow-y: scroll;" id="available-models">
+                                            <!-- Here goes available models --> 
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span class="help-block">Selected</span>
+                                        <div style="max-height: 15em; overflow-y: scroll;" id="selected-models">
+                                            <!-- Here goes selected models --> 
+                                        </div>                                        
+                                    </div>                                    
+                                </div>
+                                <input name="selected-models" style="display:none;">
+                                <div class="row"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Semantic groups mapping</label>
+                                <div class="row" style="max-height: 15em; overflow-y: scroll;" id="semantic-groups">
+                                    <!-- Here goes semantic groups entries --> 
+                                </div>
+                                <div class="row"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="service-parsing">Parsing level</label>
+                                <select class="form-control" id="service-parsing"> 
+                                    <option>Tokenization</option>                                     
+                                    <option>Lemmatization</option>                                     
+                                    <option>Part-of-speech tagging</option>
+                                    <option>Chunking</option>
+                                    <option>Dependency</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label> 
+                                    <input class="control-label" type="checkbox" value="" id="service-no-ids">                                                                                                                                                                                                                                                                                                                                                                                                                                        Include annotations without identifiers        
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="service-fp-file">False positives</label>
+                                <input type="file" class="" id="service-fp-file">
+                                <p class="help-block">  
+                                Input file must contain one false positive term per line.</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                <i class="fa fa-times-circle"></i> Close
+                            </button>
+                            <button type="submit" class="btn btn-success" id="service-save-button">
+                                <i class="fa fa-check-circle"></i> Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /.Add/Edit service modal -->
+        
+        <!-- About modal -->
+        <div class="modal fade pg-show-modal" id="about-modal" tabindex="-1" role="dialog" aria-hidden="true"> 
+            <div class="modal-dialog"> 
+                <div class="modal-content"> 
+                    <div class="modal-header"> 
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>                         
+                        <h4 class="modal-title">About</h4> 
+                    </div>                     
+                    <div class="modal-body">
+                        <div class="clearfix">
+                            <p> 
+                                <span style="font-family:'lobster'; font-size:200%">neji</span> is developed by <a href="http://www.bmd-software.com/">BMD Software</a>.<br>
+                                We highly appreciate all feedback and want to know your thoughts and experience using the tool.<br>
+                                Please drop us a line if you need assistance with any feature or have suggestions on ways to improve neji.
+                            </p>
+                        </div>
+
+                        <hr>
+
+                        <h3><b>Contacts</b></h3>
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Phone:</td>
+                                <td><i class="fa fa-phone"></i> +351 234247289 / +351 308804004</td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td><i class="fa fa-envelope"></i> <a href="mailto:info@bmd-software.com">info@bmd-software.com</a></td>
+                            </tr>
+                            <tr>
+                                <td>Fax:</td>
+                                <td><i class="fa fa-fax"></i>  +351 234401529</td>
+                            </tr>
+                        </table>
+
+                        <hr>
+
+                        <a href="http://www.bmd-software.com/">
+                            <img src='../assets/img/bmd.png' alt='' style='height:40px;'>
+                        </a>
+                    </div>
+                </div>                 
+            </div>
+        </div>
+        <!-- /About modal -->
+        <!-- /.container -->
+        
+         <!-- HandleBars templates
+    ================================================== -->
+        <!-- Services table template -->
+        <script id="services-table-template" type="text/x-handlebars-template">
+            {{#each services}}
+                <tr> 
+                    <td>{{{getIndex}}}</td>
+                    <td>
+                        <div class="thumbnail" style="width:10em; display:inline-block; text-align:center; vertical-align: baseline;">
+                            {{#if logo}}
+                                <img src="data:image/jpg;base64,{{logo}}" alt="">
+                            {{else}}
+                                <i class="fa fa-server fa-5x" style="color:#CCC"></i>
+                            {{/if}}
+                        </div>
+                    </td>
+                    <td>
+                        <b>{{name}}</b>
+                    </td>
+                    <td>
+                        <i class="fa fa-file-text-o"></i> {{{getDictionaries dictionaries}}}
+                    </td>
+                    <td>
+                        <i class="fa fa-sitemap"></i> {{{getModels models}}}
+                    </td>                    
+                    <td class="text-right">                        
+                        <a type="button" class="btn btn-default btn-sm btn-primary" target="_blank" id="view-{{id}}">
+                            <i class="fa fa-eye"></i> View
+                        </a>
+                        &nbsp;
+                        <button type="button" class="btn btn-default btn-sm btn-warning" id="edit-{{id}}">
+                            <i class="fa fa-pencil"></i> Edit
+                        </button>
+                        &nbsp;
+                        <button type="button" class="btn btn-default btn-sm btn-danger" id="delete-{{id}}">
+                            <i class="fa fa-minus-circle"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            {{/each}}            
+        </script>
+        <!-- /.Services table template -->
+        
+        <!-- Available dictionaries template -->
+        <script id="available-dictionaries-template" type="text/x-handlebars-template">
+            {{#each dictionaries}}
+                <button type="button" class="btn btn-default btn-block btn-xs" style="text-align:left" id="available-dictionary-{{{removeStringWhiteSpaces name}}}">
+                    <i class="fa fa-plus-circle"></i> {{name}}
+                </button>
+            {{/each}}
+        </script>
+        <!-- /.Available dictionaries template -->
+        
+        <!-- /. Selected dictionaries template -->
+        <script id="selected-dictionaries-template" type="text/x-handlebars-template">
+            {{#each dictionaries}}
+                <button type="button" class="btn btn-default btn-block btn-sm btn-success" style="display:none; text-align:left" id="selected-dictionary-{{{removeStringWhiteSpaces name}}}">
+                    <i class="fa fa-minus-circle"></i> {{name}}
+                </button>
+            {{/each}}
+        </script>
+        <!-- /.Selected dictionaries template -->
+        
+        <!-- Available models template -->
+        <script id="available-models-template" type="text/x-handlebars-template">
+            {{#each models}}
+                <button type="button" class="btn btn-default btn-block btn-xs" style="text-align:left" id="available-model-{{{removeStringWhiteSpaces name}}}">
+                    <i class="fa fa-plus-circle"></i> {{name}}
+                </button>
+            {{/each}}
+        </script>
+        <!-- /.Available models template -->
+        
+        <!-- Selected models template -->
+        <script id="selected-models-template" type="text/x-handlebars-template">
+            {{#each models}}
+                <button type="button" class="btn btn-default btn-block btn-sm btn-success text-left" sstyle="display:none; text-align:left" id="selected-model-{{{removeStringWhiteSpaces name}}}">
+                    <i class="fa fa-minus-circle"></i> {{name}}
+                </button>
+            {{/each}}
+        </script>
+        <!-- /.Selected models template -->
+        
+        <!-- Semantic group entry template -->
+        <script id="semantic-group-entry-template" type="text/x-handlebars-template">
+            {{#each groups}}
+                <div id="group-{{name}}">
+                    <span class="control-label col-sm-2">{{name}}</span>
+                    <div class="col-sm-10" style="margin-bottom:5px">
+                        <input type="text" class="form-control" placeholder="{{name}}" value="{{norm}}" name="group-entry-{{name}}">
+                    </div>
+                </div>
+            {{/each}}
+        </script>
+        <!-- /.Semantic group entry template -->
+        
+        <!-- Navbar container template -->
+        <script id="navbar-container-template" type="text/x-handlebars-template">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="../index.html" target="_self"><i class="fa fa-home"></i> Home</a>
+                </li>
+                {{#if username}}
+                    <li>
+                        <a href="services.html"><i class="fa fa-server"></i> Services</a>
+                    </li>
+                    <li class="dropdown"> 
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-database"></i> Resources <b class="caret"></b></a> 
+                        <ul class="dropdown-menu"> 
+                            <li>
+                                <a href="resources-dictionaries.html" target="_self"><i class="fa fa-file-text-o"></i> Dictionaries</a>
+                            </li>                                 
+                            <li>
+                                <a href="resources-models.html" target="_self"><i class="fa fa-sitemap"></i>  Machine-learning models</a>
+                            </li>                                
+                        </ul>
+                    </li>
+                {{/if}}                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="help-manage.html"><i class="fa fa-question-circle"></i> Help</a>
+                </li>
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#about-modal"><i class="fa fa-info-circle"></i> About</a>
+                </li>
+                {{#if username}}
+                    <li class="dropdown"> 
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{username}} <b class="caret"></b></a> 
+                        <ul class="dropdown-menu"> 
+                            <li>
+                                <a href="#" id="logout-button"><i class="fa fa-sign-out"></i> Logout</a>
+                            </li>                              
+                        </ul>
+                    </li>
+                {{else}}
+                    <li>
+                        <a href="../logon.html"><i class="fa fa-sign-in"></i> Login</a>
+                    </li>
+                {{/if}}
+            </ul>
+        </script>
+        <!-- /.Navbar container template -->
+        
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="../assets/js/jquery.min.js"></script>
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+        
+        <!-- HandleBars Javascript -->
+        <script src="../assets/js/handlebars-v3.0.3.js"></script>
+        
+        <!-- PNotify Javascript -->
+        <script src="../assets/js/pnotify.custom.min.js"></script>
+        
+        <!-- Bootstrap Confirmation -->
+        <script src="../assets/js/bootstrap-confirmation.min.js"></script>
+        
+        <!-- FormValidation plugin and the class supports validating Bootstrap form -->
+        <script src="../formvalidation/js/formValidation.min.js"></script>
+        <script src="../formvalidation/js/framework/bootstrap.min.js"></script>
+        
+        <!-- Custom JavaScript -->
+        <script src="../assets/js/services.js"></script>
+        <script src="../assets/js/common.js"></script>
+    </body>
+</html>
