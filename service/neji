@@ -1,0 +1,53 @@
+#!/bin/bash
+# USAGE: start|stop|status|logs
+#
+export JAVA_HOME=/usr/lib/jvm/java-7-oracle
+TOOL='Neji Web Server'
+DIR=/opt/neji
+PIDFILE=$DIR/RUNNING_PID
+
+PORT=8010
+THREADS=1
+
+USER=root
+GROUP=root
+
+case "$1" in
+start)
+if [ -f "${PIDFILE}" ]; then
+  echo "$TOOL is already running."
+else
+  START_CMD="./nejiWeb.sh -port $PORT -t $THREADS"
+  sudo start-stop-daemon --start -p "${PIDFILE}" -d "${DIR}"  --quiet --background --chuid ${USER}:${GROUP} --exec /bin/bash -- ${START_CMD}
+
+  echo "$TOOL is running."
+fi
+;;
+stop)
+if [ -f "${PIDFILE}" ]; then
+  sudo start-stop-daemon -K -p "${PIDFILE}" -u "${USER}" -R 30
+  sudo rm $PIDFILE
+  echo "$TOOL is stopped."
+else
+  echo "$TOOL is not running."
+fi
+;;
+logs)
+echo "See the logs of the $TOOL."
+tail -f $DIR/logs/gimli.log &
+;;
+status)
+# Check to see if the process is running
+if [ -f "${PIDFILE}" ]; then
+    echo "$TOOL is running."
+else
+  echo "$TOOL is stopped."
+fi
+;;
+
+*)
+echo “$TOOL Service”
+echo $”Usage: $0 {start|stop|status|logs}”
+exit 1
+esac
+exit 0
