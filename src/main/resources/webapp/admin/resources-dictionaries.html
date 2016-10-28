@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Neji</title>
+        
+        <!-- Bootstrap core CSS -->
+        <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+        
+        <!-- PNotify CSS -->
+        <link href="../assets/css/pnotify.custom.min.css" rel="stylesheet">
+        
+        <!-- FormValidation Plugin CSS -->
+        <link rel="stylesheet" href="../formvalidation/css/formValidation.min.css">
+        
+        <!-- Custom styles for this template -->
+        <link href="../assets/css/starter-template.css" rel="stylesheet">
+        
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand brand-neji">
+                        <a href="../index.html">
+                            <div class="lettering-small pull-left">neji</div>
+                            <i class="fa fa-pencil pencil-small pull-left"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-container">
+                    <!-- Here goes navbar buttons -->
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li class="active">Resources</li>
+                    <li class="active">Dictionaries</li>
+                </ol>
+            </div>
+            <div class="row text-center">
+                <h2 class="title"><i class="fa fa-file-text-o"></i> Dictionaries</h2>
+            </div>
+            <hr />
+            <div class="row row-buttons">
+                <button type="button" class="btn btn-default btn-success" data-toggle="modal" id="add-dictionary-button">
+                    <i class="fa fa-plus-circle"></i> Add Dictionary
+                </button>
+            </div>
+            
+            <div class="row">
+                
+                <!-- Dictionaries table -->
+                <div class="table-responsive">
+                    <table class="table table-striped" id="dictionaries_table">
+                        <thead> 
+                            <tr> 
+                                <th>#</th>                                 
+                                <th>
+                                    <i class="fa fa-tag"></i> Name
+                                </th>                                 
+                                <th>
+                                    <i class="fa fa-file-o"></i> File
+                                </th>                                 
+                                <th>
+                                    <i class="fa fa-server"></i>
+                                    Services
+                                </th>                                 
+                                <th>
+                                    <i class="fa fa-sitemap"></i>&nbsp;Models
+                                </th>
+                                <th></th>
+                            </tr>                             
+                        </thead>                         
+                        <tbody id="dictionaries-table-body">
+                            <!-- Here goes dictionaries rows -->                            
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.Dictionaries table -->
+                
+            </div>
+        </div>
+        <footer class="navbar-fixed-bottom">
+            <div class="row text-center">
+                Copyright © 2015 
+                <a href="http://www.bmd-software.com">BMD Software</a>. All rights reserved.
+            </div>
+        </footer>
+        
+        <!-- Add dictionary modal -->
+        <div class="modal fade pg-show-modal" id="add-dictionary-modal" tabindex="-1" role="dialog" aria-hidden="true"> 
+            <div class="modal-dialog"> 
+                <div class="modal-content"> 
+                    <div class="modal-header"> 
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>                         
+                        <h4 class="modal-title">Add Dictionary</h4> 
+                    </div>
+                    <form role="form" id="add-dictionary-form">
+                        <div class="modal-body">                         
+                            <div class="form-group"> 
+                                <label class="control-label" for="dictionary-name">Name</label>                                 
+                                <input type="text" class="form-control" id="dictionary-name" name="dictionary-name" placeholder="Enter name">                                 
+                            </div>                             
+                            <div class="form-group"> 
+                                <label class="control-label" for="dictionary-file">File</label>                                 
+                                <input type="file" id="dictionary-file" name="dictionary-file">                                 
+                                <p class="help-block">  
+	Input file must be in TSV format, respecting the required structure.</p>
+                            </div>                                               
+                        </div>                     
+                        <div class="modal-footer"> 
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                <i class="fa fa-times-circle"></i> Close
+                            </button>                         
+                            <button type="submit" class="btn btn-success" id="dictionary-save-button">
+                                <i class="fa fa-check-circle"></i> Save
+                            </button>                         
+                        </div>
+                    </form> 
+                </div>                 
+            </div>             
+        </div>
+        <!-- /.Add dictionary modal -->     
+        
+        <!-- About modal -->
+        <div class="modal fade pg-show-modal" id="about-modal" tabindex="-1" role="dialog" aria-hidden="true"> 
+            <div class="modal-dialog"> 
+                <div class="modal-content"> 
+                    <div class="modal-header"> 
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>                         
+                        <h4 class="modal-title">About</h4> 
+                    </div>                     
+                    <div class="modal-body">
+                        <div class="clearfix">
+                            <p> 
+                                <span style="font-family:'lobster'; font-size:200%">neji</span> is developed by <a href="http://www.bmd-software.com/">BMD Software</a>.<br>
+                                We highly appreciate all feedback and want to know your thoughts and experience using the tool.<br>
+                                Please drop us a line if you need assistance with any feature or have suggestions on ways to improve neji.
+                            </p>
+                        </div>
+
+                        <hr>
+
+                        <h3><b>Contacts</b></h3>
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Phone:</td>
+                                <td><i class="fa fa-phone"></i> +351 234247289 / +351 308804004</td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td><i class="fa fa-envelope"></i> <a href="mailto:info@bmd-software.com">info@bmd-software.com</a></td>
+                            </tr>
+                            <tr>
+                                <td>Fax:</td>
+                                <td><i class="fa fa-fax"></i>  +351 234401529</td>
+                            </tr>
+                        </table>
+
+                        <hr>
+
+                        <a href="http://www.bmd-software.com/">
+                            <img src='../assets/img/bmd.png' alt='' style='height:40px;'>
+                        </a>
+                    </div>
+                </div>                 
+            </div>
+        </div>
+        <!-- /About modal -->
+        <!-- /.container -->
+        
+        <!-- HandleBars templates
+    ================================================== -->
+        <!-- Dictionaries table template -->
+        <script id="dictionaries-table-template" type="text/x-handlebars-template">
+            {{#each dictionaries}}
+                <tr> 
+                    <td>{{{getIndex}}}</td>                                 
+                    <td>{{name}}</td>                                 
+                    <td>{{file}}</td>                                    
+                    <td>
+                        {{#each services}}
+                            <span class="label label-primary">{{.}}</span>
+                            <br>
+                        {{else}}
+                            <span class="label label-danger">NONE</span>
+                        {{/each}}
+                    </td>                                    
+                    <td>
+                        {{#each models}}
+                            <span class="label label-info">{{.}}</span>
+                            <br>
+                        {{else}}
+                            <span class="label label-danger">NONE</span>
+                        {{/each}}
+                    </td>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-default btn-sm btn-danger" data-toggle="confirmation" id="delete-{{id}}">
+                            <i class="fa fa-minus-circle"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            {{/each}}
+        </script>
+        <!-- /.Dictionaries table template -->
+        
+        <!-- Navbar container template -->
+        <script id="navbar-container-template" type="text/x-handlebars-template">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="../index.html" target="_self"><i class="fa fa-home"></i> Home</a>
+                </li>
+                {{#if username}}
+                    <li>
+                        <a href="services.html"><i class="fa fa-server"></i> Services</a>
+                    </li>
+                    <li class="dropdown"> 
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-database"></i> Resources <b class="caret"></b></a> 
+                        <ul class="dropdown-menu"> 
+                            <li>
+                                <a href="resources-dictionaries.html" target="_self"><i class="fa fa-file-text-o"></i> Dictionaries</a>
+                            </li>                                 
+                            <li>
+                                <a href="resources-models.html" target="_self"><i class="fa fa-sitemap"></i>  Machine-learning models</a>
+                            </li>                                
+                        </ul>
+                    </li>
+                {{/if}}                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="help-manage.html"><i class="fa fa-question-circle"></i> Help</a>
+                </li>
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#about-modal"><i class="fa fa-info-circle"></i> About</a>
+                </li>
+                {{#if username}}
+                    <li class="dropdown"> 
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{username}} <b class="caret"></b></a> 
+                        <ul class="dropdown-menu"> 
+                            <li>
+                                <a href="#" id="logout-button"><i class="fa fa-sign-out"></i> Logout</a>
+                            </li>                              
+                        </ul>
+                    </li>
+                {{else}}
+                    <li>
+                        <a href="../logon.html"><i class="fa fa-sign-in"></i> Login</a>
+                    </li>
+                {{/if}}
+            </ul>
+        </script>
+        <!-- /.Navbar container template -->
+        
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="../assets/js/jquery.min.js"></script>
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+        
+        <!-- HandleBars Javascript -->
+        <script src="../assets/js/handlebars-v3.0.3.js"></script>
+        
+        <!-- PNotify Javascript -->
+        <script src="../assets/js/pnotify.custom.min.js"></script>
+        
+        <!-- Bootstrap Confirmation -->
+        <script src="../assets/js/bootstrap-confirmation.min.js"></script>
+        
+        <!-- FormValidation plugin and the class supports validating Bootstrap form -->
+        <script src="../formvalidation/js/formValidation.min.js"></script>
+        <script src="../formvalidation/js/framework/bootstrap.min.js"></script>
+        
+        <!-- Custom JavaScript -->
+        <script src="../assets/js/resources-dictionaries.js"></script>
+        <script src="../assets/js/common.js"></script>
+    </body>
+</html>

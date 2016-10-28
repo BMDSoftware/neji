@@ -1,0 +1,52 @@
+/* Annotation/Highlight controls
+-------------------------------------------------- */
+
+#sidebar .affix {
+  top: 60px;
+}
+
+@media (max-width: 767px) {
+  #sidebar .affix {
+    position: static;
+    width: auto;
+    top: 0;
+  }
+}
+
+.annotation-toggles-container {
+  padding: 10px 20px 0 20px;
+  background-color: #fff;
+  box-shadow: 1px 1px 1px #ccc;
+  border: 1px solid #DDD;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+#highlight-controls-title {
+  color: #999999;
+  text-transform: uppercase;
+}
+
+.annotation-toggles-container label,
+.annotation-toggles-container button {
+  font-size: 13px;
+}
+
+#annotation-toggles label {
+  display: inline;
+  cursor: pointer;
+  padding: 1px 4px;
+  border: 1px solid transparent;
+}
+
+#annotation-toggles label.disabled {
+  color: #666;
+}
+
+#annotation-toggles .btn {
+  width: 20px;
+  padding: 0 3px;
+  font-size: 90%;
+  margin-bottom: 2px;
+}

@@ -1,0 +1,31 @@
+/* Becas brand
+-------------------------------------------------- */
+
+@font-face {
+  font-family: 'Play';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./font/play/Play-Bold.eot#ie-fix');
+  src: local('Play'),
+    url('./font/play/Play-Bold.eot') format('embedded-opentype'),
+    url('./font/play/Play-Bold.woff') format('woff'),
+    url('./font/play/Play-Bold.ttf') format('truetype');
+}
+
+/*
+@font-face {
+  font-family: 'Play';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./font/play/Play-Regular.eot');
+  src: local('Play'),
+    url('./font/play/Play-Regular.eot') format('embedded-opentype'),
+    url('./font/play/Play-Regular.woff') format('woff'),
+    url('./font/play/Play-Regular.ttf') format('truetype');
+}*/
+
+.becas {
+  font-family: 'Play', sans-serif;
+  font-weight: 700;
+  color: #666;
+}

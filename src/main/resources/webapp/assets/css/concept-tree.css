@@ -1,0 +1,78 @@
+/* Concept tree
+-------------------------------------------------- */
+
+.concept-tree-container {
+  position: relative;
+  top: auto;
+  left: auto;
+  margin: 0 18px;
+  z-index: 1;
+  max-width: 100%;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  *border: 1px solid #999;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding-box;
+          background-clip: padding-box;
+}
+
+.concept-tree-container:after {
+  content: "Concept Tree";
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  padding: 3px 26px;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid #ddd;
+  color: #9da0a4;
+  -webkit-border-radius: 0 6px 0 6px;
+     -moz-border-radius: 0 6px 0 6px;
+          border-radius: 0 6px 0 6px;
+}
+
+.concept-tree {
+  max-height: none !important;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  *border: 1px solid #999;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding-box;
+          background-clip: padding-box;
+}
+
+.concept-tree > ul > li {
+  border: 1px solid transparent;
+}
+
+.concept-tree > ul > li:not(:last-child) {
+  margin-bottom: 4px;
+}
+
+.concept-tree .semantic-group-expander,
+.concept-tree .semantic-group-collapser {
+  float: right;
+  margin: 2px 10px 0 0;
+  opacity: .35;
+  filter: alpha(opacity=.35);
+  cursor: pointer;
+}
+
+.concept-tree .focus-annotated-term {
+  opacity: .70;
+  filter: alpha(opacity=.70);
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+.concept-tree .preferred-term {
+  font-weight: bold;
+}

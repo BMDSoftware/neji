@@ -1,0 +1,174 @@
+/* Annotated text widget
+-------------------------------------------------- */
+
+.annotated-text {
+  margin: 0 0 10px 0;
+  padding: 10px 10px 0 10px;
+  background: white;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  *border: 1px solid #999;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding-box;
+          background-clip: padding-box;
+}
+
+.annotated-text .pub-metadata {
+  margin: 3px 0 10px 0;
+}
+
+.annotated-text .pub-metadata li {
+  text-indent: 0.2em;
+}
+
+.annotated-text .pub-metadata .small-italic {
+  font-size: 90%;
+  font-style: italic;
+}
+
+.annotated-text .pub-metadata .small-gray {
+  font-size: 90%;
+  color: #666;
+}
+
+.annotated-text h4 {
+  line-height: 28px;
+  margin-bottom: 0;
+}
+
+.annotated-text p {
+  line-height: 24px;
+}
+
+.annotated-text .annotation {
+  border: solid 1px transparent;
+  border-bottom: dotted 1px #aaa;
+  cursor: pointer;
+  padding: 0 3px;
+  white-space: nowrap;
+}
+
+.annotated-text .annotation:hover {
+  background-color: #fffbf9;
+}
+
+
+/* Concept tooltip
+-------------------------------------------------- */
+
+.concept-tooltip {
+  padding: 10px;
+  background-color: #fdfdfd;
+  -webkit-box-shadow: 1px 1px 2px #aaa;
+     -moz-box-shadow: 1px 1px 2px #aaa;
+          box-shadow: 1px 1px 2px #aaa;
+  border: 1px solid #DDD;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  z-index: 1060;
+}
+
+.concept-tooltip .close {
+  margin-top: -3px;
+}
+
+.concept-tooltip .annotation {
+  padding: 0 3px;
+}
+
+.concept-tooltip .term {
+  padding-bottom: 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.concept-tooltip .term small {
+  font-size: 85%;
+  color: #999;
+  margin-left: 2px;
+}
+
+.concept-tooltip .mirrored .annotation,
+.concept-tooltip .mirrored small {
+  float: right;
+}
+
+.concept-tooltip .mirrored small {
+  margin-left: 0;
+  margin-right: 4px;
+  margin-top: 2px;
+}
+
+.concept-tooltip .mirrored .close {
+  float: left;
+}
+
+.concept-tooltip .concept-group,
+.concept-tooltip .concept-group ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.concept-tooltip .concept-group {
+  margin-top: 8px;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  *border: 1px solid #999;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
+.concept-tooltip .concept-group > li > ul {
+  border-top: 1px dotted #999;
+  border-top: 1px dotted rgba(0, 0, 0, 0.3);
+  *border-top: 1px dotted #999;
+}
+
+.concept-tooltip .concept-group > li {
+  padding: 4px;
+}
+
+.concept-tooltip .concept-group > li > ul > li {
+  padding: 2px 0 0 4px;
+}
+
+.concept-tooltip .concept-group > li:not(:last-child) {
+  margin-bottom: 4px;
+}
+
+.concept-tooltip .concept-group .linkout-node {
+  padding: 1px 0 1px 15px;
+}
+
+.concept-tooltip .preferred-term {
+  font-weight: bold;
+}
+
+/* Concept info */
+.concept-info {
+    padding: 5px;
+    border: 1px solid #DDD;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.concept-info hr {
+    margin-top: 0px;
+    margin-bottom: 2px;
+}
+
+.concept-info .group {
+    font-weight: bold;
+}
+
+.concept-info .cid {
+    font-size: 85%;
+    color: #000;
+}

@@ -1,0 +1,408 @@
+<div class="span3 docs-sidebar">
+    <ul class="nav nav-list docs-sidenav affix">
+        <li class="active"><a href="#about__intro"><i class="icon-chevron-right"></i> Overview</a></li>
+        <li><a href="#about__publications"><i class="icon-chevron-right"></i> How to Cite</a></li>
+        <li><a href="#about__features"><i class="icon-chevron-right"></i> Features</a></li>
+        <li><a href="#about__validation"><i class="icon-chevron-right"></i> Validation</a></li>
+        <li><a href="#about__acknowledgments"><i class="icon-chevron-right"></i> Acknowledgments</a></li>
+        <li><a href="#about__disclaimer"><i class="icon-chevron-right"></i> Disclaimer</a></li>
+    </ul>
+</div>
+
+<div class="span9 docs">
+	<section id="about__intro">
+		<div class="page-header">
+			<h1>About <span class="becas">becas</span></h1>
+		</div>
+		<p>
+			<span class="becas">becas</span> is a web application, API and widget for <strong>biomedical concept identification</strong>. It is an ongoing research project developed by the <a href="http://www.ua.pt" target="_blank">University of Aveiro</a> <a href="http://bioinformatics.ua.pt" target="_blank">Bioinformatics group</a>, with funding from several Portuguese and European projects.
+		</p>
+		<p>
+			It helps researchers, healthcare professionals and developers in the identification of over 1,200,000 biomedical concepts in text and <a href="http://www.ncbi.nlm.nih.gov/pubmed" target="_blank">PubMed</a> abstracts.
+		</p>
+		<p>
+			As a user, you can learn to use the webapp in the <a href="#!/help">help</a> section. If you want to integrate <span class="becas">becas</span> annotation services in your own text-processing pipeline, read more about our <a href="#!/api">API</a>. Web developers can augment websites with text annotation and highlighting capabilities using the <span class="becas">becas</span> <a href="#!/widget">widget</a>.
+		</p>
+	</section>
+
+	<section id="about__publications">
+		<div class="page-header">
+			<h2>How to Cite</h2>
+		</div>
+		<p>
+			If you publish scientific articles involving the use of <span class="becas">becas</span>, we kindly request you cite the following manuscript:
+		</p>
+		<blockquote>
+			<p>Tiago Nunes; David Campos; Sergio Matos; Jose Luis Oliveira.</p>
+			<p><em>BeCAS: biomedical concept recognition services and visualization.</em></p>
+			<p><strong>Bioinformatics</strong>, 2013; <a href="http://dx.doi.org/10.1093/bioinformatics/btt317" title="Go to becas manuscript" target="_blank">doi:10.1093/bioinformatics/btt317</a> {{![<a href="http://bioinformatics.oxfordjournals.org/content/early/2013/06/04/bioinformatics.btt317.abstract?keytype=ref&amp;ijkey=LmfxRZmyeb4aPWj" title="Go to becas manuscript abstract" target="_blank">Abstract</a> and <a href="http://bioinformatics.oxfordjournals.org/content/early/2013/06/04/bioinformatics.btt317.full.pdf?keytype=ref&amp;ijkey=LmfxRZmyeb4aPWj" title="Go to becas manuscript PDF" target="_blank">Full Text (PDF)</a>]}}</p>
+		</blockquote>
+		<p>
+			Additionally, if you use <span class="becas">becas</span> in your annotation projects, integrate its API or widget, we would appreciate a link to this webpage in materials included with your data or software.
+		</p>
+	</section>
+
+	<section id="about__features">
+		<div class="page-header">
+			<h2>Features</h2>
+		</div>
+		<p>
+			<span class="becas">becas</span> provides annotations for <strong>isolated</strong>, <strong>nested</strong> and <strong>intersected</strong> entities. It identifies concepts from <strong>multiple semantic groups</strong>, providing preferred names and enriching them with <strong>references to public knowledge resources</strong>. You can choose the types of entities you want to identify and highlight or mute specific entities in real-time.
+		</p>
+		<p>
+			To facilitate annotation of PubMed abstracts, <span class="becas">becas</span> automatically fetches publications from <a href="http://www.ncbi.nlm.nih.gov/pubmed/" target="_blank">NCBI</a> servers and renders them with identified concepts highlighted.
+		</p>
+
+		<h3 id="about__features_recognized_concepts">Recognized concepts</h3>
+
+		<p>
+			<span class="becas">becas</span> uses dictionary-matching techniques to recognize species, anatomical concepts, microRNAs, enzymes, chemicals, drugs, diseases, metabolic pathways, cellular components, biological processes and molecular functions. For this, we compiled a database of concepts from multiple meta-sources, including <a href="http://www.nlm.nih.gov/research/umls/" target="_blank">UMLS</a>, <a href="http://www.ncbi.nlm.nih.gov/biosystems/" target="_blank">NCBI BioSystems</a>, <a href="http://www.ebi.ac.uk/Rebholz-srv/LexEBI/" target="_blank">LexEBI</a>, <a href="http://www.ebi.ac.uk/chebi/" target="_blank">ChEBI</a>, <a href="http://www.mirbase.org/" target="_blank">miRBase</a> and the <a href="http://www.geneontology.org/" target="_blank">Gene Ontology</a>. Genes and proteins are identified using machine-learning techniques with normalization, built over <a href="http://bioinformatics.ua.pt/software/gimli/" target="_blank">Gimli</a>.
+		</p>
+		<p>
+			The table below shows the complete list of recognized entity types, data sources, semantic groups and sub-groups.
+		</p>
+		<table class="table table-bordered">
+	        <thead>
+	        	<tr>
+	        		<th>Semantic group</th>
+	        		<th>Identified entity types</th>
+	        		<th>Data source</th>
+	        		<th>Sub-group</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	            	<td class="annotation species">Species</td>
+	            	<td>
+	              		<ul>
+	              			<li>Species</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>UMLS</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>T001</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	            	<td class="annotation anatomy">Anatomy</td>
+	            	<td>
+	              		<ul>
+	              			<li>Anatomical Structure</li>
+	              			<li>Body Location or Region</li>
+	              			<li>Body Part Organ or Organ Component</li>
+	              			<li>Body Space or Junction</li>
+	              			<li>Body Substance</li>
+	              			<li>Body System</li>
+	              			<li>Cell</li>
+	              			<li>Cell Component</li>
+	              			<li>Embryonic Structure</li>
+	              			<li>Tissue</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>T017</li>
+	              			<li>T029</li>
+	              			<li>T023</li>
+	              			<li>T030</li>
+	              			<li>T031</li>
+	              			<li>T022</li>
+	              			<li>T025</li>
+	              			<li>T026</li>
+	              			<li>T018</li>
+	              			<li>T024</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	            	<td class="annotation disorder">Disorders</td>
+	            	<td>
+	              		<ul>
+	              			<li>Acquired Abnormality</li>
+	              			<li>Anatomical Abnormality</li>
+	              			<li>Cell or Molecular Dysfunction</li>
+	              			<li>Congenital Abnormality</li>
+	              			<li>Disease or Syndrome</li>
+	              			<li>Mental or Behavioral Dysfunction</li>
+	              			<li>Neoplastic Process</li>
+	              			<li>Pathologic Function</li>
+	              			<li>Sign or Symptom</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>T020</li>
+	              			<li>T190</li>
+	              			<li>T049</li>
+	              			<li>T019</li>
+	              			<li>T047</li>
+	              			<li>T048</li>
+	              			<li>T191</li>
+	              			<li>T046</li>
+	              			<li>T184</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	            	<td class="annotation pathway">Pathways</td>
+	            	<td>
+	              		<ul>
+	              			<li>Pathway</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>NCBI BioSystems</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			-
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	            	<td class="annotation chemical">Chemicals</td>
+	            	<td>
+	              		<ul>
+	              			<li>Chemical</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>ChEBI</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			-
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	            	<td class="annotation enzyme">Enzymes</td>
+	            	<td>
+	              		<ul>
+	              			<li>Enzyme</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>lexEBI</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			-
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	            	<td class="annotation mrna">miRNA</td>
+	            	<td>
+	              		<ul>
+	              			<li>microRNA</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>miRBase</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			-
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	            	<td class="annotation gene-protein">Genes and Proteins</td>
+	            	<td>
+	              		<ul>
+	              			<li>Gene</li>
+	              			<li>Protein</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>lexEBI</li>
+	              			<li>Biothesaurus</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>T116</li>
+	              			<li>T116</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	            	<td class="annotation component">Cellular Components</td>
+	            	<td>
+	              		<ul>
+	              			<li>Cellular Component</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>GO+UMLS</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			-
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	            	<td class="annotation function">Molecular Functions</td>
+	            	<td>
+	              		<ul>
+	              			<li>Molecular Function</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>GO</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			-
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	            	<td class="annotation process">Biological Processes</td>
+	            	<td>
+	              		<ul>
+	              			<li>Biological Process</li>
+	              			<li>Cell Function</li>
+	              			<li>Genetic Function</li>
+	              			<li>Molecular Function</li>
+	              			<li>Organ or Tissue Function</li>
+	              			<li>Organism Function</li>
+	              			<li>Physiologic Function</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			<li>GO</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              			<li>UMLS</li>
+	              		</ul>
+	            	</td>
+	            	<td>
+	              		<ul>
+	              			-
+	              			<li>T043</li>
+	              			<li>T045</li>
+	              			<li>T044</li>
+	              			<li>T042</li>
+	              			<li>T040</li>
+	              			<li>T039</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+	</section>
+
+	<section id="about__validation">
+		<div class="page-header">
+			<h2>Validation</h2>
+		</div>
+
+		<p>
+			<span class="becas">becas</span> was validated against <a href="http://bionlp-corpora.sourceforge.net/CRAFT/index.shtml" target="_blank">CRAFT</a>, <a href="http://www.nactem.ac.uk/anatomy/" target="_blank">AnEM</a> and the <a href="http://www.ncbi.nlm.nih.gov/CBBresearch/Fellows/Dogan/disease.html" target="_blank">NCBI Diseases</a> corpora, achieving f-measure results for overlap matching of 76% for genes and proteins, 95% for species, 65% for chemicals, 83% for cellular components, 92% for cells, 63% for molecular functions and biological processes, 83% for anatomical entities, and 85% for diseases. These results are on par with current state-of-the-art biomedical annotation systems.
+		</p>
+	</section>
+
+	<section id="about__acknowledgments">
+		<div class="page-header">
+			<h2>Acknowledgments</h2>
+		</div>
+
+		<p>
+			The development of <span class="becas">becas</span> is supported by the following institutions and projects.
+		</p>
+		<table class="table sponsors">
+        <tbody>
+        	<tr>
+        		<td><a href="http://bioinformatics.ua.pt" title="UA.PT Bioinformatics" target="_blank"><img src="assets/img/sponsors/ua-bioinformatics.png" /></a></td>
+        		<td><a href="http://www.ieeta.pt" title="IEETA" target="_blank"><img src="assets/img/sponsors/ieeta.png" /></a></td>
+        		<td><a href="http://www.ua.pt" title="University of Aveiro" target="_blank"><img src="assets/img/sponsors/ua.png" /></a></td>
+        	</tr>
+        	<tr>
+        		<td><a href="http://www.pofc.qren.pt" title="Compete" target="_blank"><img src="assets/img/sponsors/compete.png" /></a></td>
+        		<td><a href="http://www.qren.pt" title="QREN" target="_blank"><img src="assets/img/sponsors/qren.png" /></a></td>
+        		<td><a href="http://europa.eu" title="European Union" target="_blank"><img src="assets/img/sponsors/ue.png" /></a></td>
+        	</tr>
+		</tbody>
+		</table>
+	</section>
+
+	<section id="about__disclaimer">
+		<div class="page-header">
+			<h2>Disclaimer</h2>
+		</div>
+
+		<ol>
+			<li>
+				<span class="becas">becas</span> is an ongoing research project, aiming at the identification and annotation of biomedical concepts in text.
+			</li>
+			<li>
+				<span class="becas">becas</span> integrates information from multiple knowledge resources that are external to the project and maintained by their owners. <span class="becas">becas</span> does not claim ownership or copyright of any of the external data resources used, and does not provide any type of access to the full database of concepts for searching, browsing, record copying or further dissemination.
+			</li>
+			<li>
+				Collected data are freely available online and remain the intellectual property of the various original data sources. Any questions regarding acceptable use, copying, storage or distribution of individual data items should be directed to those sources.
+			</li>
+			<li>
+				<span class="becas">becas</span> annotation services are automated procedures performed by computer algorithms that are not manually validated on unseen text submitted to the services. We do not claim strict correctness of annotation results.
+			</li>
+			<li>
+				<span class="becas">becas</span> developers cannot be held responsible for the erroneous use of any information provided by the tool. Whilst all reasonable efforts have been made to ensure that <span class="becas">becas</span> and its data are of consistent high quality, we make no warranty, express or implied, as to their completeness, accuracy or utility for any particular purpose. <span class="becas">becas</span> software and data may be used by others on the clear understanding that no liability for any damage or negative outcome whatsoever, either direct or indirect, shall rest upon the <span class="becas">becas</span> team or its sponsors, or any of their employees or agents.
+			</li>
+			<li>
+				Annotations for text submitted to the services, along with a <em>hash</em> key identifying the text, may be cached temporarily in <span class="becas">becas</span> servers to accelerate processing of subsequent requests. No personally identifiable information is ever stored in <span class="becas">becas</span> caches.
+			</li>
+		</ol>
+	</section>
+</div>

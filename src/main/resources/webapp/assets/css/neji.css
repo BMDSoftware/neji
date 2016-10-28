@@ -1,0 +1,480 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+@font-face {
+    font-family: 'lobster';
+    src: url('../font/lobster-webfont.eot');
+    src: url('../font/lobster-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/lobster-webfont.woff') format('woff'),
+    url('../font/lobster-webfont.ttf') format('truetype'),
+    url('../font/lobster-webfont.svg#lobsterregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*body{
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }*/
+
+body{
+    margin-top: 40px;
+}
+
+ol.linenums li {
+    text-shadow: 0px 0px 0px #000 !important;
+}
+
+/**************** Navbar		*/
+.navbar {
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0px 0px 20px #999;
+}
+
+.navbar-inner-neji {
+    background-color: #222;
+    background-image: -moz-linear-gradient(top, #333, #111) !important;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#333), to(#111)) !important;
+    background-image: -webkit-linear-gradient(top, #333, #111) !important;
+    background-image: -o-linear-gradient(top, #333, #111) !important;
+    background-image: linear-gradient(to bottom, #333, #111) !important;
+}
+
+.dropdown-menu li > a:hover,
+.dropdown-menu li > a:focus,
+.dropdown-submenu:hover > a{
+    background-color: #bd362f !important;
+    background-image: none;
+}
+
+.brand-neji {
+    margin: 0px 20px 0px 10px !important;
+}
+
+.brand-neji a {
+    text-decoration: none;
+}
+
+.lettering-small{
+    font-family: 'lobster';
+    color: #FFF !important;
+    font-size: 1.5em !important;
+}
+
+.pencil-small {
+    font-size: 1.5em !important;
+    color: #FFF !important;
+    margin-top: -4px;
+}
+
+/**************** Page header    */
+
+#page-header{
+    background: #EEE url('../img/hero-bg.png') repeat !important;
+    border-bottom: 1px solid #fff;
+    box-shadow: 0px 0px 20px #CCC;
+    padding: 40px;
+    margin-bottom: 0px;
+}
+
+#page-header-title{
+    font-size: 3.5em;
+    font-weight: 500;
+    font-family: 'lobster';
+    text-shadow: 1px 1px 0px #fff;
+    line-height: 0.9em;
+}
+
+#page-header-subtitle{
+    font-size: 1.4em;
+    font-weight: 400;
+    text-shadow: 1px 1px 0px #fff;
+    color: #bd362f;
+    padding-left: 22px;
+}
+
+/**************** Hero    */
+
+.hero-unit-neji {
+    margin-top: 30px;
+    padding-bottom: 100px;
+    margin-bottom: 40px;
+    background: #EEE url('../img/hero-bg.png') repeat !important;
+    box-shadow: 0px 0px 20px #CCC;
+    border: 1px solid #FFF;
+
+    border-radius: 15px;
+}
+
+.lettering {
+
+    color: #bd362f;
+
+    line-height: 1em;
+    font-family: 'lobster';
+    font-size: 200px;
+
+    margin-left: 15px;
+
+    text-shadow: 0px 3px 3px rgba(0,0,0,0.2),
+    0px 8px 13px rgba(0,0,0,0.1),
+    0px 18px 23px rgba(0,0,0,0.1);
+}
+
+.pencil {
+    font-size: 200px;
+    margin-left: 0px;
+    margin-top: -34px;
+    color: #333;
+    line-height: 1em;
+
+    text-shadow: 0px 3px 3px rgba(0,0,0,0.2),
+    0px 8px 13px rgba(0,0,0,0.1),
+    0px 18px 23px rgba(0,0,0,0.1);
+}
+
+.hero-text {
+    padding-left: 40px;
+    padding-top: 20px;
+}
+
+.title {
+    font-size: 2em;
+    line-height: 1.3em;
+    font-weight: bolder;
+    text-shadow: 1px 1px 0px #fff;
+}
+
+.sub-title {
+    font-size: 1.2em;
+    line-height: 1.4em;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: #666;
+    text-shadow: 1px 1px 0px #fff;
+}
+
+/**************** Footer		*/
+
+.footer-neji{
+    margin-top: 80px;
+
+    padding: 30px 0px 30px 0px;
+    background: #EEE url('../img/hero-bg.png') repeat !important;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    box-shadow: 0px 0px 20px #CCC;
+}
+
+.footer-logo {
+    float: left;
+    margin: 0px 15px 0px 15px;
+}
+
+.footer-logo:hover {
+    opacity:0.6;
+    filter:alpha(opacity=60);
+}
+
+
+/**************** Team    */
+.team-person-role{
+    font-size: 0.83em;
+    font-weight: normal;
+    color: #EEE;
+}
+
+.team-person-role-description{
+    padding-top: 6px;
+    font-size: 0.98em;
+    color: #444;
+    text-align: left;
+}
+
+.team-person-mail{
+    color: #FFF;
+}
+
+.team-person-mail a{
+    color: #FFF;
+    text-decoration: none;
+}
+
+.team-person{
+    font-size: 1.1em;
+    padding: 2px 13px 2px 13px;
+}
+
+.team-person-base{
+    padding-top: 10px;
+    width: 385px;
+}
+
+.gray{
+    color: #444;
+    background-color: #DBDBDB;
+    border-color: #CCCCCC;
+}
+
+
+/**************** Contact    */
+
+.contact-mail{
+    color: #FFF;
+}
+
+.contact-mail a{
+    color: #FFF;
+    text-decoration: none;
+}
+
+.contact-information{
+    line-height: 1.6em;
+    padding-left: 15px;
+}
+
+
+/**************** Pipeline    */
+
+.pipeline-title{
+    color: #5a5a5a;
+    font-weight: 200;
+    font-size: 2.6em;
+    text-rendering: optimizelegibility;
+}
+
+.pipeline-subtitle{
+    color: #BBB;
+    font-weight: normal;
+    font-size: 1.3em;
+    text-rendering: optimizelegibility;
+    margin-top: -10px;
+}
+
+.pipeline-box{
+    background-color: #EEE;
+    color: #333;
+    border: 1px solid #FFF;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px #CCC;
+    height: 120px;
+
+}
+
+.pipeline{
+    padding-top: 15px;
+}
+
+.pipeline-section-icon{
+    color: #444;
+    font-size: 6em;
+    /*text-shadow: 0px 0px 2px #bd362f;*/
+    color: rgba(0,0,0,0.70);
+    text-shadow:
+    2px 4px 6px rgba(0,0,0,0.2),
+    0px -5px 35px rgba(255,255,255,0.3);
+
+
+}
+
+.pipeline-section-title{
+    font-size: 1.6em;
+    color: #444;
+    font-weight: normal;
+    padding-top: 10px;
+}
+
+.pipeline-section-content{
+    color: #777;
+    font-size: 1.1em;
+}
+
+.horizontal-center{
+    text-align: center;
+}
+
+.emphasize{
+    color: #bd362f;
+    font-weight: 500;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+
+/**************** Content divider    */
+hr.soften {
+    height: 1px;
+    margin: 70px 0px 50px 0px;
+    background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
+    background-image: -moz-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
+    background-image: -ms-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
+    background-image: -o-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
+    border: 0;
+}
+
+.soften-content{
+    margin: 40px 0px 40px 0px !important;
+}
+
+hr {
+    margin: 20px 0;
+    border: 0;
+    border-top: 1px solid #EEE;
+    border-bottom: 1px solid white;
+}
+
+section{
+    padding-top: 30px;
+}
+
+
+
+/**************** Get started    */
+
+.lead{
+    color: #555;
+}
+
+section h3{
+    color: #444;
+}
+
+
+
+/* Sidenav for Docs
+-------------------------------------------------- */
+
+.bs-docs-sidenav {
+    width: 270px;
+    margin: 57px 0 0;
+    padding: 0;
+    background-color: #fff;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+    -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+    box-shadow: 0 1px 4px rgba(0,0,0,.065);
+}
+.bs-docs-sidenav > li > a {
+    display: block;
+    width: 190px \9;
+    margin: 0 0 -1px;
+    padding: 8px 14px;
+    border: 1px solid #e5e5e5;
+    color: #555;
+}
+.bs-docs-sidenav > li:first-child > a {
+    -webkit-border-radius: 6px 6px 0 0;
+    -moz-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+.bs-docs-sidenav > li:last-child > a {
+    -webkit-border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    border-radius: 0 0 6px 6px;
+}
+.bs-docs-sidenav > .active > a {
+    position: relative;
+    z-index: 2;
+    padding: 9px 15px;
+    border: 0;
+    text-shadow: 0 1px 0 rgba(0,0,0,.15);
+    -webkit-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+    -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+    box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+
+    background-color: #bd362f;
+}
+
+.bs-docs-sidenav > .active > a:hover {
+    background-color: #a52d29;
+}
+
+.bs-docs-sidenav .icon-chevron-right {
+    float: right;
+    margin-top: 2px;
+    margin-right: -6px;
+    opacity: .25;
+}
+.bs-docs-sidenav > li > a:hover {
+    background-color: #f5f5f5;
+}
+.bs-docs-sidenav a:hover .icon-chevron-right {
+    opacity: .5;
+}
+.bs-docs-sidenav .active .icon-chevron-right,
+.bs-docs-sidenav .active a:hover .icon-chevron-right {
+    opacity: 1;
+}
+.bs-docs-sidenav.affix {
+    top: 0px;
+}
+.bs-docs-sidenav.affix-bottom {
+    position: absolute;
+    top: auto;
+    bottom: 270px;
+}
+
+
+/* Responsive
+-------------------------------------------------- */
+
+/* Desktop large
+------------------------- */
+@media (min-width: 1200px) {
+    .bs-docs-sidenav {
+        width: 258px;
+    }
+    .bs-docs-sidenav > li > a {
+        width: 230px \9; /* Override the previous IE8-9 hack */
+    }
+}
+
+/* Desktop
+------------------------- */
+@media (max-width: 980px) {
+    /* When affixed, space properly */
+    .bs-docs-sidenav {
+        top: 0;
+        margin-top: 30px;
+        margin-right: 0;
+    }
+}
+
+/* Tablet to desktop
+------------------------- */
+@media (min-width: 768px) and (max-width: 980px) {
+    /* Adjust sidenav width */
+    .bs-docs-sidenav {
+        width: 166px;
+        margin-top: 20px;
+    }
+    .bs-docs-sidenav.affix {
+        top: 0;
+    }
+}
+
+/* Tablet
+------------------------- */
+@media (max-width: 767px) {
+    /* Sidenav */
+    .bs-docs-sidenav {
+        width: auto;
+        margin-bottom: 20px;
+    }
+    .bs-docs-sidenav.affix {
+        position: static;
+        width: auto;
+        top: 0;
+    }
+}
+
+
+
+
+

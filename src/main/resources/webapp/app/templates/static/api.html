@@ -1,0 +1,1491 @@
+<div class="span3 docs-sidebar">
+    <ul class="nav nav-list docs-sidenav affix">
+        <li class="active"><a href="#api__intro"><i class="icon-chevron-right"></i> Overview</a></li>
+        <li><a href="#api__concepts"><i class="icon-chevron-right"></i> Concepts</a></li>
+        <li><a href="#api__interface"><i class="icon-chevron-right"></i> Interface</a></li>
+        <li><a href="#api__interface_clients"><i class="icon-chevron-right"></i> &nbsp;&nbsp; API Clients *</a></li>
+        <li><a href="#api__authentication"><i class="icon-chevron-right"></i> Authentication</a></li>
+        <li><a href="#api__common_parameters"><i class="icon-chevron-right"></i> Common Parameters</a></li>
+        <li><a href="#api__api_calls"><i class="icon-chevron-right"></i> API Calls</a></li>
+        <li><a href="#api__api_calls_annotating_text"><i class="icon-chevron-right"></i> &nbsp;&nbsp; Annotating Text</a></li>
+        <li><a href="#api__api_calls_annotating_abstracts"><i class="icon-chevron-right"></i> &nbsp;&nbsp; Annotating Abstracts</a></li>
+        <li><a href="#api__api_calls_comparison"><i class="icon-chevron-right"></i> &nbsp;&nbsp; Comparison Matrix</a></li>
+        <li><a href="#api__return_values"><i class="icon-chevron-right"></i> Return Values</a></li>
+        <li><a href="#api__curl_samples"><i class="icon-chevron-right"></i> cURL Samples</a></li>
+        <li><a href="#api__further_help"><i class="icon-chevron-right"></i> Further assistance</a></li>
+    </ul>
+</div>
+
+<div class="span9 docs">
+	<section id="api__intro">
+		<div class="page-header">
+			<h1><span class="becas">becas</span> API</h1>
+		</div>
+		<p>
+			The <span class="becas">becas</span> API is the programming interface to <span class="becas">becas</span>. You can use the API to integrate your app or website with <span class="becas">becas</span>. This allows you to programmatically annotate text or PubMed abstracts with biomedical concepts on the fly.
+		</p>
+	</section>
+
+	<section id="api__concepts">
+		<div class="page-header">
+			<h2>Concepts <small>Background</small></h2>
+		</div>
+		<p>
+			The <span class="becas">becas</span> API annotates text and PubMed abstracts with biomedical <strong>concepts</strong>. Each concept belongs to a given <strong>semantic group</strong>, or <strong>entity type</strong>.
+		</p>
+		<p>
+			Every concept has a <strong>unique concept identifier</strong>, a string like <code>NCBI:9606:T001:SPEC</code>. This unique identifier, or <strong>cid</strong>, is made up by four parts separated by colons. The first part identifies the data source where the concept is registered; the second part is the concept identifier in that data source; the third part is the sub-group of the concept; and the last part is the concept type.
+		</p>
+		<p>
+			<span class="becas">becas</span> recognizes concepts mentioned in text by various synonyms and orthographic variations. Each recognized instance of a concept in text is an <strong>entity</strong>. Given the inherent ambiguity of text and existence of various concepts with the same names, some entities can be tagged with multiple concepts, sometimes from different concept groups.
+		</p>
+		<p>
+			Identified concepts have <strong>external references</strong> to <strong>concept databases</strong>. An external reference looks like <code>NCBI:9606</code>. The first part identifies the <strong>database</strong> and the second part is the <strong>concept identifier</strong> in that database.
+		</p>
+		<p>
+			Regardless of the name a given concept is identified by (the entity), every concept has a <strong>preferred name</strong>, the primary name by which it is known.
+		</p>
+		<p>
+			The <span class="becas">becas</span> API tags <strong>entities</strong> as being certain <strong>concepts</strong> and provides information about their <strong>preferred names</strong> and <strong>external references</strong>.
+		</p>
+	</section>
+
+	<section id="api__interface">
+		<div class="page-header">
+			<h2>Interface</h2>
+		</div>
+		<p>
+			<span class="becas">becas</span> exposes annotation services through an HTTP REST API. All services accept input parameters in JSON and return results in JSON, XML, A1 or CoNLL, depending on your needs.
+		</p>
+		<p>
+			The base URL for all API endpoints is <code>{{baseUrl}}/api/</code> and the only allowed method is <code>POST</code>.
+		</p>
+		<p>
+			All requests expect a content type header of <code>Content-Type: application/json</code>.
+		</p>
+		<p>
+			The API supports <strong>compression</strong> to reduce transfer times and bandwidth usage. If your client is able to decode gzipped content, send a <code>Accept-Encoding: gzip</code> header with your requests and you'll receive compressed JSON responses.
+		</p>
+
+		<section id="api__interface_clients">
+		<h3>API Clients <span class="label label-success" style="vertical-align: text-top">New!</span></h3>
+		<p>
+			You can now easily use the <span class="becas">becas</span> API as a cross-platform <strong>command-line tool</strong> or <strong>programmatically from Python</strong> through the <a href="http://tnunes.github.io/becas-python/" target="_blank">becas-python</a> official API client. Check out the <a href="http://tnunes.github.io/becas-python/" target="_blank">documentation</a> and the <a href="http://www.github.com/tnunes/becas-python" target="_blank">source code</a>. It's open source, and contributions are welcome!
+		</p>
+		<p>
+			If you develop an open source <span class="becas">becas</span> client in any other language and want to make it freely available, please <a href="#!/contact">tell us</a> about it and we'll publish it here.
+		</p>
+		</section>
+	</section>
+
+	<section id="api__authentication">
+		<div class="page-header">
+			<h2>Authentication</h2>
+		</div>
+		<p>
+			The API is free to use for non-commercial purposes, but you are required to authenticate yourself and your application using a contact and a tool name.
+		</p>
+		<p>
+			You should append two <code>GET</code> parameters to all API endpoints: <code>email</code> and <code>tool</code>. For example, the text annotation service endpoint URL should look like <code>{{baseUrl}}/api/text/annotate?email=&lt;EMAIL&gt;&amp;tool=&lt;TOOL&gt;</code>, where <code>&lt;EMAIL&gt;</code> and <code>&lt;TOOL&gt;</code> are your email address and the name of the tool you're integrating <span class="becas">becas</span> into. For testing purposes you can use tool name equal to <code>test</code>.
+		</p>
+		<p>
+			<span class="label label-info">Note</span> We will never send you spam or give away/sell your email address. It will only be used to contact you in case your application exceeds a reasonable usage quota.
+		</p>
+	</section>
+
+	<section id="api__common_parameters">
+		<div class="page-header">
+			<h2>Common Parameters</h2>
+		</div>
+		<p>
+			Apart from the authentication parameters, which should be provided as <code>GET</code> parameters in the URL, all other parameters should be provided in a JSON encoded <code>POST</code> payload.
+		</p>
+		<p>
+			All API calls accept an <strong>optional</strong> parameter named <code>groups</code>, specifying the <strong>types of entities you want to annotate</strong>. It is an object where keys are case-sensitive semantic group identifiers and values are boolean. By default and if ommited, entities from all groups are annotated, which is equivalent to passing the following groups object:
+		</p>
+		<pre class="prettyprint">
+{
+	"groups": {
+		"SPEC": true,
+		"ANAT": true,
+		"DISO": true,
+		"PATH": true,
+		"CHED": true,
+		"ENZY": true,
+		"MRNA": true,
+		"PRGE": true,
+		"COMP": true,
+		"FUNC": true,
+		"PROC": true
+	}
+}</pre>
+		<p>
+			<span class="label label-info">Note</span> If you specify a groups object, <strong>any group ommited will be assumed to be false</strong>. If, for example, you were only interested in tagging disorders and genes/proteins, you could pass the following groups object:
+		</p>
+		<pre class="prettyprint">
+{
+	"groups": {
+		"DISO": true,
+		"PRGE": true
+	}
+}</pre>
+		<p>
+			The following table lists all supported semantic groups, their corresponding identifiers and the types of identified entities.
+		</p>
+
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Identifier</th>
+	        		<th>Semantic group</th>
+	        		<th>Identified entity types</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td><span class="annotation species">SPEC</span></td>
+	            	<td>Species</td>
+	            	<td>
+	              		<ul>
+	              			<li>Species</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td><span class="annotation anatomy">ANAT</span></td>
+	            	<td>Anatomy</td>
+	            	<td>
+	              		<ul>
+	              			<li>Anatomical Structure</li>
+	              			<li>Body Location or Region</li>
+	              			<li>Body Part Organ or Organ Component</li>
+	              			<li>Body Space or Junction</li>
+	              			<li>Body Substance</li>
+	              			<li>Body System</li>
+	              			<li>Cell</li>
+	              			<li>Cell Component</li>
+	              			<li>Embryonic Structure</li>
+	              			<li>Tissue</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td><span class="annotation disorder">DISO</span></td>
+	            	<td>Disorders</td>
+	            	<td>
+	              		<ul>
+	              			<li>Acquired Abnormality</li>
+	              			<li>Anatomical Abnormality</li>
+	              			<li>Cell or Molecular Dysfunction</li>
+	              			<li>Congenital Abnormality</li>
+	              			<li>Disease or Syndrome</li>
+	              			<li>Mental or Behavioral Dysfunction</li>
+	              			<li>Neoplastic Process</li>
+	              			<li>Pathologic Function</li>
+	              			<li>Sign or Symptom</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td><span class="annotation pathway">PATH</span></td>
+	            	<td>Pathways</td>
+	            	<td>
+	              		<ul>
+	              			<li>Pathway</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td><span class="annotation chemical">CHED</span></td>
+	            	<td>Chemicals</td>
+	            	<td>
+	              		<ul>
+	              			<li>Chemical</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td><span class="annotation enzyme">ENZY</span></td>
+	            	<td>Enzymes</td>
+	            	<td>
+	              		<ul>
+	              			<li>Enzyme</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td><span class="annotation mrna">MRNA</span></td>
+	            	<td>miRNA</td>
+	            	<td>
+	              		<ul>
+	              			<li>microRNA</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td><span class="annotation gene-protein">PRGE</span></td>
+	            	<td>Genes and Proteins</td>
+	            	<td>
+	              		<ul>
+	              			<li>Gene</li>
+	              			<li>Protein</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td><span class="annotation component">COMP</span></td>
+	            	<td>Cellular Components</td>
+	            	<td>
+	              		<ul>
+	              			<li>Cellular Component</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td><span class="annotation function">FUNC</span></td>
+	            	<td>Molecular Functions</td>
+	            	<td>
+	              		<ul>
+	              			<li>Molecular Function</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td><span class="annotation process">PROC</span></td>
+	            	<td>Biological Processes</td>
+	            	<td>
+	              		<ul>
+	              			<li>Biological Process</li>
+	              			<li>Cell Function</li>
+	              			<li>Genetic Function</li>
+	              			<li>Molecular Function</li>
+	              			<li>Organ or Tissue Function</li>
+	              			<li>Organism Function</li>
+	              			<li>Physiologic Function</li>
+	              		</ul>
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+	</section>
+
+	<section id="api__api_calls">
+		<div class="page-header">
+			<h2>API Calls</h2>
+		</div>
+		<p>
+			The <span class="becas">becas</span> API exposes methods to automatically annotate:
+		</p>
+		<dl>
+			<dt><em>Text</em></dt>
+			<dd>Annotate biomedical text fed to the service.</dd>
+
+			<dt>PubMed <em>abstracts</em></dt>
+			<dd>Receive a <a href="http://en.wikipedia.org/wiki/PubMed#PubMed_identifier" target="_blank">PMID</a> and return an annotated PubMed article in IeXML.</dd>
+		</dl>
+
+		<p>
+			For each type of content, there are two different types of endpoints:
+		</p>
+		<dl>
+			<dt>The <em>annotation</em> endpoints</dt>
+			<dd>Return results in JSON only. Provide information about concepts, such as preferred names and external references.</dd>
+
+			<dt>The <em>export</em> endpoints</dt>
+			<dd>Return results in JSON, XML, A1 or CoNLL. Tagging of concepts with <em>cids</em> only, no concept metadata. Provide NLP features.</dd>
+		</dl>
+		<p>
+			The annotate endpoints are the ones used to power the <span class="becas">becas</span> <a href="#!/">app</a> and <a href="#!/widget">widget</a>. The export endpoints provide annotation results in various formats.
+		</p>
+
+		<p>
+			All services require <a href="#api__authentication">authentication</a> and accept a parameters object in a JSON encoded payload. The optional <code>groups</code> parameter, described <a href="#api__common_parameters">above</a> is recognized by all services. Parameters specific to each service are described bellow.
+		</p>
+
+		<hr class="soften" />
+
+		<section id="api__api_calls_annotating_text">
+		<h3>Annotating Text</h3>
+		<p>
+			The text annotation and export endpoints perform annotation of biomedical text provided by clients.
+		</p>
+
+		<h4>The annotation endpoint</h4>
+		<code class="addr">{{baseUrl}}/api/text/annotate<span class="key">?email=<span class="string">&lt;EMAIL&gt;</span>&amp;tool=<span class="string">&lt;TOOL&gt;</span></span></code>
+
+		<h5>Features</h5>
+		<ul>
+			<li>Concept identification</li>
+			<li>Concept metadata:</li>
+			<ul>
+				<li>Preferred names</li>
+				<li>External references</li>
+			</ul>
+			<li>Maximum depth of nested concepts: 1</li>
+			<ul>
+				<li>Deeper nested concepts are resolved to the largest span</li>
+			</ul>
+		</ul>
+
+		<h5>Parameters</h5>
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Name</th>
+	        		<th>Type</th>
+	        		<th>Default</th>
+	        		<th>Description</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="key">
+	         			text
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	              		none (required)
+	            	</td>
+	            	<td>
+	            		Biomedical text to annotate.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			echo
+	            	</td>
+	            	<td>
+	              		boolean: <span class="boolean">true</span>|<span class="boolean">false</span>
+	            	</td>
+	            	<td>
+	              		<span class="boolean">false</span>
+	            	</td>
+	            	<td>
+	            		If <span class="key">text</span> should be returned in the response object.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			groups
+	            	</td>
+	            	<td>
+	              		object: {<span class="key">"GROUP"</span>: <span class="boolean">true</span>|<span class="boolean">false</span>, ...}
+	            	</td>
+	            	<td>
+	            		If ommited: all groups <span class="boolean">true</span><br />
+	            		If some groups present: all others <span class="boolean">false</span>
+	            	</td>
+	            	<td>
+	            		Types of concepts to annotate.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+
+		<h5>Response</h5>
+		<p>
+			Returns a JSON object with the following keys:
+		</p>
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Name</th>
+	        		<th>Type</th>
+	        		<th>Description</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="key">
+	         			text
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Text submitted (clean, without annotations), if <span class="key">echo</span> was true.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			entities
+	            	</td>
+	            	<td>
+	              		array of strings: [<span class="string">"..."</span>, ...]
+	            	</td>
+	            	<td>
+	            		Entities recognized in text, encoded as |-separated, 3-element tuples of<br/>
+	            		<pre style="margin-bottom:0px"><code><span class="string">entity</span>|<span class="key">CID1</span>;<span class="key">CID2</span>;...|<span class="number">pos</span>.</code></pre>
+	            		where <span class="number">pos</span> is the 0-based position of the first character of <span class="string">entity</span> in <span class="key">text</span>.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			ids
+	            	</td>
+	            	<td>
+	              		object of objects: {<span class="key">"CID"</span>: {<span class="key">"name"</span>: <span class="string">"..."</span>, <span class="key">"refs"</span>: [<span class="string">"..."</span>, ...], ...}
+	            	</td>
+	            	<td>
+	            		Concept metadata, with concept IDs, preferred names and external references.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+		<p>
+			Response sample:
+		</p>
+		<pre class="prettyprint">
+{
+  "text": "p53 biosignatures contain useful information for cancer evaluation.",
+  "entities": [
+    "cancer|UMLS:C0006826:T191:DISO|49",
+    "p53|UNIPROT:P42771:T116:PRGE|0"
+  ],
+  "ids": {
+    "UMLS:C0006826:T191:DISO": {
+      "name": "Malignant Neoplasms",
+      "refs": [
+        "NCI:C9305",
+        "SNOMEDCT:363346000",
+        "NCIm:C0006826"
+      ]
+    },
+    "UNIPROT:P42771:T116:PRGE": {
+      "name": "Cyclin-dependent kinase inhibitor 2A, isoforms 1/2/3",
+      "refs": [
+        "UNIPROT:P42771"
+      ]
+    }
+  }
+}</pre>
+
+		<h4>The export endpoint</h4>
+		<code class="addr">{{baseUrl}}/api/text/export<span class="key">?email=<span class="string">&lt;EMAIL&gt;</span>&amp;tool=<span class="string">&lt;TOOL&gt;</span></span></code>
+
+		<h5>Features</h5>
+		<p>
+			Features vary with the output format.
+		</p>
+
+		<h5>Parameters</h5>
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Name</th>
+	        		<th>Type</th>
+	        		<th>Default</th>
+	        		<th>Description</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="key">
+	         			text
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	              		none (required)
+	            	</td>
+	            	<td>
+	            		Biomedical text to annotate.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			format
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	              		none (required)
+	            	</td>
+	            	<td>
+	            		Desired output format.<br />
+	            		One of <code>json</code>, <code>xml</code>, <code>a1</code> or <code>conll</code>.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			groups
+	            	</td>
+	            	<td>
+	              		object: {<span class="key">"GROUP"</span>: <span class="boolean">true</span>|<span class="boolean">false</span>, ...}
+	            	</td>
+	            	<td>
+	            		If ommited: all groups <span class="boolean">true</span><br />
+	            		If some groups present: all others <span class="boolean">false</span>
+	            	</td>
+	            	<td>
+	            		Types of concepts to annotate.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+
+		<h5>JSON Features</h5>
+		<ul>
+			<li>Concept identification</li>
+			<li>Sentence splitting</li>
+			<li>Maximum depth of nested concepts: unlimited</li>
+		</ul>
+
+		<h5>JSON Response</h5>
+		<p>
+			Returns a JSON array with one object per sentence in text. Each sentence object has the following keys:
+		</p>
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Name</th>
+	        		<th>Type</th>
+	        		<th>Description</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="key">
+	         			id
+	            	</td>
+	            	<td>
+	              		integer: <span class="number">X</span>
+	            	</td>
+	            	<td>
+	            		Identifier of sentence in <span class="key">text</span>. Starts at <span class="number">0</span>.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			text
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Sentence text.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			start
+	            	</td>
+	            	<td>
+	              		integer: <span class="number">X</span>
+	            	</td>
+	            	<td>
+	            		0-based position of the first character of the sentence in <span class="key">text</span>.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			end
+	            	</td>
+	            	<td>
+	              		integer: <span class="number">X</span>
+	            	</td>
+	            	<td>
+	            		<span class="key">start</span> + sentence length.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			terms
+	            	</td>
+	            	<td>
+	              		array of entity objects: {<span class="key">"ids"</span>: <span class="string">"..."</span>, <span class="key">"id"</span>: <span class="number">X</span>, <span class="key">"text"</span>: <span class="string">"..."</span>, <span class="key">"start"</span>: <span class="number">X</span>, <span class="key">"end"</span>: <span class="number">X</span>, <span class="key">"terms"</span>: [...]}
+	            	</td>
+	            	<td>
+	            		Entities tagged in phrase. One element per entity.<br />
+	            		Each array element has the same keys as each sentence plus the <span class="key">ids</span> key, that contains the concepts IDs with which the entity has been tagged, separated by |.<br/>
+	            		Nested entities appear under the <span class="key">terms</span> key, which in turn can have more nested entities.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+		<p>
+			Response sample:
+		</p>
+		<pre class="prettyprint">
+[
+  {
+    "id": 0,
+    "text": "p53 biosignatures contain useful information for cancer evaluation.",
+    "start": 0,
+    "end": 67,
+    "terms": [
+      {
+        "ids": "UNIPROT:P42771:T116:PRGE",
+        "id": 0,
+        "text": "p53",
+        "start": 0,
+        "end": 3,
+        "terms": [
+
+        ]
+      },
+      {
+        "ids": "UMLS:C0006826:T191:DISO",
+        "id": 1,
+        "text": "cancer",
+        "start": 49,
+        "end": 55,
+        "terms":[
+
+        ]
+      }
+    ]
+  }
+]</pre>
+
+		<hr class="soften" />
+
+		<h5>XML Features</h5>
+		<ul>
+			<li>Concept identification</li>
+			<li>Sentence splitting</li>
+			<li>Maximum depth of nested concepts: 1</li>
+			<ul>
+				<li>Deeper nested concepts are resolved to the largest span</li>
+			</ul>
+		</ul>
+
+		<h5>XML Response</h5>
+		<p>
+			Returns an IeXML document with a <code>text</code> node nested inside a <code>response</code> root element.<br />
+			The <code>text</code> element contains a <code>s</code> element for each sentence in the text.<br />
+			Each <code>s</code> element has entities tagged using <code>e</code> elements and nested/intersected entities are marked using <code>w</code> elements.<br />
+			Please refer to the <a href="http://www.ebi.ac.uk/Rebholz-srv/IeXML/index.html" target="_blank">IeXML specification</a> for further details.
+		</p>
+
+		<p>
+			Response sample:
+		</p>
+		<pre class="prettify">
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span>
+<span class="nt">&lt;response&gt;</span>
+  <span class="nt">&lt;text&gt;</span>
+    <span class="nt">&lt;s</span> <span class="na">id=</span><span class="s">&quot;0&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;e</span> <span class="na">id=</span><span class="s">&quot;UNIPROT:P42771:T116:PRGE&quot;</span><span class="nt">&gt;</span>p53<span class="nt">&lt;/e&gt;</span> biosignatures contain useful information for <span class="nt">&lt;e</span> <span class="na">id=</span><span class="s">&quot;UMLS:C0006826:T191:DISO&quot;</span><span class="nt">&gt;</span>cancer<span class="nt">&lt;/e&gt;</span> evaluation.<span class="nt">&lt;/s&gt;</span>
+  <span class="nt">&lt;/text&gt;</span>
+<span class="nt">&lt;/response&gt;</span></pre>
+
+		<hr class="soften" />
+
+		<h5>A1 Features</h5>
+		<ul>
+			<li>Concept identification</li>
+			<li>Maximum depth of nested concepts: unlimited</li>
+		</ul>
+
+		<h5>A1 Response</h5>
+		<p>
+			Returns an A1 standoff annotations file, compatible with tools like <a href="http://brat.nlplab.org" target="_blank">brat</a>.<br />
+			Each line contains an annotated entity, followed by a line with concept identifiers.<br />
+			Please refer to the <a href="http://brat.nlplab.org/standoff.html" target="_blank">brat standoff format specification</a> for further details.
+		</p>
+
+		<p>
+			Response sample:
+		</p>
+		<pre class="prettify">
+T0      PRGE 0 3        p53
+#0      Identifiers T0  UNIPROT:P42771:T116:PRGE
+T1      DISO 49 55      cancer
+#1      Identifiers T1  UMLS:C0006826:T191:DISO</pre>
+
+		<hr class="soften" />
+
+		<h5>CoNLL Features</h5>
+		<ul>
+			<li>Concept identification</li>
+			<li>Sentence splitting</li>
+			<li>Tokenization</li>
+			<li>Lemmatization</li>
+			<li>Part-of-speech tagging</li>
+			<li>Chunking</li>
+			<li>Maximum depth of nested concepts: unlimited</li>
+		</ul>
+
+		<h5>CoNLL Response</h5>
+		<p>
+			Returns a CoNLL file. The CoNLL format has been used in multiple natural language processing shared tasks.<br />
+			Please refer to this <a href="http://nextens.uvt.nl/depparse-wiki/DataFormat" target="_blank">description</a> of the CoNLL format for further details.
+		</p>
+
+		<p>
+			Response sample:
+		</p>
+		<pre class="prettify">
+1       p53     p53     B-NP    NN      UNIPROT:P42771:T116:PRGE        _       _       _       _
+2       biosignatures   biosignature    I-NP    NNS     0       _       _       _       _
+3       contain contain B-VP    VBP     0       _       _       _       _
+4       useful  useful  B-NP    JJ      0       _       _       _       _
+5       information     information     I-NP    NN      0       _       _       _       _
+6       for     for     B-PP    IN      0       _       _       _       _
+7       cancer  cancer  B-NP    NN      UMLS:C0006826:T191:DISO _       _       _       _
+8       evaluation      evaluation      I-NP    NN      0       _       _       _       _
+9       .       .       O       .       0       _       _       _       _
+
+</pre>
+
+		</section>
+
+		<hr class="soften" />
+
+		<section id="api__api_calls_annotating_abstracts">
+		<h3>Annotating Abstracts</h3>
+		<p>
+			The PubMed abstracts annotation and export endpoints automatically retrieve abstracts from <a href="http://www.ncbi.nlm.nih.gov/pubmed" target="_blank">MEDLINE</a> services and annotate them with biomedical concepts.
+		</p>
+
+		<h4>The annotation endpoint</h4>
+		<code class="addr">{{baseUrl}}/api/pubmed/annotate/<span class="string">&lt;PMID&gt;</span><span class="key">?email=<span class="string">&lt;EMAIL&gt;</span>&amp;tool=<span class="string">&lt;TOOL&gt;</span></span></code>
+
+		<h5>Features</h5>
+		<ul>
+			<li>Concept identification</li>
+			<li>Concept metadata:</li>
+			<ul>
+				<li>Preferred names</li>
+				<li>External references</li>
+			</ul>
+			<li>Maximum depth of nested concepts: 1</li>
+			<ul>
+				<li>Deeper nested concepts are resolved to the largest span</li>
+			</ul>
+		</ul>
+
+		<h5>Parameters</h5>
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Name</th>
+	        		<th>Type</th>
+	        		<th>Default</th>
+	        		<th>Description</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="key">
+	         			pmid
+	            	</td>
+	            	<td>
+	              		integer: <span class="number">X</span>
+	            	</td>
+	            	<td>
+	              		none (required)
+	            	</td>
+	            	<td>
+	            		The <a href="http://en.wikipedia.org/wiki/PubMed#PubMed_identifier" target="_blank">PMID</a> of a MEDLINE publication.<br />
+	            		Must be provided in the endpoint URL, not in the JSON payload.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			groups
+	            	</td>
+	            	<td>
+	              		object: {<span class="key">"GROUP"</span>: <span class="boolean">true</span>|<span class="boolean">false</span>, ...}
+	            	</td>
+	            	<td>
+	            		If ommited: all groups <span class="boolean">true</span><br />
+	            		If some groups present: all others <span class="boolean">false</span>
+	            	</td>
+	            	<td>
+	            		Types of concepts to annotate.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+
+		<h5>Response</h5>
+		<p>
+			Returns a JSON object with the following keys:
+		</p>
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Name</th>
+	        		<th>Type</th>
+	        		<th>Description</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="key">
+	         			pmid
+	            	</td>
+	            	<td>
+	              		integer: <span class="number">X</span>
+	            	</td>
+	            	<td>
+	            		PubMed publication identifier.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			doi
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Digital object identifier of the publication, if available.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			title
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Publication title (clean, without annotations).
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			abstract
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Publication abstract, if available (clean, without annotations).
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			authors
+	            	</td>
+	            	<td>
+	              		array of strings: [<span class="string">"..."</span>, ...]
+	            	</td>
+	            	<td>
+	            		List of publication authors, if available.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			publ_date
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Publication date, if available.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			publ_type
+	            	</td>
+	            	<td>
+	              		array of strings: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		List of publication types, if available.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			jrn_title
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		Title of the journal where the publication was published, if available.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			country
+	            	</td>
+	            	<td>
+	              		string: <span class="string">"..."</span>
+	            	</td>
+	            	<td>
+	            		2 letter ISO code of the affiliation country, if available.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			entities_title
+	            	</td>
+	            	<td>
+	              		array of strings: [<span class="string">"..."</span>, ...]
+	            	</td>
+	            	<td>
+	            		Entities recognized in the title, encoded as |-separated, 3-element tuples of<br/>
+	            		<pre style="margin-bottom:0px"><code><span class="string">entity</span>|<span class="key">CID1</span>;<span class="key">CID2</span>;...|<span class="number">pos</span>.</code></pre>
+	            		where <span class="number">pos</span> is the 0-based position of the first character of <span class="string">entity</span> in the title.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			entities_abstract
+	            	</td>
+	            	<td>
+	              		array of strings: [<span class="string">"..."</span>, ...]
+	            	</td>
+	            	<td>
+	            		Same as <span class="key">entities_title</span> for the entities found in the abstract.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			ids
+	            	</td>
+	            	<td>
+	              		object of objects: {<span class="key">"CID"</span>: {<span class="key">"name"</span>: <span class="string">"..."</span>, <span class="key">"refs"</span>: [<span class="string">"..."</span>, ...], ...}
+	            	</td>
+	            	<td>
+	            		Concept metadata, with concept IDs, preferred names and external references.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+		<p>
+			Response sample:
+		</p>
+		<pre class="prettyprint">
+{
+  "pmid": "23291977",
+  "doi": "10.1007/s10522-012-9413-4",
+  "title": "Sesamin extends the mean lifespan of fruit flies.",
+  "abstract": "The present study investigated the anti-ageing activity of sesamin and its effect on gene expression of superoxide dismutase (SOD), catalase (CAT), methuselah (Mth) and Rpn11 in Drosophila melanogaster. Results demonstrated that ...",
+  "authors": [
+    "Zuo Y",
+    "Peng C",
+    ...
+  ],
+  "publ_date": "2013 Jan 6",
+  "publ_type": [
+    "JOURNAL ARTICLE"
+  ],
+  "jrn_title": "Biogerontology",
+  "country": "CN",
+  "entities_title": [
+    "fruit flies|NCBI:7227:T001:SPEC|37"
+  ],
+  "entities_abstract": [
+    "Rpn11|UNIPROT:O00487:T116:PRGE|363",
+    "antioxidant|CHEBI:22586:T103:CHED|748",
+    "ageing|GO:0007568::PROC|40",
+    "catalase|EC:1.11.1.6:T126:ENZY;UNIPROT:P04040:T116:PRGE|132",
+    "SOD1|UNIPROT:P00441:T116:PRGE|468",
+    ...
+  ],
+  "ids": {
+    "NCBI:7227:T001:SPEC": {
+      "refs": [
+        "NCBI:7227"
+      ],
+      "name": "Drosophila melanogaster"
+    },
+    "GO:0007568::PROC": {
+      "refs": [
+        "GO:0007568",
+        "NCI:C16269",
+        "SNOMEDCT:248280005",
+        "omim.org:502000",
+        "NCIm:C0001811"
+      ],
+      "name": "aging"
+    },
+    ...
+  }
+}</pre>
+		
+
+		<h4>The export endpoint</h4>
+		<code class="addr">{{baseUrl}}/api/pubmed/export/<span class="string">&lt;PMID&gt;</span><span class="key">?email=<span class="string">&lt;EMAIL&gt;</span>&amp;tool=<span class="string">&lt;TOOL&gt;</span></span></code>
+
+		<h5>Features</h5>
+		<ul>
+			<li>Concept identification</li>
+			<li>Sentence splitting</li>
+			<li>Maximum depth of nested concepts: 1</li>
+			<ul>
+				<li>Deeper nested concepts are resolved to the largest span</li>
+			</ul>
+			<li>Exports data in MEDLINE XML</li>
+		</ul>
+
+		<h5>Parameters</h5>
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Name</th>
+	        		<th>Type</th>
+	        		<th>Default</th>
+	        		<th>Description</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="key">
+	         			pmid
+	            	</td>
+	            	<td>
+	              		integer: <span class="number">X</span>
+	            	</td>
+	            	<td>
+	              		none (required)
+	            	</td>
+	            	<td>
+	            		The <a href="http://en.wikipedia.org/wiki/PubMed#PubMed_identifier" target="_blank">PMID</a> of a MEDLINE publication.<br />
+	            		Must be provided in the endpoint URL, not in the JSON payload.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="key">
+	         			groups
+	            	</td>
+	            	<td>
+	              		object: {<span class="key">"GROUP"</span>: <span class="boolean">true</span>|<span class="boolean">false</span>, ...}
+	            	</td>
+	            	<td>
+	            		If ommited: all groups <span class="boolean">true</span><br />
+	            		If some groups present: all others <span class="boolean">false</span>
+	            	</td>
+	            	<td>
+	            		Types of concepts to annotate.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+
+		<h5>Response</h5>
+		<p>
+			Returns a MEDLINE XML document (<code>PubmedArticle</code> node inside a <code>PubmedArticleSet</code> root element) with the <code>ArticleTitle</code> and <code>Abstract</code> fields enriched with IeXML annotations.
+		</p>
+
+		<p>
+			Response sample:
+		</p>
+		<pre class="prettify">
+<span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="cp">&lt;!DOCTYPE PubmedArticleSet PUBLIC &quot;-//NLM//DTD PubMedArticle, 1st January 2013//EN&quot; &quot;http://www.ncbi.nlm.nih.gov/corehtml/query/DTD/pubmed_130101.dtd&quot;&gt;</span>
+<span class="nt">&lt;PubmedArticleSet&gt;</span>
+<span class="nt">&lt;PubmedArticle&gt;</span>
+    <span class="nt">&lt;MedlineCitation</span> <span class="na">Status=</span><span class="s">&quot;Publisher&quot;</span> <span class="na">Owner=</span><span class="s">&quot;NLM&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;PMID</span> <span class="na">Version=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>23291977<span class="nt">&lt;/PMID&gt;</span>
+        <span class="nt">&lt;DateCreated&gt;</span>
+            <span class="nt">&lt;Year&gt;</span>2013<span class="nt">&lt;/Year&gt;</span>
+            <span class="nt">&lt;Month&gt;</span>1<span class="nt">&lt;/Month&gt;</span>
+            <span class="nt">&lt;Day&gt;</span>7<span class="nt">&lt;/Day&gt;</span>
+        <span class="nt">&lt;/DateCreated&gt;</span>
+        <span class="nt">&lt;Article</span> <span class="na">PubModel=</span><span class="s">&quot;Print-Electronic&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;Journal&gt;</span>
+                <span class="nt">&lt;ISSN</span> <span class="na">IssnType=</span><span class="s">&quot;Electronic&quot;</span><span class="nt">&gt;</span>1389-5729<span class="nt">&lt;/ISSN&gt;</span>
+                <span class="nt">&lt;JournalIssue</span> <span class="na">CitedMedium=</span><span class="s">&quot;Internet&quot;</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;PubDate&gt;</span>
+                        <span class="nt">&lt;Year&gt;</span>2013<span class="nt">&lt;/Year&gt;</span>
+                        <span class="nt">&lt;Month&gt;</span>Jan<span class="nt">&lt;/Month&gt;</span>
+                        <span class="nt">&lt;Day&gt;</span>6<span class="nt">&lt;/Day&gt;</span>
+                    <span class="nt">&lt;/PubDate&gt;</span>
+                <span class="nt">&lt;/JournalIssue&gt;</span>
+                <span class="nt">&lt;Title&gt;</span>Biogerontology<span class="nt">&lt;/Title&gt;</span>
+                <span class="nt">&lt;ISOAbbreviation&gt;</span>Biogerontology<span class="nt">&lt;/ISOAbbreviation&gt;</span>
+            <span class="nt">&lt;/Journal&gt;</span>
+            <span class="nt">&lt;ArticleTitle&gt;&lt;s</span> <span class="na">id=</span><span class="s">&quot;0&quot;</span><span class="nt">&gt;</span>Sesamin extends the mean lifespan of <span class="nt">&lt;e</span> <span class="na">id=</span><span class="s">&quot;NCBI:7227:T001:SPEC&quot;</span><span class="nt">&gt;</span>fruit flies<span class="nt">&lt;/e&gt;</span>.<span class="nt">&lt;/s&gt;&lt;/ArticleTitle&gt;</span>
+            <span class="nt">&lt;Pagination&gt;</span>
+                <span class="nt">&lt;MedlinePgn/&gt;</span>
+            <span class="nt">&lt;/Pagination&gt;</span>
+            <span class="nt">&lt;Abstract&gt;</span>
+                <span class="nt">&lt;AbstractText&gt;&lt;s</span> <span class="na">id=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>The present study investigated the anti-<span class="nt">&lt;e</span> <span class="na">id=</span><span class="s">&quot;GO:0007568::PROC&quot;</span><span class="nt">&gt;</span>ageing<span class="nt">&lt;/e&gt;</span> activity of sesamin and its effect on <span class="nt">&lt;e</span> <span class="na">id=</span><span class="s">&quot;GO:0010467::PROC&quot;</span><span class="nt">&gt;</span>gene expression<span class="nt">&lt;/e&gt;</span> of <span class="nt">&lt;e</span> <span class="na">id=</span><span class="s">&quot;(EC:1.15.1.1:T126:ENZY|UNIPROT:P08294:T116:PRGE|UNIPROT:P00441:T116:PRGE):1,2|(CHEBI:18421:T103:CHED):1&quot;</span><span class="nt">&gt;&lt;w</span> <span class="na">id=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>superoxide<span class="nt">&lt;/w&gt;</span> <span class="nt">&lt;w</span> <span class="na">id=</span><span class="s">&quot;2&quot;</span><span class="nt">&gt;</span>dismutase<span class="nt">&lt;/w&gt;&lt;/e&gt;</span> (<span class="nt">&lt;e</span> <span class="na">id=</span><span class="s">&quot;GO:0004784::FUNC|UNIPROT:P00441:T116:PRGE&quot;</span><span class="nt">&gt;</span>SOD<span class="nt">&lt;/e&gt;</span>), <span class="nt">&lt;e</span> <span class="na">id=</span><span class="s">&quot;EC:1.11.1.6:T126:ENZY|UNIPROT:P04040:T116:PRGE&quot;</span><span class="nt">&gt;</span>catalase<span class="nt">&lt;/e&gt;</span> (<span class="nt">&lt;e</span> <span class="na">id=</span><span class="s">&quot;NCBI:9685:T001:SPEC|UNIPROT:P04040:T116:PRGE&quot;</span><span class="nt">&gt;</span>CAT<span class="nt">&lt;/e&gt;</span>), methuselah (Mth) and <span class="nt">&lt;e</span> <span class="na">id=</span><span class="s">&quot;UNIPROT:O00487:T116:PRGE&quot;</span><span class="nt">&gt;</span>Rpn11<span class="nt">&lt;/e&gt;</span> in <span class="nt">&lt;e</span> <span class="na">id=</span><span class="s">&quot;NCBI:7227:T001:SPEC&quot;</span><span class="nt">&gt;</span>Drosophila melanogaster<span class="nt">&lt;/e&gt;</span>.<span class="nt">&lt;/s&gt;</span> <span class="nt">&lt;s</span> <span class="na">id=</span><span class="s">&quot;2&quot;</span><span class="nt">&gt;</span>Results demonstrated that ...&lt;/AbstractText&gt;</span>
+            <span class="nt">&lt;/Abstract&gt;</span>
+            <span class="nt">&lt;Affiliation&gt;</span>Food and Nutritional Sciences Programme, School of Life Sciences, The Chinese University of Hong Kong, Shatin, N.T., Hong Kong, China.<span class="nt">&lt;/Affiliation&gt;</span>
+            <span class="nt">&lt;AuthorList&gt;</span>
+                <span class="nt">&lt;Author&gt;</span>
+                    <span class="nt">&lt;LastName&gt;</span>Zuo<span class="nt">&lt;/LastName&gt;</span>
+                    <span class="nt">&lt;ForeName&gt;</span>Yuanyuan<span class="nt">&lt;/ForeName&gt;</span>
+                    <span class="nt">&lt;Initials&gt;</span>Y<span class="nt">&lt;/Initials&gt;</span>
+                <span class="nt">&lt;/Author&gt;</span>
+                <span class="nt">&lt;Author&gt;</span>
+                    <span class="nt">&lt;LastName&gt;</span>Peng<span class="nt">&lt;/LastName&gt;</span>
+                    <span class="nt">&lt;ForeName&gt;</span>Cheng<span class="nt">&lt;/ForeName&gt;</span>
+                    <span class="nt">&lt;Initials&gt;</span>C<span class="nt">&lt;/Initials&gt;</span>
+                <span class="nt">&lt;/Author&gt;</span>
+                ...
+            <span class="nt">&lt;/AuthorList&gt;</span>
+            <span class="nt">&lt;Language&gt;</span>ENG<span class="nt">&lt;/Language&gt;</span>
+            <span class="nt">&lt;PublicationTypeList&gt;</span>
+                <span class="nt">&lt;PublicationType&gt;</span>JOURNAL ARTICLE<span class="nt">&lt;/PublicationType&gt;</span>
+            <span class="nt">&lt;/PublicationTypeList&gt;</span>
+            <span class="nt">&lt;ArticleDate</span> <span class="na">DateType=</span><span class="s">&quot;Electronic&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;Year&gt;</span>2013<span class="nt">&lt;/Year&gt;</span>
+                <span class="nt">&lt;Month&gt;</span>1<span class="nt">&lt;/Month&gt;</span>
+                <span class="nt">&lt;Day&gt;</span>6<span class="nt">&lt;/Day&gt;</span>
+            <span class="nt">&lt;/ArticleDate&gt;</span>
+        <span class="nt">&lt;/Article&gt;</span>
+        <span class="nt">&lt;MedlineJournalInfo&gt;</span>
+            <span class="nt">&lt;MedlineTA&gt;</span>Biogerontology<span class="nt">&lt;/MedlineTA&gt;</span>
+            <span class="nt">&lt;NlmUniqueID&gt;</span>100930043<span class="nt">&lt;/NlmUniqueID&gt;</span>
+            <span class="nt">&lt;ISSNLinking&gt;</span>1389-5729<span class="nt">&lt;/ISSNLinking&gt;</span>
+        <span class="nt">&lt;/MedlineJournalInfo&gt;</span>
+    <span class="nt">&lt;/MedlineCitation&gt;</span>
+    <span class="nt">&lt;PubmedData&gt;</span>
+        <span class="nt">&lt;History&gt;</span>
+            <span class="nt">&lt;PubMedPubDate</span> <span class="na">PubStatus=</span><span class="s">&quot;received&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;Year&gt;</span>2012<span class="nt">&lt;/Year&gt;</span>
+                <span class="nt">&lt;Month&gt;</span>10<span class="nt">&lt;/Month&gt;</span>
+                <span class="nt">&lt;Day&gt;</span>5<span class="nt">&lt;/Day&gt;</span>
+            <span class="nt">&lt;/PubMedPubDate&gt;</span>
+            <span class="nt">&lt;PubMedPubDate</span> <span class="na">PubStatus=</span><span class="s">&quot;accepted&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;Year&gt;</span>2012<span class="nt">&lt;/Year&gt;</span>
+                <span class="nt">&lt;Month&gt;</span>12<span class="nt">&lt;/Month&gt;</span>
+                <span class="nt">&lt;Day&gt;</span>20<span class="nt">&lt;/Day&gt;</span>
+            <span class="nt">&lt;/PubMedPubDate&gt;</span>
+            ...
+        <span class="nt">&lt;/History&gt;</span>
+        <span class="nt">&lt;PublicationStatus&gt;</span>aheadofprint<span class="nt">&lt;/PublicationStatus&gt;</span>
+        <span class="nt">&lt;ArticleIdList&gt;</span>
+            <span class="nt">&lt;ArticleId</span> <span class="na">IdType=</span><span class="s">&quot;doi&quot;</span><span class="nt">&gt;</span>10.1007/s10522-012-9413-4<span class="nt">&lt;/ArticleId&gt;</span>
+            <span class="nt">&lt;ArticleId</span> <span class="na">IdType=</span><span class="s">&quot;pubmed&quot;</span><span class="nt">&gt;</span>23291977<span class="nt">&lt;/ArticleId&gt;</span>
+        <span class="nt">&lt;/ArticleIdList&gt;</span>
+    <span class="nt">&lt;/PubmedData&gt;</span>
+<span class="nt">&lt;/PubmedArticle&gt;</span>
+<span class="nt">&lt;/PubmedArticleSet&gt;</span></pre>
+
+
+	<section id="api__api_calls_comparison">
+		<div class="page-header">
+			<h2>Comparison Matrix</h2>
+		</div>
+		<p>
+			Different services and output formats support different kinds of features. The comparison matrix bellow illustrates the types of features supported by each service and output format combination.
+		</p>
+
+		<table class="table table-bordered comparison-matrix">
+	        <thead>
+	        	<tr>
+	         		<th>Service</th>
+	         		<th>Output format</th>
+	        		<th>Sentence splitting</th>
+	        		<th>Tokenization,<br/>Lemmatization,<br />POS tagging,<br />Chunking</th>
+	        		<th>Concept identification</th>
+	        		<th>Concept metadata</th>
+	        		<th>Max. depth of nested concepts</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	        		<td><code>/text/annotate</code></td>
+	        		<td class="format">JSON</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="supported">✔</td>
+	        		<td class="supported">✔</td>
+	        		<td class="format">1</td>
+	        	</tr>
+	        	<tr>
+	        		<td><code>/text/export</code></td>
+	        		<td class="format">JSON</td>
+	        		<td class="supported">✔</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="supported">✔</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="format">unlimited</td>
+	        	</tr>
+	        	<tr>
+	        		<td><code>/text/export</code></td>
+	        		<td class="format">XML</td>
+	        		<td class="supported">✔</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="supported">✔</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="format">1</td>
+	        	</tr>
+	        	<tr>
+	        		<td><code>/text/export</code></td>
+	        		<td class="format">A1</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="supported">✔</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="format">unlimited</td>
+	        	</tr>
+	        	<tr>
+	        		<td><code>/text/export</code></td>
+	        		<td class="format">CoNLL</td>
+	        		<td class="supported">✔</td>
+	        		<td class="supported">✔</td>
+	        		<td class="supported">✔</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="format">unlimited</td>
+	        	</tr>
+	        	<tr>
+	        		<td colspan="10"></td>
+	        	</tr>
+	        	<tr>
+	        		<td><code>/pubmed/annotate</code></td>
+	        		<td class="format">JSON</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="supported">✔</td>
+	        		<td class="supported">✔</td>
+	        		<td class="format">1</td>
+	        	</tr>
+	        	<tr>
+	        		<td><code>/pubmed/export</code></td>
+	        		<td class="format">MEDLINE XML</td>
+	        		<td class="supported">✔</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="supported">✔</td>
+	        		<td class="unsupported">✗</td>
+	        		<td class="format">1</td>
+	        	</tr>
+	        </tbody>
+	    </table>
+
+	</section>
+		
+	</section>
+
+	<section id="api__return_values">
+		<div class="page-header">
+			<h2>Return Values</h2>
+		</div>
+		<p>
+			Successful service executions return a <code>200</code> status code and results in the format you requested.
+		</p>
+		<p>
+			If something goes wrong you'll receive a JSON response with two fields: <code>status</code> (same as the HTTP response status code) and <code>error</code>, a message describing the problem. For example, if you forget to authenticate your request, you'll receive the following response with a <code>401</code> status code:
+		</p>
+		<pre class="prettyprint">
+{"status": 401, "error": "Please authenticate your request with `email` and `tool` parameters"}</pre>
+
+		<p>
+			All status codes returned by the API are listed in the following table.
+		</p>
+
+		<table class="table table-bordered table-striped">
+	        <thead>
+	        	<tr>
+	         		<th>Status code</th>
+	        		<th>Reason</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr>
+	         		<td class="text-success">
+	         			<strong>200</strong> Ok
+	            	</td>
+	            	<td>
+	              		Everything went fine.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="text-warning">
+	         			<strong>400</strong> Client error
+	            	</td>
+	            	<td>
+	              		Your request is malformed, probably missing some parameter.<br />
+	              		See the <code>error</code> message for more details.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="text-warning">
+	         			<strong>401</strong> Unauthorized
+	            	</td>
+	            	<td>
+	              		You didn't include both the <code>email</code> and <code>tool</code> authentication parameters.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="text-warning">
+	         			<strong>404</strong> Not found
+	            	</td>
+	            	<td>
+	              		The PubMed abstract you requested does not exist. (PMID not found in MEDLINE)
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="text-warning">
+	         			<strong>405</strong> Method not allowed
+	            	</td>
+	            	<td>
+	              		The request method used is not allowed. All services require <code>POST</code>.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="text-warning">
+	         			<strong>413</strong> Request entity too large
+	            	</td>
+	            	<td>
+	              		The request payload is too large. Try again with less text.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="text-warning">
+	         			<strong>429</strong> Too many requests
+	            	</td>
+	            	<td>
+	              		You performed too many requests in a short amount of time.<br />
+	              		Please wait the number of seconds specified in the <code>Retry-After</code> header before issuing more requests.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="text-error">
+	         			<strong>500</strong> Internal server error
+	            	</td>
+	            	<td>
+	              		Something went wrong on our side. Please try again after some time.
+	            	</td>
+	        	</tr>
+	        	<tr>
+	         		<td class="text-error">
+	         			<strong>503</strong> Service unavailable
+	            	</td>
+	            	<td>
+	              		The service is currently unavailable due to maintenance or server overload.
+	              		Please try again later.
+	            	</td>
+	        	</tr>
+	        </tbody>
+		</table>
+		</section>
+	</section>
+
+	<section id="api__curl_samples">
+		<div class="page-header">
+			<h2>cURL Samples</h2>
+		</div>
+		<p>
+			<a href="http://en.wikipedia.org/wiki/CURL" target="_blank">cURL</a> is a handy command line tool capable of executing parameterized HTTP requests. If you're using a UNIX based system, like Linux or Mac OS, chances are you already have it installed.
+		</p>
+
+		<p>
+			This section contains some cURL snippets you can copy and paste into your terminal to quickly test the <span class="becas">becas</span> API. The suggested examples should return some of the response samples illustrated in the <a href="#api__api_calls">API Calls</a> section.
+		</p>
+
+		<p>
+			<span class="label label-info">Note</span> The examples bellow use the <code>--compressed</code> flag to make cURL request gzipped responses. If your version of cURL was not compiled with gzip support, simply omit the flag.
+		</p>
+		<p>
+			All curl samples use the <code>$EMAIL</code> and <code>$TOOL</code> variables in service endpoint URLs. To facilitate testing, please set them before trying the samples. For example:
+		</p>
+
+		<pre class="prettyprint">
+EMAIL="you@example.com"
+TOOL="curl-samples-test"</pre>
+
+		<h4>Samples</h4>
+		<p>
+			Annotate text with concepts from all supported semantic groups:
+		</p>
+		<pre class="prettyprint">
+curl -X POST "{{baseUrl}}/api/text/annotate{{authSuffix}}" \
+--header "Content-Type: application/json" \
+--data '{"text": "p53 biosignatures contain useful information for cancer evaluation."}' \
+--compressed
+</pre>
+
+		<p>
+			Annotate text with disorders only:
+		</p>
+		<pre class="prettyprint">
+curl -X POST "{{baseUrl}}/api/text/annotate{{authSuffix}}" \
+--header "Content-Type: application/json" \
+--data '{"groups": {"DISO": true}, "text": "p53 biosignatures contain useful information for cancer evaluation."}' \
+--compressed
+</pre>
+
+		<p>
+			Annotate text with concepts from all supported semantic groups and echo the text back in the response object:
+		</p>
+		<pre class="prettyprint">
+curl -X POST "{{baseUrl}}/api/text/annotate{{authSuffix}}" \
+--header "Content-Type: application/json" \
+--data '{"echo": true, "text": "p53 biosignatures contain useful information for cancer evaluation."}' \
+--compressed
+</pre>
+
+		<p>
+			Export annotated text in JSON with concepts from all supported semantic groups:
+		</p>
+		<pre class="prettyprint">
+curl -X POST "{{baseUrl}}/api/text/export{{authSuffix}}" \
+--header "Content-Type: application/json" \
+--data '{"format": "json", "text": "p53 biosignatures contain useful information for cancer evaluation."}' \
+--compressed
+</pre>
+
+		<p>
+			Export annotated text in XML with concepts from all supported semantic groups:
+		</p>
+		<pre class="prettyprint">
+curl -X POST "{{baseUrl}}/api/text/export{{authSuffix}}" \
+--header "Content-Type: application/json" \
+--data '{"format": "xml", "text": "p53 biosignatures contain useful information for cancer evaluation."}' \
+--compressed
+</pre>
+
+		<p>
+			Export annotated text in A1 with concepts from all supported semantic groups:
+		</p>
+		<pre class="prettyprint">
+curl -X POST "{{baseUrl}}/api/text/export{{authSuffix}}" \
+--header "Content-Type: application/json" \
+--data '{"format": "a1", "text": "p53 biosignatures contain useful information for cancer evaluation."}' \
+--compressed
+</pre>
+
+		<p>
+			Export annotated text in CoNLL with concepts from all supported semantic groups:
+		</p>
+		<pre class="prettyprint">
+curl -X POST "{{baseUrl}}/api/text/export{{authSuffix}}" \
+--header "Content-Type: application/json" \
+--data '{"format": "conll", "text": "p53 biosignatures contain useful information for cancer evaluation."}' \
+--compressed
+</pre>
+		
+		<p>
+			Annotate a PubMed abstract in JSON with concepts from all supported semantic groups:
+		</p>
+		<pre class="prettyprint">
+curl -X POST "{{baseUrl}}/api/pubmed/annotate/23291977{{authSuffix}}" \
+--header "Content-Type: application/json" \
+--compressed
+</pre>
+
+		<p>
+			Annotate a PubMed abstract in JSON with disorders, chemicals and genes/proteins only:
+		</p>
+		<pre class="prettyprint">
+curl -X POST "{{baseUrl}}/api/pubmed/annotate/23291977{{authSuffix}}" \
+--header "Content-Type: application/json" \
+--data '{"groups": {"DISO": true, "CHED": true, "PRGE": true}}' \
+--compressed
+</pre>
+
+		<p>
+			Export a PubMed abstract in XML with concepts from all supported semantic groups:
+		</p>
+		<pre class="prettyprint">
+curl -X POST "{{baseUrl}}/api/pubmed/export/23291977{{authSuffix}}" \
+--header "Content-Type: application/json" \
+--compressed
+</pre>
+	</section>
+
+	<section id="api__further_help">
+		<div class="page-header">
+			<h2>Further assistance</h2>
+		</div>
+		<p>
+			If you need help using the API or are having issues with a topic not covered here, please <a href="#!/contact">contact us</a> and we'll gladly assist you.
+		</p>
+	</section>
+</div>

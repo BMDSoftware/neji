@@ -1,0 +1,149 @@
+/* --------------------------------------------------
+ *  becas widget main stylesheet
+-------------------------------------------------- */
+
+body {
+  background-color: transparent;
+}
+
+.container-fluid {
+	padding: 0;
+	border: 1px solid #DEDEDE;
+	background-color: #F8F8FF;
+}
+
+.chromeframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1px 0;
+  text-align: center;
+  color: #B94A48;
+  background-color: #FEFEFE;
+  border: 1px solid #B94A48;
+}
+
+footer {
+  border: 1px solid #DEDEDE;
+	background-color: #EAEAEA;
+  color: #666;
+  margin: 6px 0 0 0;
+  padding: 4px;
+}
+
+footer .brand {
+  margin: 5px 0 0 6px;
+}
+
+.home-msg {
+  margin: 10px;
+  color: #666;
+  font-size: 120%;
+}
+
+.home-msg img {
+  margin-top: -3px;
+  margin-right: 10px;
+}
+
+.home-msg i {
+  margin-top: 3px;
+}
+
+.annotated-text-wrapper {
+  margin: 4px;
+}
+
+.annotated-text {
+  margin: 0;
+  padding: 10px 10px 0 10px;
+  border: none;
+  border: 1px solid #BBB;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  *border: 1px solid #BBB;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+
+/* Widget highlight controls
+-------------------------------------------------- */
+
+.annotation-toggles-container {
+  margin: 4px;
+  padding: 5px 5px 2px 5px;
+  background-color: #fff;
+  border: 1px solid #DDD;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.annotation-toggles-container .table {
+  width: auto;
+  margin-bottom: 0;
+}
+
+.annotation-toggles-container .table td {
+  border-top: none;
+  padding: 0 2px;
+}
+
+.annotation-toggles-container i {
+  margin-top: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.annotation-toggles-container .btn-toolbar {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 5px;
+}
+
+.annotation-toggles-container label,
+.annotation-toggles-container button {
+  font-size: 13px;
+}
+
+#annotation-toggles {
+  margin: 0;
+  padding-bottom: 2px;
+}
+
+#annotation-toggles li {
+  float: left;
+  margin: 0 4px 0 0;
+}
+
+#annotation-toggles label {
+  display: inline;
+  cursor: pointer;
+  padding: 1px 4px;
+  border: 1px solid transparent;
+}
+
+#annotation-toggles label.disabled {
+  color: #666;
+}
+
+#annotation-toggles .btn {
+  width: 20px;
+  padding: 0 3px;
+  font-size: 90%;
+  margin-bottom: 2px;
+}
+
+
+/* Widget export controls
+-------------------------------------------------- */
+
+.export-btn {
+  color: #666;
+}
+
+.export-btn:hover {
+  text-decoration: none;
+}

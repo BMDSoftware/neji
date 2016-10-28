@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Neji</title>
+        
+        <!-- Bootstrap core CSS -->
+        <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+        
+        <!-- Custom styles for this template -->
+        <link href="assets/css/starter-template.css" rel="stylesheet">
+        
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand brand-neji">
+                        <a href="index.html">
+                            <div class="lettering-small pull-left">neji</div>
+                            <i class="fa fa-pencil pencil-small pull-left"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-container">
+                    <!-- Here goes navbar buttons -->
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li class="active">Help</li>
+                </ol>
+            </div>
+            <div class="row text-center">
+                <h2 class="title"><i class="fa fa-question-circle"></i> Help</h2>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3 sidebar">
+                    <div class="list-group" data-spy="affix">
+                        <a class="list-group-item" href="#whatsNeji">What's neji? <i class="pull-right fa fa-chevron-right fa-fw"></i></a>
+                        <a class="list-group-item" href="#howToUse">How to use <i class="pull-right fa fa-chevron-right fa-fw"></i></a>
+                        <a class="list-group-item" href="#theInputInterface">The Input Interface <i class="pull-right fa fa-chevron-right fa-fw"></i></a>
+                        <a class="list-group-item" href="#annotatingText">&nbsp;&nbsp;&nbsp; Annotating Text <i class="pull-right fa fa-chevron-right fa-fw"></i></a>
+                        <a class="list-group-item" href="#annotatingAbstracts">&nbsp;&nbsp;&nbsp; Annotating Abstracts <i class="pull-right fa fa-chevron-right fa-fw"></i></a>
+                        <a class="list-group-item" href="#theOutputInterface">The Output Interface <i class="pull-right fa fa-chevron-right fa-fw"></i></a>
+                        <a class="list-group-item" href="#conceptPopovers">&nbsp;&nbsp;&nbsp; Concept Popovers <i class="pull-right fa fa-chevron-right fa-fw"></i></a>
+                        <a class="list-group-item" href="#exportingResults">&nbsp;&nbsp;&nbsp; Exporting Results <i class="pull-right fa fa-chevron-right fa-fw"></i></a>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <section id="whatsNeji">
+                        <div class="page-header">
+                            <h1>What's <span style="font-family:'lobster'; font-size:150%">neji</span> ?</h1>
+                        </div>
+                        <p>
+                            <span style="font-family:'lobster'; font-size:150%">neji</span> is a web application for <b>biomedical concept identification</b>. 
+                            It finds and annotates biomedical concepts in your biomedical text and publications. 
+                        </p>
+                        <p>
+                            Annotated concepts can be <b>exported in various popular formats</b>, facilitating usage in 
+                            third-party applications. 
+                        </p>                        
+                    </section>
+                    <section id="howToUse">
+                        <div class="page-header">
+                            <h1>How To Use</h1>
+                        </div>
+                        <p>
+                            In this web application you can directly input text or PubMed articles' 
+                            <a href="http://en.wikipedia.org/wiki/PubMed#PubMed_identifier">PMIDs</a> for annotation.
+                        </p>
+                        <p>
+                            The following sections teach you how to use this web application.
+                        </p>                                           
+                    </section>
+                    <section id="theInputInterface">
+                        <div class="page-header">
+                            <h1>The Input Interface</h1>
+                        </div>
+                        <p>
+                            The page has two major areas:                            
+                        </p>
+                        <ul>
+                            <li>The <b>semantic groups control</b>, on left;</li>
+                            <li>The <b>text input controls</b>, on the right.</li>
+                        </ul>
+                        <div class="thumbnail">
+                            <img alt="" src="assets/img/the_input_interface.png">
+                        </div>
+                        &nbsp;
+                        <p>
+                            Using the <b>semantic group controls</b> you can select the types of concepts you want to recognize and annotate. 
+                            You should select at least one semantic group for annotation.
+                        </p>
+                        <p>
+                            Then you can use the <b>text input controls</b> to give the text you want to annotate.<br>
+                            The <b>Try Sample</b> button allows for quick testing and experimentation of the system without having to input any text. 
+                            Click it multiple times to cycle through various text samples you can try. 
+                        </p>                          
+                    </section>
+                    <section id="annotatingText">
+                        <div class="page-header">
+                            <h1>Plain text annotation</h1>
+                        </div>
+                        <p>
+                            To annotate text you can:
+                        </p>
+                        <ul>
+                            <li>Directly <b>type</b> or <b>paste</b> text in the text-area;</li>
+                            <li>Click the <b>Upload file</b> button and select a file to annotate;</li>
+                            <li><b>Drag</b> a text file or a snippet of text from your computer to the text-area.</li>
+                        </ul>
+                        <p>
+                            After typing or pasting text in the text-area, click the <b>Annotate</b> text button to trigger 
+                            the annotation process. When you upload or drag a file, annotation starts immediately without further input. 
+                        </p>                        
+                    </section>
+                    <section id="annotatingAbstracts">
+                        <div class="page-header">
+                            <h1>PubMed abstract annotation</h1>
+                        </div>
+                        <p>
+                            It can automatically fetch <a href="http://www.ncbi.nlm.nih.gov/pubmed/">PubMed</a> 
+                            abstracts from NCBI servers and annotate them for you.
+                        </p>
+                        <p>
+                            Click the <b>Annotate PubMed article</b> button on the <b>text input controls</b> and a pop-up 
+                            dialog will ask you to enter the PMID of the publication you want to annotate. 
+                        </p>
+                        <div class="thumbnail">
+                            <img alt="" src="assets/img/annotating_abstracts.png">
+                        </div>
+                    </section>
+                    <section id="theOutputInterface">
+                        <div class="page-header">
+                            <h1>The Output Interface</h1>
+                        </div>
+                        <p>
+                            After submitting text, a file or a PMID you are presented the output interface, which is composed by three primary elements:
+                        </p>
+                        <ul>
+                            <li>The <b>semantic group controls</b>, on the left;</li>
+                            <li>The <b>annotated text area</b>, on the right;</li>
+                            <li>The <b>export button</b>, bellow the annotated text, on the right.</li>
+                        </ul>
+                        <div class="thumbnail">
+                            <img alt="" src="assets/img/the_output_interface.png">
+                        </div>
+                        &nbsp;
+                        <p>
+                            Plain text content or PubMed articles' title and abstract are displayed in the <b>annotated text area</b>, where all recognized concepts 
+                            are highlighted in the color corresponding to the concept type, or semantic group.
+                        </p>
+                        <p>
+                            Terms tagged with more than one concept from different types are deemed <b>ambiguous</b>.
+                        </p>
+                    
+                        <section id="conceptPopovers">
+                            <div class="page-header">
+                                <h1>Concept Popovers</h1>
+                            </div>
+                            <p>
+                                You can <b>hover</b> or <b>click</b> your mouse over any <b>highlighted term</b> to view details about <b>identified concepts</b>.
+                            </p>
+                            <div class="thumbnail">
+                                <img alt="" src="assets/img/concept_popovers.png">
+                            </div>
+                        </section>
+                        
+                        <section id="exportingResults">
+                            <div class="page-header">
+                                <h1>Exporting results</h1>
+                            </div>
+                            <p>
+                                It exports annotated text with recognized concepts in multiple popular formats. Simply click the <b>Export button</b> and select your 
+                                preferred format. 
+                            </p>
+                            <div class="thumbnail">
+                                <img alt="" src="assets/img/exporting_results.png">
+                            </div>
+                            <p>
+                                Each format supports different features, so you can choose the format you want depending on your needs.
+                            </p>
+                        </section>
+                    </section>
+                </div>
+            </div>
+            
+            
+        </div>
+        <footer class="navbar-fixed-bottom">
+            <div class="row text-center">
+                Copyright © 2015 
+                <a href="http://www.bmd-software.com">BMD Software</a>. All rights reserved.
+            </div>
+        </footer>
+        
+        <!-- About modal -->
+        <div class="modal fade pg-show-modal" id="about-modal" tabindex="-1" role="dialog" aria-hidden="true"> 
+            <div class="modal-dialog"> 
+                <div class="modal-content"> 
+                    <div class="modal-header"> 
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>                         
+                        <h4 class="modal-title">About</h4> 
+                    </div>                     
+                    <div class="modal-body">
+                        <div class="clearfix">
+                            <p> 
+                                <span style="font-family:'lobster'; font-size:200%">neji</span> is developed by <a href="http://www.bmd-software.com/">BMD Software</a>.<br>
+                                We highly appreciate all feedback and want to know your thoughts and experience using the tool.<br>
+                                Please drop us a line if you need assistance with any feature or have suggestions on ways to improve neji.
+                            </p>
+                        </div>
+
+                        <hr>
+
+                        <h3><b>Contacts</b></h3>
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Phone:</td>
+                                <td><i class="fa fa-phone"></i> +351 234247289 / +351 308804004</td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td><i class="fa fa-envelope"></i> <a href="mailto:info@bmd-software.com">info@bmd-software.com</a></td>
+                            </tr>
+                            <tr>
+                                <td>Fax:</td>
+                                <td><i class="fa fa-fax"></i>  +351 234401529</td>
+                            </tr>
+                        </table>
+
+                        <hr>
+
+                        <a href="http://www.bmd-software.com/">
+                            <img src='../assets/img/bmd.png' alt='' style='height:40px;'>
+                        </a>
+                    </div>
+                </div>                 
+            </div>
+        </div>
+        <!-- /About modal -->
+        <!-- /.container -->
+        
+        <!-- HandleBars templates
+    ================================================== -->
+        <!-- Navbar container template -->
+        <script id="navbar-container-template" type="text/x-handlebars-template">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="index.html" target="_self"><i class="fa fa-home"></i> Home</a>
+                </li>
+                {{#if username}}
+                    <li>
+                        <a href="admin/services.html"><i class="fa fa-server"></i> Services</a>
+                    </li>
+                    <li class="dropdown"> 
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-database"></i> Resources <b class="caret"></b></a> 
+                        <ul class="dropdown-menu"> 
+                            <li>
+                                <a href="admin/resources-dictionaries.html" target="_self"><i class="fa fa-file-text-o"></i> Dictionaries</a>
+                            </li>                                 
+                            <li>
+                                <a href="admin/resources-models.html" target="_self"><i class="fa fa-sitemap"></i>  Machine-learning models</a>
+                            </li>                                
+                        </ul>
+                    </li>
+                {{/if}}                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="help.html"><i class="fa fa-question-circle"></i> Help</a>
+                </li>
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#about-modal"><i class="fa fa-info-circle"></i> About</a>
+                </li>
+                {{#if username}}
+                    <li class="dropdown"> 
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{username}} <b class="caret"></b></a> 
+                        <ul class="dropdown-menu"> 
+                            <li>
+                                <a href="#" id="logout-button"><i class="fa fa-sign-out"></i> Logout</a>
+                            </li>                              
+                        </ul>
+                    </li>
+                {{else}}
+                    <li>
+                        <a href="logon.html"><i class="fa fa-sign-in"></i> Login</a>
+                    </li>
+                {{/if}}
+            </ul>
+        </script>
+        <!-- /.Navbar container template -->
+        
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+        
+        <!-- HandleBars Javascript -->
+        <script src="assets/js/handlebars-v3.0.3.js"></script>
+        
+        <!-- PNotify Javascript -->
+        <script src="assets/js/pnotify.custom.min.js"></script>
+        
+        <!-- Bootstrap Confirmation -->
+        <script src="assets/js/bootstrap-confirmation.min.js"></script>
+        
+        <!-- FormValidation plugin and the class supports validating Bootstrap form -->
+        <script src="formvalidation/js/formValidation.min.js"></script>
+        <script src="formvalidation/js/framework/bootstrap.min.js"></script>
+        
+        <!-- Custom JavaScript -->
+        <script src="assets/js/common.js"></script>
+        
+        <script type="text/javascript">
+            var shiftWindow = function() { scrollBy(0, -60) };
+            if (location.hash) shiftWindow();
+            window.addEventListener("hashchange", shiftWindow);
+        </script>
+    </body>
+</html>

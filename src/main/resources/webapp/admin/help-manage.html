@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Neji</title>
+        
+        <!-- Bootstrap core CSS -->
+        <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+        
+        <!-- Custom styles for this template -->
+        <link href="../assets/css/starter-template.css" rel="stylesheet">
+        
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand brand-neji">
+                        <a href="../index.html">
+                            <div class="lettering-small pull-left">neji</div>
+                            <i class="fa fa-pencil pencil-small pull-left"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-container">
+                    <!-- Here goes navbar buttons -->
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li class="active">Help</li>
+                </ol>
+            </div>
+            <div class="row text-center">
+                <h2 class="title"><i class="fa fa-question-circle"></i> Help</h2>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3 sidebar">
+                    <div class="list-group" data-spy="affix">
+                        <a class="list-group-item" href="#introduction">Introduction <i class="pull-right fa fa-chevron-right fa-fw"></i></a>
+                        <a class="list-group-item" href="#services">Services <i class="pull-right fa fa-chevron-right fa-fw"></i></a>
+                        <a class="list-group-item" href="#dictionaries">Dictionaries <i class="pull-right fa fa-chevron-right fa-fw"></i></a>
+                        <a class="list-group-item" href="#models">Models <i class="pull-right fa fa-chevron-right fa-fw"></i></a>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <section id="introduction">
+                        <div class="page-header">
+                            <h1>Introduction</h1>
+                        </div>
+                        <p>
+                            This server manages <b class="emphasize">concurrent services</b>, each service representing independent
+                            document processing requirements.<br>
+                            Services can be individually configured to annotate documents using
+                            different sets of <b>dictionaries</b> and <b>models</b> loaded in the server and to use different
+                            <b>parsing levels</b>.
+                        </p>
+                    </section>
+                    <section id="services">
+                        <div class="page-header">
+                            <h1>Services</h1>
+                        </div>
+                        <p>
+                            To add a new service or delete currently active services, go to
+                            <a href="services.html">services page</a>.
+                        </p>
+                        <p>
+                            When configuring a service, you can set which of the dictionaries and models loaded in the server will be
+                            used during document processing, which parsing level will be used during NLP and if annotations without IDs
+                            will be included.
+                        </p>
+                        <p>
+                            In the right side of each service in the list you can:
+                        </p>
+                        <div class="well well-sm" style="margin-left:20px; width:auto;">
+                            <div style="padding-bottom:5px">
+                                <button type="button" class="btn btn-default btn-sm btn-primary">
+                                    <i class="fa fa-eye"></i> View
+                                </button>
+                                &nbsp; access the service annotation page;
+                            </div>
+                            <div style="padding-bottom:5px">
+                                <button type="button" class="btn btn-default btn-sm btn-warning">
+                                    <i class="fa fa-pencil"></i> Edit
+                                </button>
+                                &nbsp; edit the service configuration;
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-default btn-sm btn-danger">
+                                    <i class="fa fa-minus-circle"></i> Delete
+                                </button>
+                                &nbsp; delete the service.
+                            </div>
+                        </div>                    
+                    </section>
+                    <section id="dictionaries">
+                        <div class="page-header">
+                            <h1>Dictionaries</h1>
+                        </div>
+                        <p>
+                            To add a new dictionary or delete currently active dictionaries, go to
+                            <a href="resources-dictionaries.html">dictionaries page</a>.
+                        </p>
+                        <p>
+                            Dictionaries must be provided following the TSV format, where each line is composed by two values:
+                        </p>    
+                        <ul>
+                            <li><b>1st:</b> identifier that contains 4 fields concatenated with a ":", following the template &lt;source&gt;:&lt;id&gt;:&lt;type&gt;:&lt;group&gt;;</li>
+                            <li><b>2nd:</b> names concatenated with a "|".</li>
+                        </ul>
+                        <p><b>Example:</b></p>
+                        <div class="well well-sm">
+                            UMLS:C0001327:T047:DISO acute laryngitis|acute laryngitis nos<br>
+                            UMLS:C0001339:T047:DISO acute pancreatitis|pancreatitis, acute<br>
+                            UMLS:C0001344:T047:DISO pharyngitis nos acute|acute pharyngitis|pharyngitis acute<br>
+                            UMLS:C0001360:T047:DISO acute thyroiditis|thyroiditis acute
+                        </div>
+                        <p>
+                            In the right side of each dictionary in the list you can:
+                        </p>
+                        <div class="well well-sm" style="margin-left:20px; width:auto;">
+                            <div>
+                                <button type="button" class="btn btn-default btn-sm btn-danger">
+                                    <i class="fa fa-minus-circle"></i> Delete
+                                </button>
+                                &nbsp; delete the dictionary.
+                            </div>
+                        </div>
+                    </section>
+                    <section id="models">
+                        <div class="page-header">
+                            <h1>Models</h1>
+                        </div>
+                        <p>
+                            To add a new model or delete currently active models, go to
+                            <a href="resources-models.html">models page</a>.
+                        </p>
+                        <p>Each model is described using a properties file, defining the following characteristics:</p>
+                        <ul>
+                            <li><b>File</b>: compressed file that contains the model;</li>
+                            <li><b>Config</b>: file that contains features configuration of the model;</li>
+                            <li><b>Parsing</b>: text parsing direction used to train the model;</li>
+                            <li><b>Group</b>: semantic group of the annotations generated by the model;</li>
+                            <li><b>Normalization dictionaries</b>: if normalization is required, provide the folder with the dictionaries, following the same approach previously described for dictionaries. If no normalization is required, this field should not be provided.</li>
+                        </ul>
+                        <p><b>Example of model properties file:</b></p>
+                        <div class="well well-sm">
+                            file=all_bc2_bw_o2_windows_ndp.gz<br>
+                            config=bc2.config<br>
+                            parsing=BW<br>
+                            group=PRGE<br>
+                            dictionaries=../../lexicons/prge/
+                        </div>
+                        <p><b>Example of model features configuration file:</b></p>
+                        <div class="well well-sm">
+                            token=1<br>
+                            stem=0<br>
+                            lemma=1<br>
+                            pos=1<br>
+                            chunk=1<br>
+                            nlp=0<br>
+                            capitalization=1<br>
+                            counting=1<br>
+                            symbols=1<br>
+                            ngrams=1<br>
+                            suffix=1<br>
+                            prefix=1<br>
+                            morphology=1<br>
+                            greek=1<br>
+                            roman=0<br>
+                            prge=1<br>
+                            concepts=1<br>
+                            verbs=1<br>
+                            window=1<br>
+                            conjunctions=0<br>
+                            order=2<br>
+                            parsing=BW<br>
+                            entity=PRGE
+                        </div>
+                        <p>
+                            When adding a new model it is possible to select normalization dictionaries from the 
+                            currently active dictionaries in the server.
+                        </p>
+                        <p>
+                            In the right side of each model in the list you can:
+                        </p>
+                        <div class="well well-sm" style="margin-left:20px; width:auto;">
+                            <div style="padding-bottom:5px">
+                                <button type="button" class="btn btn-default btn-sm btn-warning">
+                                    <i class="fa fa-pencil"></i> Edit
+                                </button>
+                                &nbsp; edit the model configuration;
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-default btn-sm btn-danger">
+                                    <i class="fa fa-minus-circle"></i> Delete
+                                </button>
+                                &nbsp; delete the model.
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            
+            
+        </div>
+        <footer class="navbar-fixed-bottom">
+            <div class="row text-center">
+                Copyright © 2015 
+                <a href="http://www.bmd-software.com">BMD Software</a>. All rights reserved.
+            </div>
+        </footer>
+        
+        <!-- About modal -->
+        <div class="modal fade pg-show-modal" id="about-modal" tabindex="-1" role="dialog" aria-hidden="true"> 
+            <div class="modal-dialog"> 
+                <div class="modal-content"> 
+                    <div class="modal-header"> 
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>                         
+                        <h4 class="modal-title">About</h4> 
+                    </div>                     
+                    <div class="modal-body">
+                        <div class="clearfix">
+                            <p> 
+                                <span style="font-family:'lobster'; font-size:200%">neji</span> is developed by <a href="http://www.bmd-software.com/">BMD Software</a>.<br>
+                                We highly appreciate all feedback and want to know your thoughts and experience using the tool.<br>
+                                Please drop us a line if you need assistance with any feature or have suggestions on ways to improve neji.
+                            </p>
+                        </div>
+
+                        <hr>
+
+                        <h3><b>Contacts</b></h3>
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Phone:</td>
+                                <td><i class="fa fa-phone"></i> +351 234247289 / +351 308804004</td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td><i class="fa fa-envelope"></i> <a href="mailto:info@bmd-software.com">info@bmd-software.com</a></td>
+                            </tr>
+                            <tr>
+                                <td>Fax:</td>
+                                <td><i class="fa fa-fax"></i>  +351 234401529</td>
+                            </tr>
+                        </table>
+
+                        <hr>
+
+                        <a href="http://www.bmd-software.com/">
+                            <img src='../assets/img/bmd.png' alt='' style='height:40px;'>
+                        </a>
+                    </div>
+                </div>                 
+            </div>
+        </div>
+        <!-- /About modal -->
+        <!-- /.container -->
+        
+        <!-- Navbar container template -->
+        <script id="navbar-container-template" type="text/x-handlebars-template">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="../index.html" target="_self"><i class="fa fa-home"></i> Home</a>
+                </li>
+                {{#if username}}
+                    <li>
+                        <a href="services.html"><i class="fa fa-server"></i> Services</a>
+                    </li>
+                    <li class="dropdown"> 
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-database"></i> Resources <b class="caret"></b></a> 
+                        <ul class="dropdown-menu"> 
+                            <li>
+                                <a href="resources-dictionaries.html" target="_self"><i class="fa fa-file-text-o"></i> Dictionaries</a>
+                            </li>                                 
+                            <li>
+                                <a href="resources-models.html" target="_self"><i class="fa fa-sitemap"></i>  Machine-learning models</a>
+                            </li>                                
+                        </ul>
+                    </li>
+                {{/if}}                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="help-manage.html"><i class="fa fa-question-circle"></i> Help</a>
+                </li>
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#about-modal"><i class="fa fa-info-circle"></i> About</a>
+                </li>
+                {{#if username}}
+                    <li class="dropdown"> 
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{username}} <b class="caret"></b></a> 
+                        <ul class="dropdown-menu"> 
+                            <li>
+                                <a href="#" id="logout-button"><i class="fa fa-sign-out"></i> Logout</a>
+                            </li>                              
+                        </ul>
+                    </li>
+                {{else}}
+                    <li>
+                        <a href="../logon.html"><i class="fa fa-sign-in"></i> Login</a>
+                    </li>
+                {{/if}}
+            </ul>
+        </script>
+        <!-- /.Navbar container template -->
+        
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="../assets/js/jquery.min.js"></script>
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+        
+        <!-- HandleBars Javascript -->
+        <script src="../assets/js/handlebars-v3.0.3.js"></script>
+        
+        <!-- PNotify Javascript -->
+        <script src="../assets/js/pnotify.custom.min.js"></script>
+        
+        <!-- Bootstrap Confirmation -->
+        <script src="../assets/js/bootstrap-confirmation.min.js"></script>
+        
+        <!-- FormValidation plugin and the class supports validating Bootstrap form -->
+        <script src="../formvalidation/js/formValidation.min.js"></script>
+        <script src="../formvalidation/js/framework/bootstrap.min.js"></script>
+        
+        <!-- Custom JavaScript -->
+        <script src="../assets/js/common.js"></script>
+        
+        <script type="text/javascript">
+            var shiftWindow = function() { scrollBy(0, -60) };
+            if (location.hash) shiftWindow();
+            window.addEventListener("hashchange", shiftWindow);
+        </script>
+    </body>
+</html>

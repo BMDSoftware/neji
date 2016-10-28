@@ -1,0 +1,14 @@
+<h4><a href="http://www.ncbi.nlm.nih.gov/pubmed/{{pmid}}" target="_blank">{{{title}}}</a></h4>
+<br>
+
+<ul class="unstyled pub-metadata">
+	<!--<li>{{#if authors}}{{authors}}{{else}}[No authors listed]{{/if}} {{#if country}}[{{country}}]{{/if}}</li>
+	<li class="small-italic">{{#if journal}}{{journal}}.{{/if}} {{#if pubdate}}{{pubdate}}.{{/if}} {{#if doi}}<a href="http://dx.doi.org/{{doi}}" target="_blank">{{doi}}</a>{{/if}}</li>
+	<li class="small-gray">{{#if pubtype}}{{pubtype}}{{else}}[No publication types listed]{{/if}}</li>-->
+</ul>
+
+{{#if abstract}}
+<p>{{{abstract}}}</p>
+{{else}}
+<p><i>[No abstract available.]</i></p>
+{{/if}}
