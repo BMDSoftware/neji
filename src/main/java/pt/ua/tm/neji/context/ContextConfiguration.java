@@ -324,7 +324,8 @@ public class ContextConfiguration {
             Parser placeholderParser = Parser.defaultParserFactory(
                     atomicTool.get(), atomicLanguage.get(), atomicLevel.get(), atomicParserPath.get());
             if (!inputFormat2.equals(InputFormat.CUSTOM)) {
-                modulesForValidation.add(inputFormat2.instantiateDefaultReader(placeholderParser, placeholderParser.getLevel(), new String[0]));
+                modulesForValidation.add(inputFormat2.instantiateDefaultReader(placeholderParser, 
+                        placeholderParser.getLevel(), new String[0], null, null));
             }
 
             // adds placeholder NLP and Abbreviation to fulfill some requirements during validation
@@ -333,7 +334,8 @@ public class ContextConfiguration {
                 modulesForValidation.add(0, new TrainNLP(placeholderParser));
                 index = 1;
             }
-            else if (!inputFormat2.equals(InputFormat.BIOC) && !moduleNames.contains(NLP.class.getName())) {
+            else if (!(inputFormat2.equals(InputFormat.BIOC) || inputFormat2.equals(InputFormat.PDF)) 
+                    && !moduleNames.contains(NLP.class.getName())) {
                 modulesForValidation.add(0, new NLP(placeholderParser));
                 index = 1;
             }
@@ -380,7 +382,8 @@ public class ContextConfiguration {
             Parser placeholderParser = Parser.defaultParserFactory(
                     atomicTool.get(), atomicLanguage.get(), atomicLevel.get(), atomicParserPath.get());            
             if (!inputFormat2.equals(InputFormat.CUSTOM)) {
-                modulesForValidation.add(inputFormat2.instantiateDefaultReader(placeholderParser, placeholderParser.getLevel(), new String[0]));
+                modulesForValidation.add(inputFormat2.instantiateDefaultReader(placeholderParser, 
+                        placeholderParser.getLevel(), new String[0], null, null));
             }
             
             // Add writer to modules for validation
@@ -425,7 +428,8 @@ public class ContextConfiguration {
             Parser placeholderParser = Parser.defaultParserFactory(
                     atomicTool.get(), atomicLanguage.get(), atomicLevel.get(), atomicParserPath.get());            
             if (!inputFormat2.equals(InputFormat.CUSTOM)) {
-                modulesForValidation.add(inputFormat2.instantiateDefaultReader(placeholderParser, placeholderParser.getLevel(), new String[0]));
+                modulesForValidation.add(inputFormat2.instantiateDefaultReader(placeholderParser, 
+                        placeholderParser.getLevel(), new String[0], null, null));
             }
             
                         

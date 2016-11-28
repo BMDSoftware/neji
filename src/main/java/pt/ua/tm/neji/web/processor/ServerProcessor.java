@@ -96,10 +96,11 @@ public class ServerProcessor extends BaseProcessor {
             if(filterGroups) {
                 instantiateModulesFromGroups(dictionaries, models, 
                         service.getParserLevel(), cp, context, pipeline, 
-                        groups, xmlTags, service.isNoIds());
+                        groups, xmlTags, service.isNoIds(), inputStream, null);
             } else {
                 instantiateModules(dictionaries, models, service.getParserLevel(), 
-                        cp, context, pipeline, xmlTags, service.isNoIds());
+                        cp, context, pipeline, xmlTags, service.isNoIds(), 
+                        inputStream, null);
             }
 
             // Execute the pipeline

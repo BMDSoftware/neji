@@ -15,12 +15,14 @@
 
 package pt.ua.tm.neji.context;
 
+import java.io.File;
 import java.io.InputStream;
 import pt.ua.tm.neji.core.module.Reader;
 import pt.ua.tm.neji.core.parser.Parser;
 import pt.ua.tm.neji.core.parser.ParserLevel;
 import pt.ua.tm.neji.exception.NejiException;
 import pt.ua.tm.neji.reader.BioCReader;
+import pt.ua.tm.neji.reader.PdfReader;
 import pt.ua.tm.neji.reader.RawReader;
 import pt.ua.tm.neji.reader.XMLReader;
 import pt.ua.tm.neji.train.reader.A1Reader;
@@ -36,6 +38,7 @@ public enum InputFormat {
     XML,
     RAW,
     BIOC,
+    PDF,
     CUSTOM,
     
     // Training input formats
@@ -44,11 +47,13 @@ public enum InputFormat {
     SERIALIZED,
     JNLPBA;
     
-    public Reader instantiateDefaultReader(Parser p, ParserLevel level, String[] extra) throws NejiException {
+    public Reader instantiateDefaultReader(Parser p, ParserLevel level, 
+            String[] extra, InputStream inputStream, File rulesFile) throws NejiException {
         switch (this) {
             case RAW:       return new RawReader();
             case XML:       return new XMLReader(extra);
             case BIOC:      return new BioCReader(p, level);
+            case PDF:       return new PdfReader(p, level, inputStream, rulesFile);
             case CUSTOM:    return null; // it's the user's responsibility to provide the custom reader
             case BC2:       return new BC2Reader(p, level);
             case A1:        return new A1Reader(p, level);
@@ -58,7 +63,8 @@ public enum InputFormat {
         }
     }
     
-    public Reader instantiateTrainerReader(Parser p, ParserLevel level, String path, InputStream annotations) throws NejiException {
+    public Reader instantiateTrainerReader(Parser p, ParserLevel level, 
+            String path, InputStream annotations) throws NejiException {
         switch (this) {
             case BC2:       return new BC2Reader(p, level, annotations);
             case A1:        return new A1Reader(p, level, annotations);

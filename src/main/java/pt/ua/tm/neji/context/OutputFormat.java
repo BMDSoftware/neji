@@ -30,6 +30,7 @@ public enum OutputFormat {
     A1,
     NEJI,
     JSON,
+    JSONPDF,
     CONLL,
     XML,
     B64,
@@ -46,6 +47,7 @@ public enum OutputFormat {
             case A1:        return new A1Writer();
             case CONLL:     return new CoNLLWriter();
             case JSON:      return new JSONWriter();
+            case JSONPDF:   return new JSONPdfWriter();
             case NEJI:      return new NejiWriter();
             case XML:       return new IeXMLWriter();
             case B64:       return new Base64Writer();

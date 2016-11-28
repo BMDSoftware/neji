@@ -15,6 +15,7 @@
 
 package pt.ua.tm.neji.processor;
 
+import java.io.File;
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ import pt.ua.tm.neji.processor.filewrappers.InputFile;
 import pt.ua.tm.neji.processor.filewrappers.OutputFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +53,7 @@ public class FileProcessor extends BaseProcessor {
     private OutputFileList outputFileList;
     private String[] xmlTags;
     private final boolean addAnnotationsWithoutIDs;
+    private File rulesFile;
 
     public FileProcessor(Context context, InputFile inputFile, boolean addAnnotationsWithoutIDs){
         super(context);
@@ -68,6 +71,12 @@ public class FileProcessor extends BaseProcessor {
     public FileProcessor(Context context, InputFile inputFile, List<OutputFile> outputFiles, boolean addAnnotationsWithoutIDs, String... xmlTags) {
         this(context, inputFile, outputFiles, addAnnotationsWithoutIDs);
         this.xmlTags = xmlTags;
+    }
+    
+    public FileProcessor(Context context, InputFile inputFile, List<OutputFile> outputFiles, 
+            boolean addAnnotationsWithoutIDs, File rulesFile) {
+        this(context, inputFile, outputFiles, addAnnotationsWithoutIDs);
+        this.rulesFile = rulesFile;        
     }
 
     @Override
@@ -92,13 +101,16 @@ public class FileProcessor extends BaseProcessor {
             // Create Pipeline
             Pipeline p = new DefaultPipeline(corpus);
             instantiateModules(context.getDictionaries(), context.getModels(), 
-                    cp, context, p, xmlTags, addAnnotationsWithoutIDs);
+                    cp, context, p, xmlTags, addAnnotationsWithoutIDs, 
+                    inputFile.getInStream(), rulesFile);
+            
+            InputStream input = getInputFile().getInStream();
 
             if (!context.getConfiguration().getOutputFormats().isEmpty()) {
 //                p.add(new TextReplacer("&lt;§", "&lt;s"));
 //                p.add(new TextReplacer("&lt;/§&gt;", "&lt;/s&gt;"));
 
-                p.run(getInputFile().getInStream(), getOutputFiles().getOutputStreamList());
+                p.run(input, getOutputFiles().getOutputStreamList());
 
             } else {
 //                p.add(new TextReplacer("&lt;§", "&lt;s"));

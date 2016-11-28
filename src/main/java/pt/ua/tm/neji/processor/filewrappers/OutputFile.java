@@ -39,10 +39,13 @@ public class OutputFile extends CorpusFile {
 
     public static File newOutputFile(String outputFolder, String filename,
                                      OutputFormat format, boolean compressed) {
-        if(format.equals(OutputFormat.BIOC))
+        if(format.equals(OutputFormat.BIOC)) {
             filename += ".xml";
-        else
+        } else if (format.equals(OutputFormat.JSONPDF)) {
+            filename += ".json";
+        } else {
             filename += "."+format.toString().toLowerCase();
+        }
 
         filename = String.format("%s%s", filename, compressed ? ".gz" : "");
 

@@ -15,11 +15,8 @@
 
 package pt.ua.tm.neji.core.processor;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import org.apache.commons.lang.Validate;
 import pt.ua.tm.neji.train.model.CRFBase;
 import pt.ua.tm.neji.context.*;
@@ -44,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import pt.ua.tm.neji.postprocessing.FalsePositivesFilter;
 import pt.ua.tm.neji.postprocessing.SemanticGroupsNormalizer;
+import pt.ua.tm.neji.reader.PdfReader;
 import pt.ua.tm.neji.train.nlp.TrainNLP;
 import pt.ua.tm.neji.train.reader.BC2Reader;
 
@@ -76,10 +74,12 @@ public abstract class BaseProcessor implements Processor {
                                             Context c,
                                             Pipeline p,
                                             String[] xmlTags,
-                                            boolean addAnnotationsWithoutIDs) throws NejiException {
+                                            boolean addAnnotationsWithoutIDs,
+                                            InputStream inputStream,
+                                            File rulesFile) throws NejiException {
         instantiateModules(
                 dictionaries, models, cp.getParser().getLevel(), cp, c, p, 
-                xmlTags, addAnnotationsWithoutIDs);
+                xmlTags, addAnnotationsWithoutIDs, inputStream, rulesFile);
     }
 
     protected final void instantiateModules(List<Dictionary> dictionaries,
@@ -89,10 +89,13 @@ public abstract class BaseProcessor implements Processor {
                                             Context c,
                                             Pipeline p,
                                             String[] xmlTags,
-                                            boolean addAnnotationsWithoutIDs) throws NejiException {
+                                            boolean addAnnotationsWithoutIDs,
+                                            InputStream inputStream,
+                                            File rulesFile) throws NejiException {
 
         List<Module> moduleList = new ArrayList<>();
-        fetchModulesFromConfig(cp.getParser(), customLevel, moduleList, xmlTags);
+        fetchModulesFromConfig(cp.getParser(), customLevel, moduleList, xmlTags, 
+                inputStream, rulesFile);
         
         int index = 2;
 
@@ -158,7 +161,7 @@ public abstract class BaseProcessor implements Processor {
                                                       boolean addAnnotationsWithoutIDs) throws NejiException {
         instantiateModulesFromGroups(
                 dictionaries, models, cp.getParser().getLevel(), cp, c, p, 
-                groups, xmlTags, addAnnotationsWithoutIDs);
+                groups, xmlTags, addAnnotationsWithoutIDs, null, null);
     }
 
     protected final void instantiateModulesFromGroups(List<Dictionary> dictionaries,
@@ -169,9 +172,12 @@ public abstract class BaseProcessor implements Processor {
                                                       Pipeline p,
                                                       Map<String, Boolean> groups,
                                                       String[] xmlTags,
-                                                      boolean addAnnotationsWithoutIDs) throws NejiException {
+                                                      boolean addAnnotationsWithoutIDs,
+                                                      InputStream inputStream,
+                                                      File rulesFile) throws NejiException {
         List<Module> moduleList = new ArrayList<>();
-        fetchModulesFromConfig(cp.getParser(), customLevel, moduleList, xmlTags);
+        fetchModulesFromConfig(cp.getParser(), customLevel, moduleList, xmlTags, 
+                inputStream, rulesFile);
 
         int index = 2;
 
@@ -236,9 +242,9 @@ public abstract class BaseProcessor implements Processor {
     private void fetchModulesFromConfig(Parser parser,
                                         ParserLevel parserLevel,
                                         List<Module> moduleList,
-                                        String[] xmlTags) throws NejiException {
-        // Change previous s tags
-//        moduleList.add(new TagReplacer("s", "§"));
+                                        String[] xmlTags,
+                                        InputStream inputStream,
+                                        File rulesFile) throws NejiException {
 
         ContextConfiguration config = context.getConfiguration();
 
@@ -268,7 +274,8 @@ public abstract class BaseProcessor implements Processor {
         }
 
         if (reader == null) {
-            reader = config.getInputFormat().instantiateDefaultReader(parser, parserLevel, xmlTags);
+            reader = config.getInputFormat().instantiateDefaultReader(parser, 
+                    parserLevel, xmlTags, inputStream, rulesFile);
         }
         moduleList.add(0, reader);
 
@@ -277,7 +284,8 @@ public abstract class BaseProcessor implements Processor {
             TrainNLP nlp = new TrainNLP(parser, parserLevel);
             moduleList.add(1, nlp);
         }
-        else if ((!(reader instanceof BioCReader)) && (!(context instanceof TrainContext))) {
+        else if ((!(reader instanceof BioCReader || reader instanceof PdfReader)) 
+                && (!(context instanceof TrainContext))) {
             NLP nlp = new NLP(parser, parserLevel);
             moduleList.add(1, nlp);
         }

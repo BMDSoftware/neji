@@ -65,8 +65,8 @@ public class Main {
      */
     private static final String HEADER = "\nNeji: modular biomedical concept recognition made easy, fast and accessible.";
     private static final String USAGE
-            = "-i <folder> -if [XML|RAW|BIOC|BC2] [-x <tags>] [-f <wildcard filter>] "
-            + "-o <folder> -of [XML|NEJI|A1|CONLL|JSON|B64|BIOC|PIPE|PIPEXT|BC2] "
+            = "-i <folder> -if [XML|RAW|BIOC|PDF] [-x <tags>] [-f <wildcard filter>] [-r <rules file>]"
+            + "-o <folder> -of [XML|NEJI|A1|CONLL|JSON|JSONPDF|B64|BIOC|PIPE|PIPEXT|BC2] "
             + "[-p <folder>] "
             + "[-d <folder>] "
             + "[-m <folder>] "
@@ -124,8 +124,8 @@ public class Main {
 
         options.addOption("d", "dictionaires", true, "Folder that contains the dictionaries.");
 
-        options.addOption("if", "input-format", true, "BIOC, RAW or XML");
-        o = new Option("of", "output-formats", true, "A1, B64, BIOC, CONLL, JSON, NEJI or XML");
+        options.addOption("if", "input-format", true, "BIOC, RAW, XML or PDF");
+        o = new Option("of", "output-formats", true, "A1, B64, BIOC, CONLL, JSON, JSONPDF, NEJI or XML");
         o.setArgs(Integer.MAX_VALUE);
         options.addOption(o);
 
@@ -146,6 +146,8 @@ public class Main {
         options.addOption("noids", "include-no-ids", false, "If annotations without IDs should be included.");
         options.addOption("t", "threads", true,
                 "Number of threads. By default, if more than one core is available, it is the number of cores minus 1.");
+        options.addOption("r", "rules-file", true,
+                "Rules file for pdf extraction.");
         
         options.addOption("fp", "false-positives-filter", true, "File that contains the false positive terms.");
         options.addOption("gn", "semantic-groups-normalization", true, 
@@ -330,12 +332,29 @@ public class Main {
         // Get threads
         String threadsText = null;
         if (commandLine.hasOption('t')) {
-            threadsText = commandLine.getOptionValue('t');
-            NUM_THREADS = Integer.parseInt(threadsText);
-            if (NUM_THREADS <= 0 || NUM_THREADS > 32) {
-                logger.error("Illegal number of threads. Must be between 1 and 32.");
+            if (inputFormat.equals(InputFormat.PDF)) {
+                NUM_THREADS = 1;
+            } else {
+                threadsText = commandLine.getOptionValue('t');
+                NUM_THREADS = Integer.parseInt(threadsText);
+                if (NUM_THREADS <= 0 || NUM_THREADS > 32) {
+                    logger.error("Illegal number of threads. Must be between 1 and 32.");
+                    return;
+                }
+            }
+        }
+        
+        // Get rules file path (for PDF input format only)
+        String rulesFilePath = null;
+        if (commandLine.hasOption('r') && inputFormat.equals(InputFormat.PDF)) {
+            rulesFilePath = commandLine.getOptionValue('r');
+            File test = new File(rulesFilePath);
+            if (!test.isFile() || !test.canRead()) {
+                logger.error("The specified path is not a file or is not readable.");
                 return;
             }
+            rulesFilePath = test.getAbsolutePath();
+            rulesFilePath += File.separator;
         }
 
         // Load pipeline processor
@@ -482,13 +501,14 @@ public class Main {
 
         try {
             BatchExecutor batchExecutor = new FileBatchExecutor(folderCorpusIn, folderCorpusOut,
-                    compressed, NUM_THREADS, inputFolderWildcard, storeDocuments, 
-                    includeAnnotationsWithoutIDs);
+                    compressed, NUM_THREADS, inputFolderWildcard, storeDocuments, includeAnnotationsWithoutIDs);
 
-            if (xmlTags == null) {
-                batchExecutor.run(processor, context);
-            } else {
+            if (xmlTags != null) {
                 batchExecutor.run(processor, context, new Object[]{xmlTags});
+            } else if (rulesFilePath != null) {
+                batchExecutor.run(processor, context, new File(rulesFilePath));
+            } else {
+                batchExecutor.run(processor, context);
             }
 
         } catch (Exception ex) {

@@ -327,7 +327,7 @@ public class TrainProcessor extends BaseProcessor {
             if (config.getInputFormat().equals(InputFormat.SERIALIZED)) {
                 reader = config.getInputFormat().instantiateTrainerReader(null, null, c.getSerializedCorpusPath(), null);
             } else if (getAnnotationsInputFile() == null) {
-                reader = config.getInputFormat().instantiateDefaultReader(parser, parserLevel, xmlTags);
+                reader = config.getInputFormat().instantiateDefaultReader(parser, parserLevel, xmlTags, null, null);
             } else {
                 reader = config.getInputFormat().instantiateTrainerReader(parser, parserLevel, c.getSerializedCorpusPath(), getAnnotationsInputFile().getInStream());
             }
