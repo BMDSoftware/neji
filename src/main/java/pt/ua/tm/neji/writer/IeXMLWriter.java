@@ -116,15 +116,6 @@ public class IeXMLWriter extends BaseWriter {
 
             // Replace annotation in the XML document
             yytext.replace(startSentence + offset_id, start, newSentence);
-            
-            // Add parent tags
-            if (nProcessedSentences == 0) {
-                yytext.insert(0, "<"+PARENT_TAG+">");
-            }    
-            
-            if (nProcessedSentences == (getPipeline().getCorpus().size() - 1)) {
-                yytext.append("</"+PARENT_TAG+">");
-            }
                         
             nProcessedSentences++;
         }

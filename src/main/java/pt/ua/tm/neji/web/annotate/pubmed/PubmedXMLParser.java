@@ -159,7 +159,7 @@ public class PubmedXMLParser {
         } catch (IOException ex) {
             throw new RuntimeException("There was a problem parsing the input stream.", ex);
         }
-
+        
         return articles;
     }
 }

@@ -43,6 +43,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ua.tm.neji.context.Context;
+import pt.ua.tm.neji.context.InputFormat;
 import pt.ua.tm.neji.context.OutputFormat;
 import pt.ua.tm.neji.core.annotation.Annotation;
 import pt.ua.tm.neji.core.annotation.Identifier;
@@ -120,7 +121,6 @@ public class AnnotationResource {
         return Response.ok(responseToReturn).build();
     }
 
-
     /**
      * Invoked on POST call by Becas widget annotate function
      */
@@ -161,7 +161,9 @@ public class AnnotationResource {
     public Response onEndOfPath(@DefaultValue("{}") @FormParam("groups") final String groupsJson,
                                 @FormParam("text")   final String text,
                                 @DefaultValue("a1") @FormParam("format") final String format,
-                                @FormParam("pmid") final int pmid) {
+                                @FormParam("pmid") final int pmid,
+                                @DefaultValue("raw") @FormParam("inputformat") final String inputFormat,
+                                @FormParam("extraparameters") final String extraParametersJson) {
         Object responseToReturn;
 
         String serviceID = pathSegments.get(0);
@@ -177,7 +179,8 @@ public class AnnotationResource {
             // Problema aqui !!!! -> lá em cima só apanha o groupsJson, text e format, tem que
             // apanhar também o pmid para se poder usar caso ele exista, ou tentar fazer um nova
             // funcao mas com inteiro em vez de String para ver se assume essa.
-            return evaluatePathSegment(service, pathSegments.get(1), groupsJson, text, format, pmid);
+            return evaluatePathSegment(service, pathSegments.get(1), groupsJson, 
+                    text, format, pmid, inputFormat, extraParametersJson);
         }
 
         return Response.ok(responseToReturn).build();
@@ -194,16 +197,23 @@ public class AnnotationResource {
                     String groupsJson = args[0].toString();
                     String text = args[1].toString();
                     String format = args[2].toString();
-                    return export(service, groupsJson, text, format);
+                    String inputFormat = args[4].toString();
+                    String extraParametersJson = args[5].toString();   
+                    
+                    System.out.println(inputFormat);
+                    
+                    return export(service, groupsJson, text, format, inputFormat, extraParametersJson);
                 case "pubmed-annotate":
                     request = (BecasRequest) args[0];
                     return annotatePubmed(service, request);
                 case "pubmed-export":
                     groupsJson = args[0].toString();
                     format = args[2].toString();
+                    inputFormat = args[4].toString();
+                    extraParametersJson = args[5].toString();
                     String pmid = args[3].toString();
                     text = Pubmed.getCleanTextFromPM(pmid).toString();
-                    return export(service, groupsJson, text, format);
+                    return export(service, groupsJson, text, format, inputFormat, extraParametersJson);
                 default:
                     return Response.ok("Invalid request.").status(Response.Status.BAD_REQUEST).build();
             }
@@ -218,9 +228,12 @@ public class AnnotationResource {
                               @HeaderParam("Accept") String accept) throws Exception {
                 
         Server server = Server.getInstance();        
-
+        
+        InputFormat inputFormat = InputFormat.valueOf(request.getInputFormat());
         ServerBatchExecutor executor = new ServerBatchExecutor(service, server.getExecutor(), 
-                request.getText(), request.getGroups(), null);
+                request.getText(), request.getGroups(), inputFormat, null, 
+                request.getExtraParameters());
+        
         executor.run(ServerProcessor.class, server.getContext());
         Corpus corpus = executor.getProcessedCorpora().get(0);
 
@@ -238,7 +251,8 @@ public class AnnotationResource {
         Server server = Server.getInstance();
         
         // Get pubmed document (text)
-        Document pubmed = Pubmed.getCleanTextFromPM(request.getPmid());       
+        Document pubmed = Pubmed.getCleanTextFromPM(request.getPmid());  
+        InputFormat inputFormat = InputFormat.valueOf(request.getInputFormat());
         
         // Annotate title
         if (pubmed.getTitle() != null) {
@@ -246,9 +260,9 @@ public class AnnotationResource {
             // Get title from document
             title = pubmed.getTitle();
             
-            // Annotate
+            // Annotate            
             ServerBatchExecutor executor = new ServerBatchExecutor(service, server.getExecutor(), 
-                title, request.getGroups(), null);
+                title, request.getGroups(), inputFormat, null, request.getExtraParameters());
             executor.run(ServerProcessor.class, server.getContext());
             Corpus titleCorpus = executor.getProcessedCorpora().get(0);
             
@@ -264,7 +278,7 @@ public class AnnotationResource {
             
             // Annotate
             ServerBatchExecutor executor = new ServerBatchExecutor(service, server.getExecutor(), 
-                abstract_, request.getGroups(), null);
+                abstract_, request.getGroups(), inputFormat, null, request.getExtraParameters());
             executor.run(ServerProcessor.class, server.getContext());
             Corpus abstractCorpus = executor.getProcessedCorpora().get(0);
             
@@ -346,7 +360,7 @@ public class AnnotationResource {
             List<String> title_entities, String abstract_, List<String> abstract_entities) {
         
         PubmedResponse pubmed = new PubmedResponse(pmid, title, abstract_, title_entities, 
-                abstract_entities, new HashMap());
+                abstract_entities, new ArrayList());
         
         return Response.ok(new Gson().toJson(pubmed)).build();      
     }
@@ -354,11 +368,14 @@ public class AnnotationResource {
     private Response export(final Service service,
                             final String groupsJson,
                             final String text,
-                            final String format) {
-        
+                            final String format,
+                            final String inputFormat,
+                            final String extraParametersJson) {
+                                
         final OutputFormat outputFormat = getOutputFormat(Server.getInstance().getContext(), format);
+        Gson gson = new Gson();
         final Map<String, Boolean> groups =
-                new Gson().fromJson(groupsJson, new TypeToken<Map<String, Boolean>>() {}.getType());
+                gson.fromJson(groupsJson, new TypeToken<Map<String, Boolean>>() {}.getType());
 
         if(outputFormat==null) {
             return Response.ok(new StreamingOutput() {
@@ -378,14 +395,22 @@ public class AnnotationResource {
                 @Override
                 public void write(OutputStream outputStream) throws IOException, WebApplicationException {
                     Server server = Server.getInstance();
-
+                    
                     try {
+                        InputFormat inputFormatObj = getInputFormat(Server.getInstance().getContext(), inputFormat);
+                        
+                        Map<String, String> extraParameters = new HashMap();
+                        if (extraParametersJson != null && !extraParametersJson.isEmpty()) {
+                            extraParameters = gson.fromJson(extraParametersJson, new TypeToken<Map<String, String>>() {}.getType());
+                        }
+                        
                         ServerBatchExecutor executor = 
-                                new ServerBatchExecutor(service, server.getExecutor(), text, groups, outputFormat);
+                                new ServerBatchExecutor(service, server.getExecutor(), 
+                                        text, groups, inputFormatObj, outputFormat, extraParameters);
                         executor.run(ServerProcessor.class, server.getContext());
                         String outputText = executor.getAnnotatedText();
+                                                
                         IOUtils.write(outputText, outputStream, "UTF-8");
-
 
                     } catch (Exception ex) {
                         throw new WebApplicationException(ex);
@@ -438,6 +463,25 @@ public class AnnotationResource {
         } else {
             return null;
         }
+    }
+    
+    private static InputFormat getInputFormat(Context context, String format){
+        InputFormat f = null;
+        switch (format.toLowerCase()){                 
+            case "raw":
+                f = InputFormat.RAW;
+                break;
+            case "xml": 
+                f = InputFormat.XML; 
+                break;
+            case "bioc": 
+                f = InputFormat.BIOC; 
+                break;
+            default:
+                f = InputFormat.RAW;
+        }
+        
+        return f;
     }
     
     /**

@@ -46,7 +46,7 @@ public class XMLReader extends BaseReader {
         super.addActionToXMLTag(start_action, xmlTags);
         super.addActionToXMLTag(end_action, xmlTags);
         startText = 0;
-        originalTextSb = new StringBuilder();
+        originalTextSb = new StringBuilder();        
     }
 
     private StartAction start_action = new StartAction() {
@@ -61,7 +61,7 @@ public class XMLReader extends BaseReader {
         public void execute(StringBuffer yytext, int start) {            
             StringBuilder sb = new StringBuilder();
             sb.append("<roi>");
-
+            
             // Solve escaping problems from MEDLINE
 //                String textWithoutProblems = XMLParsing.solveXMLEscapingProblems(yytext.substring(startText, start));
             String textWithoutProblems = solveEscaping(yytext.substring(startText, start));

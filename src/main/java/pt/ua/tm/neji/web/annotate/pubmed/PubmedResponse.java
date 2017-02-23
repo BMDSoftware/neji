@@ -33,13 +33,13 @@ public class PubmedResponse {
     private String abstract_;
     private List<String> entities_title;
     private List<String> entities_abstract;
-    private Map ids;
+    private List<String> ids;
 
     public PubmedResponse() {        
     }
     
     public PubmedResponse(String pmid, String title, String abstract_, 
-            List<String> entities_title, List<String> entities_abstract, Map ids) {
+            List<String> entities_title, List<String> entities_abstract, List<String> ids) {
         this.pmid = pmid;
         this.title = title;
         this.abstract_ = abstract_;
@@ -88,11 +88,11 @@ public class PubmedResponse {
         this.entities_abstract = entities_abstract;
     }
 
-    public Map getIds() {
+    public List<String> getIds() {
         return ids;
     }
 
-    public void setIds(Map ids) {
+    public void setIds(List<String> ids) {
         this.ids = ids;
     }
 
