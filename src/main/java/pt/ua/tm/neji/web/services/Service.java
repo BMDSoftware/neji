@@ -48,13 +48,16 @@ public class Service {
     private List<String> models;
     private Map<String, String> groupsNormalization;
     private String falsePositives;
+    private boolean abbreviations;
+    private boolean disambiguation;
 
     public Service() {
     }
     
     public Service(Integer id, String name, byte[] logo, String parsingLevel, boolean noIds, 
             List<String> dictionaries, List<String> models, 
-            Map<String, String> groupsNormalization, String falsePositives) {
+            Map<String, String> groupsNormalization, String falsePositives, 
+            boolean abbreviations, boolean disambiguation) {
         this.id = id;
         this.name = name;
         this.logo = logo;
@@ -64,13 +67,17 @@ public class Service {
         this.models = models;
         this.groupsNormalization = groupsNormalization;
         this.falsePositives = falsePositives;
+        this.abbreviations = abbreviations;
+        this.disambiguation = disambiguation;
     }
     
     public Service(String name, byte[] logo, String parsingLevel, boolean noIds, 
             List<String> dictionaries, List<String> models, 
-            Map<String, String> groupsNormalization, String falsePositives) {
+            Map<String, String> groupsNormalization, String falsePositives, 
+            boolean abbreviations, boolean groupDisambiguation, boolean disambiguation) {
         this(null, name, logo, parsingLevel, noIds, dictionaries, models, 
-                groupsNormalization, falsePositives);
+                groupsNormalization, falsePositives, abbreviations, 
+                disambiguation);
     }    
 
     public Integer getId() {
@@ -161,6 +168,22 @@ public class Service {
     public void setFalsePositives(String falsePositives) {
         this.falsePositives = falsePositives;
     } 
+
+    public boolean getAbbreviations() {
+        return abbreviations;
+    }
+
+    public void setAbbreviations(boolean abbreviations) {
+        this.abbreviations = abbreviations;
+    }
+
+    public boolean getDisambiguation() {
+        return disambiguation;
+    }
+
+    public void setDisambiguation(boolean disambiguation) {
+        this.disambiguation = disambiguation;
+    }
     
     public ParserLevel getParserLevel() {       
         

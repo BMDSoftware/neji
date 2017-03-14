@@ -91,7 +91,9 @@ public class DefaultDatabaseHandler implements DatabaseHandler {
                     + " logo            BLOB, "
                     + " parser_level    TEXT        NOT NULL, "
                     + " no_ids          INTEGER     NOT NULL,"
-                    + " false_positives TEXT)";
+                    + " false_positives TEXT,"
+                    + " abbreviations    INTEGER     DEFAULT 0,"
+                    + " disambiguation    INTEGER     DEFAULT 0)";
 
             statement.executeUpdate(serviceTableSql);
             statement.close();
@@ -692,7 +694,8 @@ public class DefaultDatabaseHandler implements DatabaseHandler {
         try {            
             // Insert service
             String addServiceSql = "INSERT INTO Service(name, logo, parser_level, "
-                    + "no_ids, false_positives) VALUES (?, ?, ?, ?, ?)";
+                    + "no_ids, false_positives, abbreviations, disambiguation) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(addServiceSql);
 
             statement.setString(1, service.getName());
@@ -701,6 +704,10 @@ public class DefaultDatabaseHandler implements DatabaseHandler {
             int noIdsInt = (service.isNoIds()) ? 1 : 0;
             statement.setInt(4, noIdsInt);
             statement.setString(5, service.getFalsePositives());
+            int abbreviationsInt = (service.getAbbreviations()) ? 1 : 0;
+            int disambiguationInt = (service.getAbbreviations()) ? 1 : 0;
+            statement.setInt(6, abbreviationsInt);
+            statement.setInt(7, disambiguationInt);
             
             statement.addBatch();
             statement.executeBatch();
@@ -764,6 +771,8 @@ public class DefaultDatabaseHandler implements DatabaseHandler {
                 String parsingLevel = rs.getString("parser_level");
                 int noIds = rs.getInt("no_ids");
                 String falsePositives = rs.getString("false_positives");
+                int abbreviations = rs.getInt("abbreviations");
+                int disambiguation = rs.getInt("disambiguation");
                 
                 // Get dicitionaries
                 List<String> dictionaries = getServiceDictionaries(id);
@@ -775,7 +784,8 @@ public class DefaultDatabaseHandler implements DatabaseHandler {
                 Map<String, String> groupsNormalization = getGroupsNormalization(id);
                 
                 Service service = new Service(id, name, logo, parsingLevel, (noIds == 1), 
-                        dictionaries, models, groupsNormalization, falsePositives);
+                        dictionaries, models, groupsNormalization, falsePositives, 
+                        (abbreviations == 1), (disambiguation == 1));
                 
                 servicesList.add(service);
             }
@@ -807,10 +817,13 @@ public class DefaultDatabaseHandler implements DatabaseHandler {
                 String parsingLevel = rs.getString("parser_level");
                 int noIds = rs.getInt("no_ids");
                 String falsePositives = rs.getString("false_positives");
+                int abbreviations = rs.getInt("abbreviations");
+                int disambiguation = rs.getInt("disambiguation");
                 
                 Service service = new Service(id, name, logo, parsingLevel, (noIds == 1),
                         getServiceDictionaries(id), getServiceModels(id),
-                        getGroupsNormalization(id), falsePositives);
+                        getGroupsNormalization(id), falsePositives,
+                        (abbreviations == 1), (disambiguation == 1));
                 
                 statement.close();
                 return service;
@@ -843,10 +856,13 @@ public class DefaultDatabaseHandler implements DatabaseHandler {
                 String parsingLevel = rs.getString("parser_level");
                 int noIds = rs.getInt("no_ids");
                 String falsePositives = rs.getString("false_positives");
+                int abbreviations = rs.getInt("abbreviations");
+                int disambiguation = rs.getInt("disambiguation");
                 
                 Service service = new Service(id, name, logo, parsingLevel, (noIds == 1),
                         getServiceDictionaries(id), getServiceModels(id),
-                        getGroupsNormalization(id), falsePositives);
+                        getGroupsNormalization(id), falsePositives, 
+                        (abbreviations == 1), (disambiguation == 1));
                 
                 statement.close();
                 return service;

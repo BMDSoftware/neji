@@ -163,7 +163,7 @@ public class AnnotationResource {
                                 @DefaultValue("a1") @FormParam("format") final String format,
                                 @FormParam("pmid") final int pmid,
                                 @DefaultValue("raw") @FormParam("inputformat") final String inputFormat,
-                                @FormParam("extraparameters") final String extraParametersJson) {
+                                @DefaultValue("{}") @FormParam("extraparameters") final String extraParametersJson) {
         Object responseToReturn;
 
         String serviceID = pathSegments.get(0);
@@ -198,10 +198,7 @@ public class AnnotationResource {
                     String text = args[1].toString();
                     String format = args[2].toString();
                     String inputFormat = args[4].toString();
-                    String extraParametersJson = args[5].toString();   
-                    
-                    System.out.println(inputFormat);
-                    
+                    String extraParametersJson = args[5].toString();                       
                     return export(service, groupsJson, text, format, inputFormat, extraParametersJson);
                 case "pubmed-annotate":
                     request = (BecasRequest) args[0];

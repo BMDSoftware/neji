@@ -106,6 +106,10 @@ public class ServerBatchExecutor extends BatchExecutor {
             context.getConfiguration().setSemanticGroupsNormalization(null);
         }
         
+        // Add abreviations and disambiguation
+        context.getConfiguration().setAbbreviations(service.getAbbreviations());
+        context.getConfiguration().setDisambiguation(service.getDisambiguation());
+        
         // Update configuration with the input format
         ContextConfiguration config = context.getConfiguration();
         if (!config.getInputFormat().equals(inputFormat)) {

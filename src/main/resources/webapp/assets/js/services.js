@@ -281,6 +281,12 @@ function addServiceEvent() {
     // No ids
     var noIds = $('#service-no-ids').is(":checked");
     
+    // Abbreviations
+    var abbreviations = $('#service-abbreviations').is(":checked");
+    
+    // Disambiguation
+    var disambiguation = $('#service-disambiguation').is(":checked");
+    
     // FP file
     var fpFile = $('#service-fp-file').get(0).files[0];
     
@@ -294,6 +300,8 @@ function addServiceEvent() {
     service.noIds = noIds;
     service.groupsNormalization = groupsNormalization;
     service.falsePositives = "";
+    service.abbreviations = abbreviations;
+    service.disambiguation = disambiguation;
     var serviceJson = JSON.stringify(service);
     
     // Build form data
@@ -387,6 +395,12 @@ function editServiceEvent(serviceId) {
     // No ids
     var noIds = $('#service-no-ids').is(":checked");
     
+    // Abbreviations
+    var abbreviations = $('#service-abbreviations').is(":checked");
+    
+    // Disambiguation
+    var disambiguation = $('#service-disambiguation').is(":checked");
+    
     // FP file
     var fpFile = $('#service-fp-file').get(0).files[0];
     
@@ -401,6 +415,8 @@ function editServiceEvent(serviceId) {
     service.noIds = noIds;
     service.groupsNormalization = groupsNormalization;
     service.falsePositives = null;
+    service.abbreviations = abbreviations;
+    service.disambiguation = disambiguation;
     var serviceJson = JSON.stringify(service);
     
     // Build form data
@@ -543,6 +559,14 @@ function setEditModal(service) {
     // No ids
     var $noIds = $modal.find("#service-no-ids");
     $noIds.prop('checked', service.noIds);
+    
+    // Abbreviations
+    var $abbreviations = $modal.find("#service-abbreviations");
+    $abbreviations.prop('checked', service.abbreviations);
+    
+    // Disambiguation
+    var $disambiguation = $modal.find("#service-disambiguation");
+    $disambiguation.prop('checked', service.disambiguation);
     
     // Change add or edit event flag
     addEditModalFlag = false;

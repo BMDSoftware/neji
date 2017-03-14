@@ -15,11 +15,6 @@
 
 package pt.ua.tm.neji.core.processor;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import org.apache.commons.lang.Validate;
 import pt.ua.tm.neji.train.model.CRFBase;
 import pt.ua.tm.neji.context.*;
@@ -42,6 +37,8 @@ import pt.ua.tm.neji.train.context.TrainContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import pt.ua.tm.neji.disambiguator.Disambiguate;
+import pt.ua.tm.neji.postprocessing.Abbreviation;
 import pt.ua.tm.neji.postprocessing.FalsePositivesFilter;
 import pt.ua.tm.neji.postprocessing.SemanticGroupsNormalizer;
 import pt.ua.tm.neji.train.nlp.TrainNLP;
@@ -116,6 +113,18 @@ public abstract class BaseProcessor implements Processor {
                 ml = new MLHybrid(crf, model.getSemanticGroup(), addAnnotationsWithoutIDs);
             }
             moduleList.add(index++, ml);
+        }        
+                        
+        // Post-processing: Abbreviations        
+        if (c.getConfiguration().getAbbreviations()) {
+            Abbreviation abb = new Abbreviation();
+            moduleList.add(index++, abb);            
+        }
+        
+        // Post-processing: Disambiguation (remove nested annotations from the same group)
+        if (c.getConfiguration().getDisambiguation()) {
+            Disambiguate dis = new Disambiguate(true, false);
+            moduleList.add(index++, dis);            
         }
         
         // Post-processing: False positives filter module        

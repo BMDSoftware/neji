@@ -92,6 +92,13 @@ public class ServicesResource {
     public List<Service> getServices() {
                 
         Server server = Server.getInstance();
+        
+        try {
+            System.out.println(server.getServices().get(1).getDisambiguation());
+        }
+        catch (Exception e) {
+            
+                }
 
         // Get services
         List<Service> services;
