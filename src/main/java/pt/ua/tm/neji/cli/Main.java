@@ -16,8 +16,11 @@
 package pt.ua.tm.neji.cli;
 
 import cc.mallet.util.MalletLogger;
+import com.aliasi.util.Pair;
 import com.google.common.collect.Lists;
 import org.apache.commons.cli.*;
+import org.apache.commons.io.FileDeleteStrategy;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +35,9 @@ import pt.ua.tm.neji.core.batch.BatchExecutor;
 import pt.ua.tm.neji.core.parser.ParserLanguage;
 import pt.ua.tm.neji.core.parser.ParserLevel;
 import pt.ua.tm.neji.core.parser.ParserTool;
+import pt.ua.tm.neji.dictionary.DictionariesLoader;
+import pt.ua.tm.neji.dictionary.Dictionary;
+import pt.ua.tm.neji.dictionary.VariantMatcherLoader;
 import pt.ua.tm.neji.exception.NejiException;
 import pt.ua.tm.neji.logger.LoggingOutputStream;
 import pt.ua.tm.neji.ml.MLModel;
@@ -43,11 +49,18 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import pt.ua.tm.neji.util.ZipGenerator;
+import pt.ua.tm.neji.web.database.DatabaseHandler;
+import pt.ua.tm.neji.web.database.DefaultDatabaseHandler;
+import pt.ua.tm.neji.web.manage.Model;
+import pt.ua.tm.neji.web.services.Service;
 
 /**
  * Main application for the CLI tool.
@@ -60,6 +73,7 @@ import org.apache.commons.io.IOUtils;
  */
 public class Main {
 
+    private static final String TMP_DIR = System.getProperty("java.io.tmpdir");
     /**
      * Help messages.
      */
@@ -72,7 +86,7 @@ public class Main {
             + "[-m <folder>] "
             + "[-custom MODULE1-ARG1-ARG2|MODULE2-ARG1-ARG2|MODULE3-ARG1-ARG2] "
             + "[-ptool <PARSING_TOOL>] [-plang <PARSING_LANGUAGE>] [-plvl <PARSING_LEVEL>] "
-            + "[-pcls <processor.class>] [-c] [-t <threads>] [-v]";
+            + "[-pcls <processor.class>] [-c] [-t <threads>] [-v] [-s]";
     private static final String EXAMPLES = "\nUsage examples:\n"
             + "1: "
             + "./neji.sh -i input -if XML -o output -of XML -x text -d folder -t 2\n"
@@ -81,6 +95,71 @@ public class Main {
             + "3: "
             + "./neji.sh -i input -if XML -o output -of XML -x text -d folder1 -m folder2 -c -t 6\n\n";
     private static final String FOOTER = "For more instructions, please visit http://bioinformatics.ua.pt/neji.";
+    private static final String SERVER_README = "Neji: modular biomedical concept recognition made easy, fast and accessible.\n" +
+            "================================================================================\n" +
+            "\n" +
+            "Welcome to neji server!\n" +
+            "\n" +
+            "Index:\n" +
+            "    1. Deployment\n" +
+            "    2. Quick Start\n" +
+            "    3. Configuration\n" +
+            "\n" +
+            "--------------------------------------------------------------------------------\n" +
+            "1. DEPLOYMENT\n" +
+            "\n" +
+            "This is your own deployable concept recognition server. In order to deploy it:\n" +
+            "- on Windows systems, run the provided bash ('.bat') file;\n" +
+            "- on Mac OS or Unix systems, run the provided shell ('.sh') file;\n" +
+            "- on any operating system with Java installed, run the command 'java -jar neji-server.jar'\n" +
+            "\n" +
+            "You can also use a number of different arguments when using the above mentioned commands, such as:\n" +
+            " \"-port <port>\" to set the port where the server instance will be executed. 8010 is chosen by default;\n" +
+            " \"-t <number of threads>\" to set the number of threads to be used by the server for concept annotation processing and request queueing;\n" +
+            " \"-v\" to run the server in verbose mode.\n" +
+            "\n" +
+            "neji-server exposes its functionality through a browser interface, accessible at http://localhost:<port>.\n" +
+            "When the server has been successfully deployed, http://localhost:<port> will show the information below and will be ready to receive and process any document with the dictionaries, ML models and parsing tools available in their respective folders, which were provided along with the execution binaries and this README file.\n" +
+            "\n" +
+            "--------------------------------------------------------------------------------\n" +
+            "2. QUICK START\n" +
+            "\n" +
+            "This server manages concurrent services, each service representing independent document processing requirements. Services can be individually configured to annotate documents using different sets of dictionaries and models loaded in the server and to use different parsing levels.\n" +
+            "\n" +
+            "A service called \"default\" has been created, and it uses all of the dictionaries, ML models and parsing tools that were set during the server's generation process.\n" +
+            "To start processing documents with this service, go to http://localhost:<port>/services/default/.\n" +
+            "To configure this service, go to http://localhost:<port>/services/default/edit/.\n" +
+            "\n" +
+            "--------------------------------------------------------------------------------\n" +
+            "3. CONFIGURATION\n" +
+            "\n" +
+            "To add a new service or delete currently active services, go to http://localhost:<port>/services.\n" +
+            "In the right side of each service in the list you can:\n" +
+            "   - access the processing widget page;\n" +
+            "   - access the configuration page;\n" +
+            "   - delete the service from the server.\n" +
+            "\n" +
+            "When configuring a service, you can set which of the dictionaries and models loaded in the server will be used during document processing, which parsing level will be used during NLP and if annotations without IDs will be included.\n" +
+            "\n" +
+            "You can set a service to start or stop using a dictionary or model at any time. To permanently delete dictionaries and models from the server, or to add/delete normalization dictionaries from running models, access the administration area in http://localhost:<port>/admin.\n" +
+            "\n" +
+            "New dictionaries and ML models can be added by uploading relevant files, which will then be immediately loaded in the server and made available to any service. When a resource is added to the server, the service that added it will be automatically configured to use it. Other existing services can be manually configured to also use the added resources.\n" +
+            "\n" +
+            "Below is some information on how dictionaries and models should be provided:\n" +
+            "\n" +
+            "    + To add a new dictionary, simply upload the dictionary file. Dictionaries\n" +
+            "      are distinguished by filename, which means that if a user tries to upload\n" +
+            "      a new dictionary whose filename equals an existing one in the server, then\n" +
+            "      this new dictionary will NOT be added.\n" +
+            "\n" +
+            "    + To add a new model, all relevant files and the properties file must be\n" +
+            "      compressed into a single zip file. If the model uses normalization\n" +
+            "      dictionaries, these must also exist in the uploaded zip file, and the\n" +
+            "      properties file must properly point to these. Models are distinguished by\n" +
+            "      the zip filename, which means that if a user tries to upload a new model\n" +
+            "      contained in a zip whose filename equals an existing one in the server,\n" +
+            "      then this new model will NOT be added.\n" +
+            "\n";
 
     /**
      * {@link org.slf4j.Logger} to be used in the class.
@@ -142,6 +221,7 @@ public class Main {
         options.addOption("x", "xml-tags", true, "XML tags to be considered, separated by commas.");
 
         options.addOption("v", "verbose", false, "Verbose mode.");
+        options.addOption("s", "server", false, "Generate server.");
         options.addOption("c", "compressed", false, "If files are compressed using GZip.");
         options.addOption("noids", "include-no-ids", false, "If annotations without IDs should be included.");
         options.addOption("t", "threads", true,
@@ -170,6 +250,12 @@ public class Main {
         if (commandLine.getOptions().length == 0) {
             printHelp(options, "");
             return;
+        }
+
+        // Generate server from dictionary, model and parser parameters
+        boolean generateServer = false;
+        if (commandLine.hasOption('s')) {
+            generateServer = true;
         }
 
         // Get corpus folder for input
@@ -471,28 +557,38 @@ public class Main {
             System.exit(1);
         }
 
-        boolean storeDocuments = false;
+        if (generateServer) {
+            try {
+                generateServer(descriptor, modelsFolder, dictionariesFolder, includeAnnotationsWithoutIDs);
 
-        Context context = new Context(
-                descriptor,
-                modelsFolder, // Models
-                dictionariesFolder, // Dictionaries folder
-                parserFolder // Parser folder
-        );
-
-        try {
-            BatchExecutor batchExecutor = new FileBatchExecutor(folderCorpusIn, folderCorpusOut,
-                    compressed, NUM_THREADS, inputFolderWildcard, storeDocuments, 
-                    includeAnnotationsWithoutIDs);
-
-            if (xmlTags == null) {
-                batchExecutor.run(processor, context);
-            } else {
-                batchExecutor.run(processor, context, new Object[]{xmlTags});
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                System.exit(1);
             }
+        } else {
+            boolean storeDocuments = false;
 
-        } catch (Exception ex) {
-            logger.error("There was a problem running the batch.", ex);
+            Context context = new Context(
+                    descriptor,
+                    modelsFolder, // Models
+                    dictionariesFolder, // Dictionaries folder
+                    parserFolder // Parser folder
+            );
+
+            try {
+                BatchExecutor batchExecutor = new FileBatchExecutor(folderCorpusIn, folderCorpusOut,
+                        compressed, NUM_THREADS, inputFolderWildcard, storeDocuments,
+                        includeAnnotationsWithoutIDs);
+
+                if (xmlTags == null) {
+                    batchExecutor.run(processor, context);
+                } else {
+                    batchExecutor.run(processor, context, new Object[]{xmlTags});
+                }
+
+            } catch (Exception ex) {
+                logger.error("There was a problem running the batch.", ex);
+            }
         }
     }
 
@@ -556,4 +652,254 @@ public class Main {
 
         return parsingLevel;
     }
+
+    private static void generateServer(ContextConfiguration contextConfig,
+                                       String modelsFolderPath,
+                                       String dictionariesFolderPath,
+                                       boolean includeAnnotationsWithoutIDs) throws IOException {
+
+        // Zip file
+        final File zipFile = new File(pt.ua.tm.neji.core.Constants.TARGET_PATH, "neji-server.zip");
+        if (zipFile.exists()) {
+            FileDeleteStrategy.FORCE.delete(zipFile);
+        }
+
+        File tmpRoot = new File(TMP_DIR, "neji-server");
+        if (tmpRoot.exists()) {
+            FileDeleteStrategy.FORCE.delete(tmpRoot);
+        }
+        tmpRoot.mkdirs();
+        tmpRoot.deleteOnExit();
+
+        // Server jar file
+        File serverFile = new File(pt.ua.tm.neji.core.Constants.TARGET_PATH, "neji-2.0.0-server.jar");
+        if (!serverFile.exists()) {
+            throw new IOException("The neji-server jar file must be packaged first! " +
+                    "Please run 'mvn clean install' first.");
+        }
+
+        // bat, sh and readme files
+        File batFile = new File(tmpRoot, "neji-server.bat");
+        File shFile = new File(tmpRoot, "neji-server.sh");
+        File readmeFile = new File(tmpRoot, "README.txt");
+        File loginRealmFile = new File(tmpRoot, "loginRealm.properties");
+
+        // Web resources folders
+        File webResourcesFolder = new File(tmpRoot, "resources");
+        webResourcesFolder.mkdirs();
+        File dictionariesResourcesFolder = new File(tmpRoot, "resources" + File.separator + "dictionaries");
+        dictionariesResourcesFolder.mkdirs();
+        File modelsResourcesFolder = new File(tmpRoot, "resources" + File.separator + "models");
+        modelsResourcesFolder.mkdirs();
+
+        // Tools folder
+        File toolsFolder = new File(pt.ua.tm.neji.core.Constants.GDEP_DIR);
+
+        // Models folder
+        if (modelsFolderPath != null) {
+            FileUtils.copyDirectory(new File(modelsFolderPath), modelsResourcesFolder);
+        }
+
+        // Dictionaries folder
+        if (dictionariesFolderPath != null) {
+            FileUtils.copyDirectory(new File(dictionariesFolderPath), dictionariesResourcesFolder);
+        }
+
+        // Write bat file
+        FileUtils.write(batFile, "@echo off\n" +
+                "\n" +
+                "set cp=neji-server.jar\n" +
+                "set memory=6144m\n" +
+                "set encoding=UTF-8\n" +
+                "set class=pt.ua.tm.neji.web.cli.WebMain\n" +
+                "\n" +
+                ":run\n" +
+                "\n" +
+                "java -Xmx%memory% -ea -Dfile.encoding=%encoding% -classpath %cp% %class% %*\n" +
+                "\n" +
+                ":eof", "UTF-8"
+        );
+
+        // Write sh file
+        FileUtils.write(shFile, "#!/bin/bash\n" +
+                "cp=neji-server.jar:$CLASSPATH\n" +
+                "MEMORY=6G\n" +
+                "JAVA_COMMAND=\"java -Xmx$MEMORY -Dfile.encoding=UTF-8 -classpath $cp\"\n" +
+                "CLASS=pt.ua.tm.neji.web.cli.WebMain\n" +
+                "\n" +
+                "$JAVA_COMMAND $CLASS $*", "UTF-8"
+        );
+
+        // Write readme file
+        FileUtils.write(readmeFile, SERVER_README);
+
+        // Write login realm file
+        FileUtils.write(loginRealmFile, "jdbcdriver = org.sqlite.JDBC\n" +
+                "url = jdbc:sqlite:neji.db\n" +
+                "usertable = users\n" +
+                "usertablekey = id\n" +
+                "usertableuserfield = username\n" +
+                "usertablepasswordfield = pwd\n" +
+                "roletable = roles\n" +
+                "roletablekey = id\n" +
+                "roletablerolefield = role\n" +
+                "userroletable = user_roles\n" +
+                "userroletableuserkey = user_id\n" +
+                "userroletablerolekey = role_id\n" +
+                "cachetime = 300");
+
+        try {
+            String dbName = "neji.db";
+            FileDeleteStrategy.FORCE.delete(new File(dbName));
+            DatabaseHandler db = new DefaultDatabaseHandler(dbName, true);
+
+            Map<String, String> groups = new HashMap<>();
+
+            // Dictionaries
+            List<String> dicts;
+            List<String> dictFiles = new ArrayList<>();
+            List<String> dictionaries = new ArrayList<>();
+            File dictPriorityFile = new File(dictionariesResourcesFolder, "_priority");
+            if (!dictPriorityFile.exists()) {
+                dictPriorityFile.createNewFile();
+            }
+            dicts = DictionariesLoader.loadPriority(new FileInputStream(dictPriorityFile));
+
+            for (String dict : dicts) {
+                File dictionaryFile = new File(dictionariesResourcesFolder.getAbsolutePath() +
+                        File.separator + dict);
+                List<String> dictionaryLines = IOUtils.readLines(new FileInputStream(
+                        dictionaryFile), "UTF-8");
+                Dictionary d = VariantMatcherLoader.loadDictionaryFromLines(dictionaryLines);
+
+                String dictGroup = d.getGroup();
+                String dictName = FilenameUtils.getBaseName(dictionaryFile.getName());
+                dictName = dictName.replaceAll("[^a-zA-Z0-9._-]", "");
+                pt.ua.tm.neji.web.manage.Dictionary serverDictionary = new
+                        pt.ua.tm.neji.web.manage.Dictionary(dictName, dict, new ArrayList<String>(),
+                        new ArrayList<String>(), dictGroup);
+
+                dictionaries.add(dictName);
+                dictFiles.add(FilenameUtils.getName(dictionaryFile.getName()));
+                groups.put(dictGroup, dictGroup);
+
+                db.addDictionary(serverDictionary);
+            }
+
+            // Models
+            List<String> models = new ArrayList<>();
+            File modelPriorityFile = new File(modelsResourcesFolder, "_priority");
+            if (!modelPriorityFile.exists()) {
+                modelPriorityFile.createNewFile();
+            }
+            List<String> modelsPriority = MLModelsLoader.loadPriority(new FileInputStream(modelPriorityFile));
+            for (String p : modelsPriority) {
+                String propertiesFilePath = modelsResourcesFolder.getAbsolutePath() + File.separator + p;
+                File propertiesFile = new File(propertiesFilePath);
+
+                String modelName = propertiesFile.getParentFile().getName();
+                MLModel ml = new MLModel(modelName, propertiesFile);
+                String modelGroup = ml.getSemanticGroup();
+                String modelFile = FilenameUtils.getName(ml.getModelFile());
+
+                models.add(modelName);
+                groups.put(modelGroup, modelGroup);
+
+                // Get model normalization dictionaries
+                List<String> normDicts = new ArrayList<>();
+                if (ml.getNormalizationDictionariesFolder() != null) {
+                    String normalizationFolder = ml.getNormalizationDictionariesFolder();
+                    File normalizationPriorityFile = new File(normalizationFolder, "_priority");
+                    List<String> normalizationDictsPath = FileUtils.readLines(normalizationPriorityFile);
+
+                    List<String> normPriorityLines = new ArrayList<>();
+                    List<String> dictPriorityLines = FileUtils.readLines(dictPriorityFile);
+                    for (String normDictPath : normalizationDictsPath) {
+                        String dictFileName = FilenameUtils.getName(normDictPath);
+
+                        if (!dictFiles.contains(dictFileName)) {
+                            File dictionaryFile = new File(normalizationFolder, dictFileName);
+                            List<String> dictionaryLines = IOUtils.readLines(new FileInputStream(
+                                    dictionaryFile), "UTF-8");
+                            Dictionary d = VariantMatcherLoader.loadDictionaryFromLines(dictionaryLines);
+
+                            String dictGroup = d.getGroup();
+                            String dictName = FilenameUtils.getBaseName(dictionaryFile.getName());
+                            pt.ua.tm.neji.web.manage.Dictionary serverDictionary = new
+                                    pt.ua.tm.neji.web.manage.Dictionary(dictName, dictFileName,
+                                    new ArrayList<String>(), new ArrayList<String>(), dictGroup);
+
+                            normDicts.add(dictName);
+                            dictFiles.add(dictFileName);
+                            db.addDictionary(serverDictionary);
+
+                            FileUtils.copyFileToDirectory(dictionaryFile, dictionariesResourcesFolder);
+                            FileUtils.deleteQuietly(dictionaryFile);
+                        }
+
+                        normPriorityLines.add("../../../dictionaries/" + dictFileName);
+                        dictPriorityLines.add(dictFileName);
+                    }
+
+                    FileUtils.writeLines(normalizationPriorityFile, normPriorityLines);
+                    FileUtils.writeLines(dictPriorityFile, dictPriorityLines);
+                    File normDir = new File(normalizationFolder);
+                    if (!normDir.getName().equals("normalization")) {
+                        File newNormDir = new File(normDir.getParent(), "normalization" + File.separator);
+                        normDir.renameTo(newNormDir);
+
+                        List<String> lines = FileUtils.readLines(propertiesFile);
+                        int i = 0;
+                        for (String line : lines) {
+                            if (line.startsWith("dictionaries=")) {
+                                break;
+                            }
+                            i++;
+                        }
+                        if (i < lines.size()) {
+                            lines.remove(i);
+                        }
+                        lines.add("dictionaries=normalization" + File.separator);
+                        FileUtils.writeLines(propertiesFile, lines);
+                    }
+                }
+
+                modelName = modelName.replaceAll("[^a-zA-Z0-9._-]", "");
+                Model model = new Model(modelName, modelFile, normDicts,
+                        new ArrayList<String>(), modelGroup);
+
+                db.addModel(model);
+            }
+
+            // Default Service
+            if ((!dicts.isEmpty()) || (!models.isEmpty())) {
+                String parsingLevel = models.isEmpty() ? "Tokenization" : "Chunking";
+                boolean noIds = !models.isEmpty();
+                Service defaultService = new Service("default", null, parsingLevel, noIds,
+                        dictionaries, models, groups, null);
+
+                db.addService(defaultService);
+            }
+
+        } catch (NejiException ex) {
+            ex.printStackTrace();
+            logger.error("Zip file could not be generated.");
+            return;
+        }
+
+        // Configuration folder
+        File confFolder = new File("conf");
+
+        // Create the zip with all files to run the server
+        InputStream zipFileStream = new ZipGenerator(
+                tmpRoot,                                                                    // root folder
+                new Pair<>("neji-server.jar", serverFile),                                  // server executable jar
+                new Pair<>("resources" + File.separator + "tools" + File.separator
+                        + toolsFolder.getName(), toolsFolder),                              // selected tools                            // selected dictionaries
+                new Pair<>("conf", confFolder),                                             // configuration folder
+                new Pair<>("neji.db", new File("neji.db"))
+        ).generate();
+        FileUtils.copyInputStreamToFile(zipFileStream, zipFile);
+    }
+
 }

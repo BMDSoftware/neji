@@ -1,7 +1,7 @@
 @echo off
 
-set cp=target\neji-2.0-jar-with-dependencies.jar
-set memory=2048m
+set cp=target\neji-2.1.0-SNAPSHOT-jar-with-dependencies.jar
+set memory=6144m
 set encoding=UTF-8
 set class=pt.ua.tm.neji.cli.Main
 

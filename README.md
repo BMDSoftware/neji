@@ -1,24 +1,38 @@
-![](https://cloud.bmd-software.com/s/JIC2UIe0uF2NyAc/download)
+![Neji](https://raw.githubusercontent.com/wiki/BMDSoftware/neji/images/logo.png)
 
 Neji is a flexible and powerful platform for biomedical information extraction from scientific texts, such as patents, publications and electronic health records.
 
-### Gimli is now part of Neji
-Gimli is now easier to use with faster training and processing times. Its functionalities are now integrated into Neji, providing the same high accuracy previously achieved.
-Now you can use Neji to train machine learning models to perform NER, and integrate them in complex processing pipelines to annotate millions of documents with dozens of heterogenous entity types.
-
 
 ## Table of contents
+- [What is new in Neji 2?](#what-is-new-in-neji-2?)
+- [What you can do with Neji?](#what-you-can-do-with-neji?)
 - [Quick start](#quick-start)
-- [Tasks](#tasks)
 - [Documentation](#documentation)
+- [Usage notification](#usage-notification)
 - [Support and consulting](#support-and-consulting)
 - [Bugs and features requests](#bugs-and-features-requests)
 - [Creators and contributors](#creators-and-contributors)
 - [Copyright and license](#copyright-and-license)
 
-## Tasks
-Neji can be used for various text mining tasks:
 
+## What is new in Neji 2?
+- **Neji Web Server** 
+	- Management of annotation services and respective dictionaries and machine-learning models
+	- Web page with interactive annotation for each service
+	- REST API for each service
+- **Gimli for machine learning NER training**
+	- Gimli is now easier to use with faster training and processing times. Its functionalities are now integrated into Neji, providing the same high accuracy previously achieved
+- Multiple linguistic parsers support, for general text and multi-language
+- Support to additional input and output formats, including BioC
+- SDK usability improvements
+- Performance improvements
+- Stability improvements
+
+
+## What you can do with Neji?
+With Neji you can build text mining processing pipelines for:
+
+- Rapidly **create REST services** and interactive **web pages** for text mining tasks
 - **Concept recognition:**
     - Dictionary-based, Machine learning-based and Rule-based
 - **Train machine learning models for NER (Named Entity Recognition):**
@@ -28,6 +42,7 @@ Neji can be used for various text mining tasks:
 - **Convert between corpora formats:**
 	- **Input formats:** BioC, XML, HTML and Text 
 	- **Output formats:** JSON, A1, BC2, Base64, BioC, CoNLL, IeXML, Pipe and PipeExtended
+
 
 ## Quick start
 1. Download and extract the [latest version of Neji](https://github.com/BMDSoftware/neji/releases/download/v2.0.0/neji-2.0.0.zip)
@@ -39,8 +54,8 @@ Neji can be used for various text mining tasks:
 Neji's documentation is available at [https://github.com/BMDSoftware/neji/wiki](https://github.com/BMDSoftware/neji/wiki).
 
 
-## Support and consulting
-Please contact [BMD Software](https://www.bmd-software.com) for further support and consulting services.
+## Usage notification
+If you are using Neji in your projects, please let us know by sending an e-mail to [david.campos@bmd-software.com](mailto:david.campos@bmd-software.com) or [aleixomatos@ua.pt](mailto:aleixomatos@ua.pt).
 
 
 ## Bugs and features requests
@@ -49,17 +64,11 @@ Have a bug or a feature request?
 If your problem or idea is not addressed yet, please [open a new issue](https://github.com/BMDSoftware/neji/issues/new).
 
 
-## Creators and contributors
-- **Creators:**
-	- David Campos ([david.campos@bmd-software.com](mailto:david.campos@bmd-software.com))
-	- Sérgio Matos
-	- José Luís Oliveira
+## Support and consulting
+[<img src="https://raw.githubusercontent.com/wiki/BMDSoftware/neji/images/bmd.png" height="64" alt="BMD Software">](https://www.bmd-software.com)
 
-- **Contributors:**
-	- Tiago Nunes
-	- Eduardo Duarte
-	- André Santos
-	- José Sequeira
+Please contact [BMD Software](https://www.bmd-software.com) for professional support and consulting services.
+
 
 ## Copyright and license
 Copyright (C) 2016 BMD Software and University of Aveiro
