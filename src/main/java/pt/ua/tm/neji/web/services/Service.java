@@ -74,7 +74,7 @@ public class Service {
     public Service(String name, byte[] logo, String parsingLevel, boolean noIds, 
             List<String> dictionaries, List<String> models, 
             Map<String, String> groupsNormalization, String falsePositives, 
-            boolean abbreviations, boolean groupDisambiguation, boolean disambiguation) {
+            boolean abbreviations, boolean disambiguation) {
         this(null, name, logo, parsingLevel, noIds, dictionaries, models, 
                 groupsNormalization, falsePositives, abbreviations, 
                 disambiguation);

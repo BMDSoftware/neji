@@ -672,7 +672,7 @@ public class Main {
         tmpRoot.deleteOnExit();
 
         // Server jar file
-        File serverFile = new File(pt.ua.tm.neji.core.Constants.TARGET_PATH, "neji-2.0.0-server.jar");
+        File serverFile = new File(pt.ua.tm.neji.core.Constants.TARGET_PATH, "neji-2.1.0-SNAPSHOT-server.jar");
         if (!serverFile.exists()) {
             throw new IOException("The neji-server jar file must be packaged first! " +
                     "Please run 'mvn clean install' first.");
@@ -876,7 +876,7 @@ public class Main {
                 String parsingLevel = models.isEmpty() ? "Tokenization" : "Chunking";
                 boolean noIds = !models.isEmpty();
                 Service defaultService = new Service("default", null, parsingLevel, noIds,
-                        dictionaries, models, groups, null);
+                        dictionaries, models, groups, null, false, false);
 
                 db.addService(defaultService);
             }

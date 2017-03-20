@@ -705,7 +705,7 @@ public class DefaultDatabaseHandler implements DatabaseHandler {
             statement.setInt(4, noIdsInt);
             statement.setString(5, service.getFalsePositives());
             int abbreviationsInt = (service.getAbbreviations()) ? 1 : 0;
-            int disambiguationInt = (service.getAbbreviations()) ? 1 : 0;
+            int disambiguationInt = (service.getDisambiguation()) ? 1 : 0;
             statement.setInt(6, abbreviationsInt);
             statement.setInt(7, disambiguationInt);
             
@@ -914,23 +914,31 @@ public class DefaultDatabaseHandler implements DatabaseHandler {
             // Edit service
             if (service.getLogo() != null) {
                 String query = "UPDATE Service SET logo=?, parser_level=?, no_ids=?, "
-                        + "false_positives=? WHERE id=?";
+                        + "false_positives=?, abbreviations=?, disambiguation=? WHERE id=?";
                 statement = connection.prepareStatement(query);
                 statement.setBytes(1, service.getLogo());
                 statement.setString(2, service.getParsingLevel());
                 int noIdsInt = (service.isNoIds()) ? 1 : 0;
                 statement.setInt(3, noIdsInt);
                 statement.setString(4, service.getFalsePositives());
-                statement.setInt(5, service.getId());
+                int abbreviationsInt = (service.getAbbreviations()) ? 1 : 0;
+                int disambiguationInt = (service.getDisambiguation()) ? 1 : 0;
+                statement.setInt(5, abbreviationsInt);
+                statement.setInt(6, disambiguationInt);
+                statement.setInt(7, service.getId());
             } else {
                 String query = "UPDATE Service SET parser_level=?, no_ids=?, "
-                        + "false_positives=? WHERE id=?";
+                        + "false_positives=?, abbreviations=?, disambiguation=? WHERE id=?";
                 statement = connection.prepareStatement(query);
                 statement.setString(1, service.getParsingLevel());
                 int noIdsInt = (service.isNoIds()) ? 1 : 0;
                 statement.setInt(2, noIdsInt);
                 statement.setString(3, service.getFalsePositives());
-                statement.setInt(4, service.getId());
+                int abbreviationsInt = (service.getAbbreviations()) ? 1 : 0;
+                int disambiguationInt = (service.getDisambiguation()) ? 1 : 0;
+                statement.setInt(4, abbreviationsInt);
+                statement.setInt(5, disambiguationInt);
+                statement.setInt(6, service.getId());
             }
             
             statement.addBatch();
