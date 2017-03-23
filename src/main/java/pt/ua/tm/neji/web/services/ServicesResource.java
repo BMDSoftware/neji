@@ -93,13 +93,6 @@ public class ServicesResource {
                 
         Server server = Server.getInstance();
         
-        try {
-            System.out.println(server.getServices().get(1).getDisambiguation());
-        }
-        catch (Exception e) {
-            
-                }
-
         // Get services
         List<Service> services;
         try {
