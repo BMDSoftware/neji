@@ -130,9 +130,9 @@ function loadAddServiceModal(getDictionariesUrl, getModelsUrl) {
             
             // Add click events to dictionary buttons
             $.each(data, function(i, dictionary) {
-                var nameWithoutSpaces = dictionary.name.toString().replace(/\s/g, '');
-                var availableSelector = "#available-dictionary-" + nameWithoutSpaces;
-                var selectedSelector = "#selected-dictionary-" + nameWithoutSpaces;
+                var nameWithoutSpacesDots = dictionary.name.toString().replace(/[\s\.]/g, '');
+                var availableSelector = "#available-dictionary-" + nameWithoutSpacesDots;
+                var selectedSelector = "#selected-dictionary-" + nameWithoutSpacesDots;
                 
                 $(availableSelector).on('click', function(){
                     $(this).hide();
@@ -180,9 +180,9 @@ function loadAddServiceModal(getDictionariesUrl, getModelsUrl) {
             
             // Add click events to models buttons
             $.each(data, function(i, model) {
-                var nameWithoutSpaces = model.name.toString().replace(/\s/g, '');
-                var availableSelector = "#available-model-" + nameWithoutSpaces;
-                var selectedSelector = "#selected-model-" + nameWithoutSpaces;
+                var nameWithoutSpacesDots = dictionary.name.toString().replace(/[\s\.]/g, '');
+                var availableSelector = "#available-model-" + nameWithoutSpacesDots;
+                var selectedSelector = "#selected-model-" + nameWithoutSpacesDots;
                 
                 $(availableSelector).on('click', function(){
                     $(this).hide();
@@ -500,9 +500,9 @@ function setEditModal(service) {
     
     $availableDictionaries.children('button').each( function () {
         var dictionaryName = $(this).contents().get(2).nodeValue.trim();
-        var nameWithoutSpaces = dictionaryName.replace(/\s/g, '');
+        var nameWithoutSpacesDots = dictionaryName.replace(/[\s\.]/g, '');
         var $availableButton = $(this);
-        var $selectedButton = $modal.find("#selected-dictionary-"+nameWithoutSpaces);
+        var $selectedButton = $modal.find("#selected-dictionary-"+nameWithoutSpacesDots);
        
         if ($.inArray(dictionaryName, service.dictionaries) > -1) {
             $availableButton.hide();
@@ -518,9 +518,9 @@ function setEditModal(service) {
     
     $availableModels.children('button').each( function () {
         var modelName = $(this).contents().get(2).nodeValue.trim();
-        var nameWithoutSpaces = modelName.replace(/\s/g, '');
+        var nameWithoutSpaceDots = modelName.replace(/[\s\.]/g, '');
         var $availableButton = $(this);
-        var $selectedButton = $modal.find("#selected-model-"+nameWithoutSpaces);
+        var $selectedButton = $modal.find("#selected-model-"+nameWithoutSpaceDots);
        
         if ($.inArray(modelName, service.models) > -1) {
             $availableButton.hide();
