@@ -278,7 +278,8 @@ public class AnnotationResource {
     }
     
     private Response convertCorpusToBecasJson(String inputText, Corpus corpus) {
-        List<String> entities = new ArrayList<>();
+        List<String> entities = new ArrayList();
+        List<String> ids = new ArrayList();
 
         for (Sentence s : corpus.getSentences()) {
             List<TreeNode<Annotation>> nodes = s.getTree().build(Tree.TreeTraversalOrderEnum.PRE_ORDER);
@@ -300,12 +301,13 @@ public class AnnotationResource {
 
                 int index = inputText.indexOf(s.getText()) + s.getToken(a.getStartIndex()).getStart();
                 entities.add(a.getText() + "|" + idText + "|" + index);
+                ids.add(idText);
             }
         }
 
         Map<String, Object> outputJsonMap = new TreeMap<>();
         outputJsonMap.put("entities", entities);
-        outputJsonMap.put("ids", new HashMap<>());
+        outputJsonMap.put("ids", ids);
         outputJsonMap.put("text", inputText);
         return Response.ok(new Gson().toJson(outputJsonMap)).build();
     }

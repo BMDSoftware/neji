@@ -71,7 +71,7 @@ public class Pubmed {
         String pmidsQuery = StringUtils.join(Arrays.asList(pmids), ',');
 
         // Build URL
-        StringBuilder url = new StringBuilder("http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=");
+        StringBuilder url = new StringBuilder("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=");
         url.append(pmidsQuery);
         url.append("&retmode=xml");
 
@@ -96,7 +96,7 @@ public class Pubmed {
     public static Document getCleanTextFromPM(final String pmid) {
         
         // Build URL
-        StringBuilder url = new StringBuilder("http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=");
+        StringBuilder url = new StringBuilder("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=");
         url.append(pmid);
         url.append("&retmode=xml");
 

@@ -19,7 +19,7 @@
 
     <groupId>pt.ua.tm</groupId>
     <artifactId>neji</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>neji</name>
@@ -495,6 +495,13 @@
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.8.10.1</version>
+        </dependency>
+        
+        <!-- Apache Ant Core -->
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.10.1</version>
         </dependency>
         
     </dependencies>   
