@@ -96,6 +96,7 @@
                             <input type="radio" name="outputFormat" value="NEJI" checked>NEJI<br/>
                             <input type="radio" name="outputFormat" value="BIOC">BIOC<br/>
                             <input type="radio" name="outputFormat" value="A1">A1<br/>
+                            <input type="radio" name="outputFormat" value="A1_MIN">A1 (MIN)<br/>
                             <input type="radio" name="outputFormat" value="CONLL">CONLL<br/>
                             <input type="radio" name="outputFormat" value="JSON">JSON<br/>
                             <input type="radio" name="outputFormat" value="B64">B64<br/>
