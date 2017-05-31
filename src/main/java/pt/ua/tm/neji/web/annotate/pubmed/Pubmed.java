@@ -31,6 +31,9 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.io.IOUtils;
 
 /**
  * @author David Campos (<a href="mailto:david.campos@ua.pt">david.campos@ua.pt</a>)
@@ -99,6 +102,8 @@ public class Pubmed {
         StringBuilder url = new StringBuilder("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=");
         url.append(pmid);
         url.append("&retmode=xml");
+        url.append("&tool=Neji");
+        url.append("&email=aleixomatos@ua.pt");
 
         // Build URI
         URI uri = UriBuilder.fromUri(url.toString()).build();
@@ -109,7 +114,7 @@ public class Pubmed {
 
         // Get input stream
         InputStream inputStream = service.accept(MediaType.APPLICATION_XML).get(InputStream.class);
-
+        
         // Parse and return result
         return new PubmedXMLParser().parse(inputStream).get(pmid);
     }

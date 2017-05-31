@@ -876,7 +876,7 @@ public class Main {
                 String parsingLevel = models.isEmpty() ? "Tokenization" : "Chunking";
                 boolean noIds = !models.isEmpty();
                 Service defaultService = new Service("default", null, parsingLevel, noIds,
-                        dictionaries, models, groups, null);
+                        dictionaries, models, groups, null, false, false);
 
                 db.addService(defaultService);
             }

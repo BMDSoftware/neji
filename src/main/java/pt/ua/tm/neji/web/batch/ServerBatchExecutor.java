@@ -33,6 +33,8 @@ import java.io.OutputStream;
 import java.util.*;
 import java.util.concurrent.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import pt.ua.tm.neji.context.ContextConfiguration;
+import pt.ua.tm.neji.context.InputFormat;
 
 /**
  * Implementation of an executor of document batches running on a deployed server.
@@ -58,10 +60,14 @@ public class ServerBatchExecutor extends BatchExecutor {
     private Map<String, Boolean> groups;
     private boolean filterGroups;
     private OutputFormat format;
+    private InputFormat inputFormat;
+    private Map<String, String> extraParameters;
 
 
     public ServerBatchExecutor(final Service service, final ExecutorService executor, 
-            final String text, final Map<String, Boolean> groups, final OutputFormat outputFormat) {
+            final String text, final Map<String, Boolean> groups, 
+            final InputFormat inputFormat, final OutputFormat outputFormat,
+            Map<String, String> extraParameters) {
 
         // Verify if there are groups selected
         if ((groups == null) || groups.isEmpty()) {
@@ -75,7 +81,9 @@ public class ServerBatchExecutor extends BatchExecutor {
         this.executor = executor;
         this.inputStream = new StringInputStream(text, "UTF-8");
         this.groups = groups;
+        this.inputFormat = inputFormat;
         this.format = outputFormat;
+        this.extraParameters = extraParameters;
     }
 
     @Override
@@ -98,6 +106,33 @@ public class ServerBatchExecutor extends BatchExecutor {
             context.getConfiguration().setSemanticGroupsNormalization(null);
         }
         
+        // Add abreviations and disambiguation
+        context.getConfiguration().setAbbreviations(service.getAbbreviations());
+        context.getConfiguration().setDisambiguation(service.getDisambiguation());
+        
+        // Update configuration with the input format
+        ContextConfiguration config = context.getConfiguration();
+        if (!config.getInputFormat().equals(inputFormat)) {
+            ContextConfiguration newConfig = new ContextConfiguration.Builder()
+                    .withInputFormat(inputFormat)
+                    .withOutputFormats(config.getOutputFormats())
+                    .withParserTool(config.getParserTool())
+                    .withParserLanguage(config.getParserLanguage())
+                    .withParserLevel(config.getParserLevel())
+                    .build();
+            
+            context.setConfiguration(newConfig);
+        }
+        
+        // Extra parameters
+        String[] xmltags = null;
+        if (extraParameters != null && !extraParameters.isEmpty()) {
+                        
+            if (extraParameters.containsKey("xmltags")) {
+                xmltags = extraParameters.get("xmltags").trim().split(",");
+            }
+        }
+        
         // Distribution of output streams to the pipeline
         Map<OutputFormat, OutputStream> formatToStreamMap = new HashMap<>();
         List<OutputStream> outputStreams = new ArrayList<>();
@@ -111,9 +146,9 @@ public class ServerBatchExecutor extends BatchExecutor {
         Processor processor;
         Pipeline p = new DefaultPipeline(corpus);
         try {
-            if (args != null && args.length!=0) {
+            if (xmltags != null) {
                 processor = newProcessor(processorCls, context, inputStream, outputStreams, service, 
-                        p, groups, filterGroups, args);
+                        p, groups, filterGroups, xmltags);
             } else {
                 processor = newProcessor(processorCls, context, inputStream, outputStreams, service, 
                         p, groups, filterGroups);
@@ -141,7 +176,6 @@ public class ServerBatchExecutor extends BatchExecutor {
 
         timer.stop();
         logger.info("Processed document in {}", timer.toString());
-
 
         if (format != null) {
             OutputStream output = formatToStreamMap.get(format);

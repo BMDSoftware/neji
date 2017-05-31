@@ -717,7 +717,7 @@ public class Server extends org.eclipse.jetty.server.Server implements LifeCycle
      */
     public void addService(Service service, InputStream logo, InputStream fp) 
             throws NejiException {
-
+        
         // Validate service
         validateService(service, logo, fp, true);
         

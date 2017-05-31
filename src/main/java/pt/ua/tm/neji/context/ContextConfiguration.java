@@ -80,6 +80,8 @@ public class ContextConfiguration {
     
     private byte[] falsePositives;
     private byte[] semanticGroupsNormalization;
+    private boolean abbreviations;
+    private boolean disambiguation;
 
     private ContextConfiguration(final InputFormat inputFormat,
                                  final List<OutputFormat> outputFormats,
@@ -90,7 +92,7 @@ public class ContextConfiguration {
                                  final ParserLevel parserLevel) {
 
         this(inputFormat, outputFormats, moduleNames, moduleParams, parserTools,
-                parserLanguage, parserLevel, null, null);
+                parserLanguage, parserLevel, null, null, false, false);
     }
     
     private ContextConfiguration(final InputFormat inputFormat,
@@ -101,7 +103,9 @@ public class ContextConfiguration {
                                  final ParserLanguage parserLanguage,
                                  final ParserLevel parserLevel,
                                  final byte[] falsePositives,
-                                 final byte[] semanticGroupsNormalization) {
+                                 final byte[] semanticGroupsNormalization,
+                                 final boolean abbreviations,
+                                 final boolean disambiguation) {
 
         this.inputFormat = inputFormat;
         this.outputFormats = outputFormats;
@@ -113,6 +117,8 @@ public class ContextConfiguration {
         
         this.falsePositives = falsePositives;
         this.semanticGroupsNormalization = semanticGroupsNormalization;
+        this.abbreviations = abbreviations;
+        this.disambiguation = disambiguation;
     }
 
     @Override
@@ -207,6 +213,30 @@ public class ContextConfiguration {
      */
     public void setSemanticGroupsNormalization(byte[] semanticGroupsNormalization) {
         this.semanticGroupsNormalization = semanticGroupsNormalization;
+    }
+    
+    /**
+     * Get abbreviations flag.
+     * @return abbreviations flag
+     */
+    public boolean getAbbreviations() {
+        return abbreviations;
+    }
+
+    public void setAbbreviations(boolean abbreviations) {
+        this.abbreviations = abbreviations;
+    }  
+    
+    /**
+     * Get disambiguation flag.
+     * @return disambiguation flag
+     */
+    public boolean getDisambiguation() {
+        return disambiguation;
+    }
+    
+    public void setDisambiguation(boolean disambiguation) {
+        this.disambiguation = disambiguation;
     }
 
     public int fetchCustomModules(final List<Module> moduleList, Parser parser) {

@@ -21,6 +21,9 @@ import pt.ua.tm.neji.core.module.BaseTagger;
 import pt.ua.tm.neji.exception.NejiException;
 
 import java.util.logging.Logger;
+import javax.annotation.Resource;
+import pt.ua.tm.neji.core.module.Provides;
+import pt.ua.tm.neji.core.module.Requires;
 
 /**
  * Module to replace the DTD header.
@@ -30,6 +33,8 @@ import java.util.logging.Logger;
  * @version 2.0
  * @since 1.0
  */
+@Requires({})
+@Provides({})
 public class DTDTagger extends BaseTagger {
 
     /**

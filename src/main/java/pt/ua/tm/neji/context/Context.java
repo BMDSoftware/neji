@@ -401,4 +401,12 @@ public class Context {
         isInitialized = false;
         readyForMultiThreading = false;
     }
+    
+    /**
+     * Set new configuration for server.
+     * @param configuration new configuration settings
+     */
+    public void setConfiguration(ContextConfiguration configuration) {
+        this.configuration = configuration;
+    }
 }

@@ -92,7 +92,7 @@ public class ServicesResource {
     public List<Service> getServices() {
                 
         Server server = Server.getInstance();
-
+        
         // Get services
         List<Service> services;
         try {

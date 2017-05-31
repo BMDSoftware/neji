@@ -31,17 +31,34 @@ public class BecasRequest {
     private String text;
     private Map<String, Boolean> groups;
     private String pmid;
+    private String inputFormat;
+    private Map<String, String> extraParameters;
 
     public BecasRequest() {
         this.text = "";
         this.groups = new HashMap<>();
         this.pmid = null;
+        this.inputFormat = "RAW";
+        this.extraParameters = new HashMap<>();
     }
 
-    public BecasRequest(String text, Map<String, Boolean> groups, String pmid) {
+    public BecasRequest(String text, Map<String, Boolean> groups, String pmid, 
+            String inputFormat, Map<String, String> extraParameters) {
         this.text = text;
         this.groups = groups;
         this.pmid = pmid;
+        
+        if (inputFormat != null) {
+            this.inputFormat = inputFormat;
+        } else {
+            this.inputFormat = "RAW";
+        }
+        
+        if (extraParameters != null) {
+            this.extraParameters = extraParameters;
+        } else {
+            this.extraParameters = new HashMap<>();
+        }
     }
 
     public Map<String, Boolean> getGroups() {
@@ -66,6 +83,22 @@ public class BecasRequest {
     
     public void setPmid(String pmid) {
         this.pmid = pmid;
+    }
+    
+    public String getInputFormat() {
+        return inputFormat;
+    }
+    
+    public void setInputFormat(String inputFormat) {
+        this.inputFormat = inputFormat;
+    }
+
+    public Map<String, String> getExtraParameters() {
+        return extraParameters;
+    }
+
+    public void setExtraParameters(Map<String, String> extraParameters) {
+        this.extraParameters = extraParameters;
     }
 
     @Override
@@ -95,6 +128,7 @@ public class BecasRequest {
         hash = 31 * hash + (this.text != null ? this.text.hashCode() : 0);
         hash = 31 * hash + (this.groups != null ? this.groups.hashCode() : 0);
         hash = 31 * hash + (this.pmid != null ? this.pmid.hashCode() : 0);
+        hash = 31 * hash + (this.inputFormat != null ? this.inputFormat.hashCode() : 0);
         return hash;
     }
 }
