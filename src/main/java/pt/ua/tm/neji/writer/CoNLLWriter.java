@@ -100,7 +100,7 @@ public class CoNLLWriter extends BaseWriter {
                 annotationNodes = s.getTree().build(Tree.TreeTraversalOrderEnum.PRE_ORDER);
                 for (int i = 0; i < s.size(); i++) {
                     Token t = s.getToken(i);
-
+                    
                     // ID
                     sb.append(t.getIndex() + 1);
                     sb.append("\t");

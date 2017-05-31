@@ -221,6 +221,7 @@ public class WebMain {
         outputFormats.add(OutputFormat.PIPE);
         outputFormats.add(OutputFormat.PIPEXT);
         outputFormats.add(OutputFormat.XML);
+        outputFormats.add(OutputFormat.A1_MIN);
 
         // Context is built through a descriptor first, so that the pipeline can be validated before any processing
         ContextConfiguration descriptor = null;

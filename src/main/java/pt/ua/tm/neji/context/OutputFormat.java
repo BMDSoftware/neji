@@ -37,6 +37,8 @@ public enum OutputFormat {
     PIPE,
     PIPEXT,
     BC2,
+    TEST_WRITER,
+    A1_MIN,
     CUSTOM,
     MODEL, // Train writers
     GZCORPUS;
@@ -53,6 +55,8 @@ public enum OutputFormat {
             case PIPE:      return new PipeWriter();
             case PIPEXT:    return new PipeExtendedWriter();
             case BC2:       return new BC2Writer();
+            case TEST_WRITER: return new TestWriter();
+            case A1_MIN:    return new A1MinWriter();
             case CUSTOM:    return null; // it's the user's responsibility to provide the custom writer
             case MODEL:     return new ModelWriter();
             case GZCORPUS: return new GZCorpusWriter();

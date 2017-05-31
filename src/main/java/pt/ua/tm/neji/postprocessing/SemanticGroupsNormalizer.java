@@ -140,15 +140,15 @@ public class SemanticGroupsNormalizer extends BaseLoader {
                 // Iterate over the string ids
                 for (Identifier id : ai.getIDs()) {
                     
-                    String ann_group = id.getGroup().toLowerCase();
-                    
-                    // Normalize groups
-                    if (groupsMap.containsKey(ann_group)) {
-                        id.setGroup(groupsMap.get(ann_group));
+                        String ann_group = id.getGroup().toLowerCase();
+
+                        // Normalize groups
+                        if (groupsMap.containsKey(ann_group)) {
+                            id.setGroup(groupsMap.get(ann_group));
+                        }
                     }
                 }
             }
-        }
             
     }
     

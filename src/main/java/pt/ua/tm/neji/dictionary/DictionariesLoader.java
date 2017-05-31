@@ -102,7 +102,7 @@ public class DictionariesLoader {
                 String line = br.readLine();
                 String[] parts = line.split("\t");
                 String[] fields = parts[0].split(":");
-                group = fields[3];
+                    group = fields[3];
             } catch (IOException ex) {
                 throw new RuntimeException("There was a problem obtaining the group from the dictionary: " + dictionaryFileName, ex);
             }

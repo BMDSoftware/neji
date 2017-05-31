@@ -110,7 +110,7 @@ public class VariantMatcherLoader {
         String[] parts = line.split("\t");
         String[] fields = parts[0].split(":");
         String group = fields[3];
-
+        
         for (String l : lines) {
             matcherLoader.load(l);
         }

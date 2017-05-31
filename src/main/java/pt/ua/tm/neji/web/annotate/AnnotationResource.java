@@ -432,6 +432,9 @@ public class AnnotationResource {
             case "xml": 
                 f = OutputFormat.XML;
                 break;
+            case "a1_min":
+                f = OutputFormat.A1_MIN;
+                break;
         }
         if(contextFormat.contains(f)){
             return f;

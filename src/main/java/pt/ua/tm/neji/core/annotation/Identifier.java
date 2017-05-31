@@ -122,6 +122,11 @@ public class Identifier implements Serializable {
                 + ( subgroup == null ? "" : subgroup ) + ":"
                 + ( group == null ? "" : group );
     }
+    
+    public String toStringMinimized() {
+        return ( source == null ? "" : source.toLowerCase() ) + ":"
+                + ( id == null ? "" : id );
+    }
 
     /**
      * Get a list of identifiers from a formated string.
@@ -153,17 +158,22 @@ public class Identifier implements Serializable {
 
 
         String[] parts = text.split("[:]");
+        String source, id, subgroup, group;
 
         if (parts.length != 4) {
-            throw new RuntimeException("There is a problem with the ID format."
+            source = parts[0];
+            id = parts[1];
+            subgroup = null;
+            group = null;
+            /*throw new RuntimeException("There is a problem with the ID format."
                     + "It must contain 4 parts: source:id:subgroup:group."
-                    + "Provided ID: " + text);
+                    + "Provided ID: " + text);*/
+        } else {
+            source = parts[0];
+            id = parts[1];
+            subgroup = parts[2];
+            group = parts[3];
         }
-
-        String source = parts[0];
-        String id = parts[1];
-        String subgroup = parts[2];
-        String group = parts[3];
 
         return new Identifier(source, id, subgroup, group);
     }
