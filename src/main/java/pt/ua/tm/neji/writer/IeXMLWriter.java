@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
+import pt.ua.tm.neji.core.corpus.Corpus;
 
 /**
  * Writer that provides information following the IeXML inline format.
@@ -81,16 +82,6 @@ public class IeXMLWriter extends BaseWriter {
         this.nProcessedSentences = 0;
     }
 
-//    public IeXMLWriter(final Corpus corpus) throws NejiException {
-//        this();
-//        getPipeline().setCorpus(corpus);
-//    }
-//
-//    public IeXMLWriter(final Corpus corpus, int detail) throws NejiException {
-//        this(detail);
-//        getPipeline().setCorpus(corpus);
-//    }
-
     private Action start_action = new StartAction() {
         @Override
         public void execute(StringBuffer yytext, int start) {
@@ -105,14 +96,21 @@ public class IeXMLWriter extends BaseWriter {
             // Get sentence from document
             String sentence = yytext.substring(startSentence, start);
             int offset_id = sentence.indexOf('>') + 1;
-            sentence = sentence.substring(offset_id);
-
-
+            sentence = sentence.substring(offset_id);         
+            
             // Disambiguate annotations by depth
             Disambiguator.discardByDepth(nextSentence, detail);
 
             // Get new sentence with annotations
             String newSentence = convertSentenceToXML(nextSentence, sentence);
+            
+            // Verify last sentece            
+            Corpus corpus = nextSentence.getCorpus();
+            if (nProcessedSentences == corpus.size()-1) {
+                yytext.insert(0, "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><response><text>");
+                yytext.append("</text>");
+                yytext.append("</response>");
+            }
 
             // Replace annotation in the XML document
             yytext.replace(startSentence + offset_id, start, newSentence);
@@ -136,7 +134,7 @@ public class IeXMLWriter extends BaseWriter {
         List<TreeNode<Annotation>> nodes = s.getTree().build(1);
 
         List<TreeNode<Annotation>> processedNodes = new ArrayList<>();
-
+        
         for (TreeNode<Annotation> node : nodes) {
 
             // Hack for annotation = root with nested
@@ -206,6 +204,7 @@ public class IeXMLWriter extends BaseWriter {
             prev = escapeXML(prev);
             sb.append(prev);
         }
+        
         return sb.toString();
     }
 
