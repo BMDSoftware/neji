@@ -24,8 +24,8 @@ function createNotification(title, text, type) {
  * @param passedString passed string
  * @return string without white spaces
  */
-Handlebars.registerHelper('removeStringWhiteSpaces', function(passedString) {
-    var stringWithoutSpaces = passedString.replace(/\s/g, '');
+Handlebars.registerHelper('removeStringWhiteSpacesDots', function(passedString) {
+    var stringWithoutSpaces = passedString.replace(/[\s\.]/g, '');
     return stringWithoutSpaces;
 });
 

@@ -291,7 +291,7 @@
         <!-- Available dictionaries template -->
         <script id="available-dictionaries-template" type="text/x-handlebars-template">
             {{#each dictionaries}}
-                <button type="button" class="btn btn-default btn-block btn-xs" style="text-align:left" id="available-dictionary-{{{removeStringWhiteSpaces name}}}">
+                <button type="button" class="btn btn-default btn-block btn-xs" style="text-align:left" id="available-dictionary-{{{removeStringWhiteSpacesDots name}}}">
                     <i class="fa fa-plus-circle"></i> {{name}}
                 </button>
             {{/each}}
@@ -301,7 +301,7 @@
         <!-- /. Selected dictionaries template -->
         <script id="selected-dictionaries-template" type="text/x-handlebars-template">
             {{#each dictionaries}}
-                <button type="button" class="btn btn-default btn-block btn-sm btn-success" style="display:none; text-align:left" id="selected-dictionary-{{{removeStringWhiteSpaces name}}}">
+                <button type="button" class="btn btn-default btn-block btn-sm btn-success" style="display:none; text-align:left" id="selected-dictionary-{{{removeStringWhiteSpacesDots name}}}">
                     <i class="fa fa-minus-circle"></i> {{name}}
                 </button>
             {{/each}}
@@ -311,7 +311,7 @@
         <!-- Available models template -->
         <script id="available-models-template" type="text/x-handlebars-template">
             {{#each models}}
-                <button type="button" class="btn btn-default btn-block btn-xs" style="text-align:left" id="available-model-{{{removeStringWhiteSpaces name}}}">
+                <button type="button" class="btn btn-default btn-block btn-xs" style="text-align:left" id="available-model-{{{removeStringWhiteSpacesDots name}}}">
                     <i class="fa fa-plus-circle"></i> {{name}}
                 </button>
             {{/each}}
@@ -321,7 +321,7 @@
         <!-- Selected models template -->
         <script id="selected-models-template" type="text/x-handlebars-template">
             {{#each models}}
-                <button type="button" class="btn btn-default btn-block btn-sm btn-success text-left" sstyle="display:none; text-align:left" id="selected-model-{{{removeStringWhiteSpaces name}}}">
+                <button type="button" class="btn btn-default btn-block btn-sm btn-success text-left" sstyle="display:none; text-align:left" id="selected-model-{{{removeStringWhiteSpacesDots name}}}">
                     <i class="fa fa-minus-circle"></i> {{name}}
                 </button>
             {{/each}}
