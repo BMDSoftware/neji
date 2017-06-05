@@ -20,13 +20,13 @@ import org.apache.commons.io.FileUtils;
 public class IntersectMatch {
     
     public static void main(String[] args) throws IOException {
-        
-        File dir1 = new File("BIO/gpro/annotations/a1/cluster12_pos_intersect/");
-        File dir2 = new File("BIO/gpro/annotations/a1/scored/cluster3_pos/");
-        File out = new File("BIO/gpro/annotations/a1/cluster123_pos_intersect/");
+                
+        File dir1 = new File("Becalm/gpro/a1/cluster2/");
+        File dir2 = new File("Becalm/gpro/a1/cluster3/");
+        File out = new File("Becalm/gpro/a1/cluster23_intersect/");
         out.mkdir();
         FileUtils.cleanDirectory(out);
-                
+                 
         for (File file1 : dir1.listFiles()) {
             File file2 = new File(dir2, file1.getName());
             

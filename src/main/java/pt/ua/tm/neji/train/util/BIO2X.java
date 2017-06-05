@@ -19,8 +19,8 @@ public class BIO2X {
     
     public static void main(String[] args) throws IOException {
         
-        String dirStr = "BIO/gpro/annotations/bio/cluster3_pos/";
-        String out = "BIO/gpro/annotations/bio/cluster3_pos_x/";
+        String dirStr = "Becalm/gpro/bio/cluster23_intersect/";
+        String out = "Becalm/gpro/bio/cluster23_intersect_x/";
         
         File dir = new File(dirStr);
         
@@ -36,7 +36,7 @@ public class BIO2X {
                     continue;
                 }
                 
-                // Read line
+                // Read lin2    e
                 Ann ann = readLine(line);
                 
                 // Process labels
