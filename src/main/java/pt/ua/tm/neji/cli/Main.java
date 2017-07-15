@@ -672,7 +672,7 @@ public class Main {
         tmpRoot.deleteOnExit();
 
         // Server jar file
-        File serverFile = new File(pt.ua.tm.neji.core.Constants.TARGET_PATH, "neji-2.0.0-server.jar");
+        File serverFile = new File(pt.ua.tm.neji.core.Constants.TARGET_PATH, "neji-2.0.2-server.jar");
         if (!serverFile.exists()) {
             throw new IOException("The neji-server jar file must be packaged first! " +
                     "Please run 'mvn clean install' first.");
