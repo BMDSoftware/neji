@@ -25,9 +25,9 @@ public class FixBIOLabels {
 
     public static void main(String[] args) throws Exception {
 
-        String mainDirStr = "BIO/gpro/annotations/bio/base/";
-        String a1DirStr = "Becalm/gpro/a1/cluster23_intersect/";
-        String outDirStr = "Becalm/gpro/bio/cluster23_intersect/";
+        String mainDirStr = "Becalm/cemp/final/bio/base/";
+        String a1DirStr = "Becalm/cemp/final/a1/cluster3/";
+        String outDirStr = "Becalm/cemp/final/bio/cluster3/";
 
         File mainDir = new File(mainDirStr);
         File a1Dir = new File(a1DirStr);

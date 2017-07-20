@@ -19,8 +19,8 @@ public class BIO2X {
     
     public static void main(String[] args) throws IOException {
         
-        String dirStr = "Becalm/gpro/bio/cluster23_intersect/";
-        String out = "Becalm/gpro/bio/cluster23_intersect_x/";
+        String dirStr = "Becalm/cemp/final/bio/cluster1/";
+        String out = "Becalm/cemp/final/bio/cluster1_x/";
         
         File dir = new File(dirStr);
         

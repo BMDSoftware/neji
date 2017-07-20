@@ -19,8 +19,8 @@ public class BIO2A1 {
     
     public static void main(String[] args) throws IOException {
         
-        String dirStr = "Becalm/gpro/bio/maioria_intersect/";
-        String out = "Becalm/gpro/a1/maioria_intersect/";
+        String dirStr = "Becalm/cemp/final/bio/maioria/";
+        String out = "Becalm/cemp/final/a1/maioria/";
         
         File dir = new File(dirStr);
         
@@ -55,13 +55,13 @@ public class BIO2A1 {
                 } else {
                     if (ann.label.equals("O")) {
                         flag = false;
-                        String ll = "T" + (index++) + "\tPRGE " + start + " " + end + "\t" + text;
+                        String ll = "T" + (index++) + "\tCHEM " + start + " " + end + "\t" + text;
                         newLines.add(ll);
                     } else if (ann.label.equals("I")) {
                         end = ann.end;
                         text += " " + ann.text;
                     } else if (ann.label.equals("B")) {
-                        String ll = "T" + (index++) + "\tPRGE" + start + " " + end + "\t" + text;
+                        String ll = "T" + (index++) + "\tCHEM" + start + " " + end + "\t" + text;
                         newLines.add(ll);
                         
                         start = ann.start;

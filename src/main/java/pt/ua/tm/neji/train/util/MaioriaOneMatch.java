@@ -19,10 +19,10 @@ public class MaioriaOneMatch {
     
     public static void main(String[] args) throws IOException {
         
-        String cluster1Str = "Becalm/gpro/bio/cluster1_x/";
-        String cluster2Str = "Becalm/gpro/bio/cluster2_x/";
-        String cluster3Str = "Becalm/gpro/bio/cluster3_x/";
-        String out = "Becalm/gpro/bio/maioria_one_x/";
+        String cluster1Str = "Becalm/cemp/bio/cluster1_x/";
+        String cluster2Str = "Becalm/cemp/bio/cluster2_x/";
+        String cluster3Str = "Becalm/cemp/bio/cluster3_x/";
+        String out = "Becalm/cemp/bio/maioria_one_x/";
         
         File cluster1 = new File(cluster1Str);
         File cluster2 = new File(cluster2Str);

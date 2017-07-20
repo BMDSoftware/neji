@@ -21,9 +21,9 @@ public class IntersectMatch {
     
     public static void main(String[] args) throws IOException {
                 
-        File dir1 = new File("Becalm/gpro/a1/cluster2/");
-        File dir2 = new File("Becalm/gpro/a1/cluster3/");
-        File out = new File("Becalm/gpro/a1/cluster23_intersect/");
+        File dir1 = new File("Becalm/cemp/final/a1/cluster3_fps/");
+        File dir2 = new File("Becalm/cemp/final/a1/cluster12_fps_intersect/");
+        File out = new File("Becalm/cemp/final/a1/cluster123_fps_intersect/");
         out.mkdir();
         FileUtils.cleanDirectory(out);
                  

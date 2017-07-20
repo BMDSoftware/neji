@@ -19,8 +19,8 @@ public class X2BIO {
     
     public static void main(String[] args) throws IOException {
         
-        String dirStr = "Becalm/gpro/bio/maioria_intersect_x/";
-        String out = "Becalm/gpro/bio/maioria_intersect/";
+        String dirStr = "Becalm/cemp/final/bio/maioria_x/";
+        String out = "Becalm/cemp/final/bio/maioria/";
         
         File dir = new File(dirStr);
         
